@@ -11,11 +11,11 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
-[Description of your app]
+People can search for a tutor for a specific course or list of courses and they will get a list of tutors based on their course need, and the location of the tutor from their location. 
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
-- **Category:**
+- **Category:** nbj
 - **Mobile:**
 - **Story:**
 - **Market:**
