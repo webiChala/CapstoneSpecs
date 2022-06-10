@@ -34,6 +34,7 @@ People can search for a tutor for a specific course or list of courses and they 
 * Users can chat with tutors
 * Tutor rating and reviews
 * Tutor profile and user profile
+* Home activity shows upcoming schedules, 
 * Date picker and scheduling +  option to add to google calendar and pushing notifications
 
 
@@ -66,19 +67,21 @@ People can search for a tutor for a specific course or list of courses and they 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
-
-* [fill out your first tab]
-* [fill out your second tab]
-* [fill out your third tab]
+* User
+  * Home Activity  
+  * Find a tutor
+  * Ask a question
+  * Message 
+  * Profile
+* Tutor    
+  * Message
+  * Profile
+  * Schedule meeting   
 
 **Flow Navigation** (Screen to Screen)
 
-* [list first screen here]
-   * [list screen navigation here]
-   * ...
-* [list second screen here]
-   * [list screen navigation here]
-   * ...
+* Login -> Home Activity
+
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
