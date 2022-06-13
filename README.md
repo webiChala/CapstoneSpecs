@@ -70,6 +70,7 @@ People can search for a tutor for a specific course or list of courses and they 
     * Users can schedule for an appointment and see all schedules 
   * Profile screen
     * Users can see their profile
+
 **Tutor
   * ... 
   
@@ -93,12 +94,12 @@ People can search for a tutor for a specific course or list of courses and they 
 
 **Flow Navigation** (Screen to Screen)
 
-** User
+* User
   * Login -> Home
   * find tutor -> List of tutors
   * list of Chat ->  specific chat
   
-** Tutor
+* Tutor
   * ...
 
 
