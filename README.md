@@ -28,7 +28,7 @@ People can search for a tutor for a specific course or list of courses and they 
 
 **Required Must-have Stories**
 
-  **Users
+  * Users
     * Registration and sign up
     * Home page that shows briefly upcoming schedules and tutors the user connected with
     * User can see all the list of tutors they connected with
@@ -38,7 +38,7 @@ People can search for a tutor for a specific course or list of courses and they 
     * User can see a specific tutor's profile
     * User can rate a tutor 
     
-  **Tutor 
+  * Tutor 
     * register and sign up  
     * Tutors can add or delete courses they support and description why they are a good fit
     * ...
