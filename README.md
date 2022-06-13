@@ -28,19 +28,25 @@ People can search for a tutor for a specific course or list of courses and they 
 
 **Required Must-have Stories**
 
-* Tutors and users can register and sign up.
-* Tutors can be able to add courses that they support and description why they are a good fit. They will also have a chance to put certificates or proficiencies in their profile.
-* A series of screens that asks user what courses they need help with, what level/grade and get the location they are at or they can put in preferred location and then shows them a list of tutors that support all or most of the courses the user needs support with and that are near to the location they   gave.
-* Users can chat with tutors
-* Tutor rating and reviews
-* Tutor profile and user profile
-* Home activity shows upcoming schedules, 
-* Date picker and scheduling +  option to add to google calendar and pushing notifications
+  **Users
+    * Registration and sign up
+    * Home page that shows briefly upcoming schedules and tutors the user connected with
+    * User can see all the list of tutors they connected with
+    * User can search for a tutor by name or find a tutor based on location range, course given and gender
+    * User can schedule an appointment with date picker and see all their list of appointments / option to add to google calendar and pushing             notifications
+    * User can chat with tutors
+    * User can see a specific tutor's profile
+    * User can rate a tutor 
+    
+  **Tutor 
+    * register and sign up  
+    * Tutors can add or delete courses they support and description why they are a good fit
+    * ...
 
 
 **Optional Nice-to-have Stories**
 
-* Once connected, users can track their progress (milestones) and feedbacks from 
+* Once connected, users can track their progress (milestones) 
 * Ask a question and get answers
 * An activity/feature which asks what course/area the user is challenged with and searches books/guides that are related to that concept using a book api that sends a list of books.
 * Prioritizing search based on qualifications 
@@ -50,37 +56,49 @@ People can search for a tutor for a specific course or list of courses and they 
 
 ### 2. Screen Archetypes
 
-* Login Screen
-   * Activity where users and tutors can log into their account.
-* Tutor search screen
-   * Activity where user can search for tutors
-* Messaging Screen
-  * Activity for users and tutors to message each other
-  * Date picker and schedule meeting times
-* Profile screen
-  * Users can see their profile, their scheduled meetings and their tutors
-  * Tutors can see their profile, ratings, reviews, users they are supporting
-* Ask a question Screen
-  * Users can ask question and they will get answers. 
-  * Tutors can answer 
+**User
+
+  * Login Screen
+     * Activity where users and tutors can log into their account.
+  * Home Screen
+     * User can see brief overview of schedules and connected tutors
+  * Tutor finder and search
+     * Activity where user can search for tutors, connect and chat
+  * Messaging Screen
+    * Activity for users and tutors to message each other
+  * Schedule screen
+    * Users can schedule for an appointment and see all schedules 
+  * Profile screen
+    * Users can see their profile
+ **Tutor
+  * ... 
+  
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 * User
-  * Home Activity  
-  * Find a tutor
-  * Ask a question
-  * Message 
-  * Profile
+  * Home Tab  
+    * See more upcoming schedules
+    * See more list of connected tutors   
+  * Tutor Tab
+    * All list of tutors
+    * find a tutor
+    * chat 
+  * Schedule Tab
+    * schedule an appointment
+    * see list of all appointments   
 * Tutor    
-  * Message
-  * Profile
-  * Schedule meeting   
+  *...
 
 **Flow Navigation** (Screen to Screen)
 
-* Login -> Home Activity
+** User
+  * Login -> Home
+  * find tutor -> List of tutors
+  * list of Chat ->  specific chat
+** Tutor
+  * ...
 
 
 ## Wireframes
