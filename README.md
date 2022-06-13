@@ -70,7 +70,7 @@ People can search for a tutor for a specific course or list of courses and they 
     * Users can schedule for an appointment and see all schedules 
   * Profile screen
     * Users can see their profile
- **Tutor
+**Tutor
   * ... 
   
 
