@@ -56,7 +56,7 @@ People can search for a tutor for a specific course or list of courses and they 
 
 ### 2. Screen Archetypes
 
-**User
+* User
 
   * Login Screen
      * Activity where users and tutors can log into their account.
@@ -71,8 +71,8 @@ People can search for a tutor for a specific course or list of courses and they 
   * Profile screen
     * Users can see their profile
 
-**Tutor
-  * ... 
+* Tutor
+  *  ... 
   
 
 ### 3. Navigation
@@ -100,7 +100,7 @@ People can search for a tutor for a specific course or list of courses and they 
   * list of Chat ->  specific chat
   
 * Tutor
-  * ...
+  *  ...
 
 
 ## Wireframes
