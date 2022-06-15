@@ -48,22 +48,22 @@ People can search for a tutor for a specific course or list of courses and they 
 
 **Optional Nice-to-have Stories**
 
-**User
- * User can rate a tutor 
- * Once connected, users can track their progress (milestones) 
- * Prioritizing search based on qualifications 
- * Subscription and payment gateway
- * User can see list of questions already asked (from stackoverflow via their api), ask new questions and get answer
- * Chat and schedules are persisted in sqlite local database for offline use
+ * User
+   * User can rate a tutor 
+   * Once connected, users can track their progress (milestones) 
+   * Prioritizing search based on qualifications 
+   * Subscription and payment gateway
+   * User can see list of questions already asked (from stackoverflow via their api), ask new questions and get answer
+   * Chat and schedules are persisted in sqlite local database for offline use
 
-* Tutor
- * Tutors will see their rating and review on their profile 
- * Tutor can schedule progress for clients and give feedback
- * Qualification checking for tutors
- * Tutors can see user's profile
- * log how many hours a tutor tutored and how many clients they have tutored
- * Tutors can post their share ther achievements on facebook or linkedin
- * Chat and schedules are persisted in sqlite local database for offline use
+ * Tutor
+   * Tutors will see their rating and review on their profile 
+   * Tutor can schedule progress for clients and give feedback
+   * Qualification checking for tutors
+   * Tutors can see user's profile
+   * log how many hours a tutor tutored and how many clients they have tutored
+   * Tutors can post their share ther achievements on facebook or linkedin
+   * Chat and schedules are persisted in sqlite local database for offline use
 
 
 
