@@ -122,7 +122,8 @@ People can search for a tutor for a specific course or list of courses and they 
 * Tutor    
   * Home Tab
   * Chat tab
-  * 
+  * Schedule Tab
+  * Profile Tab
 
 **Flow Navigation** (Screen to Screen)
 
