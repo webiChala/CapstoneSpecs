@@ -48,7 +48,7 @@ People can search for a tutor for a specific course or list of courses and they 
 
 **Optional Nice-to-have Stories**
 
-* User
+**User
  * User can rate a tutor 
  * Once connected, users can track their progress (milestones) 
  * Prioritizing search based on qualifications 
