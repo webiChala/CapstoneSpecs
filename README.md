@@ -152,8 +152,7 @@ People can search for a tutor for a specific course or list of courses and they 
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
-[Add table of models]
-** Message
+Message
 | Property  | Type | Description  |
 | ------------- | ------------- | ------------- |
 | objectId  | String   | Unique id for a message   |
@@ -162,7 +161,7 @@ People can search for a tutor for a specific course or list of courses and they 
 | sentAt  | DateTime | Date when a message is sent  |
 | receiver   | Pointer to User   | To identify who a message is being sent to   |
 
-** User
+User
 | Property  | Type | Description  |
 | ------------- | ------------- | ------------- |
 | objectId  | String   | Unique id for a user   |
