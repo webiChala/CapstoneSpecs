@@ -153,6 +153,29 @@ People can search for a tutor for a specific course or list of courses and they 
 [This section will be completed in Unit 9]
 ### Models
 [Add table of models]
+Property
+Type
+Description
+objectId
+String
+unique id for the messages (default field)
+message
+String
+The message the author sends
+author
+Pointer to user
+Sender of the message
+receiver
+Pointer to user
+The user that receives the message
+createdAt
+Datetime
+date when post is created (default field)
+updatedAt
+DateTime
+Date when the post is updated
+
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
