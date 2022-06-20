@@ -153,27 +153,46 @@ People can search for a tutor for a specific course or list of courses and they 
 [This section will be completed in Unit 9]
 ### Models
 [Add table of models]
-Property
-Type
-Description
-objectId
-String
-unique id for the messages (default field)
-message
-String
-The message the author sends
-author
-Pointer to user
-Sender of the message
-receiver
-Pointer to user
-The user that receives the message
-createdAt
-Datetime
-date when post is created (default field)
-updatedAt
-DateTime
-Date when the post is updated
+** Message
+| Property  | Type | Description  |
+| ------------- | ------------- | ------------- |
+| objectId  | String   | Unique id for a message   |
+| author  | Pointer to User | To identify a message sender  |
+| message  | String   | The message sent   |
+| sentAt  | DateTime | Date when a message is sent  |
+| receiver   | Pointer to User   | To identify who a message is being sent to   |
+
+** User
+| Property  | Type | Description  |
+| ------------- | ------------- | ------------- |
+| objectId  | String   | Unique id for a user   |
+| username  | String | A unique name the user uses to login to the application |
+| Full name  | String   | The user's full name   |
+| Email  | String | Password the user uses to login to the app  |
+| Sex   | -   | Male or Female  |
+| courses   | Array of Courses   | List of courses the tutor gives  |
+| Roles   | -   | User or Tutor  |
+| About   | String   | Some information about the user  |
+| CostPerHour   | Int   | How much it costs for the service  |
+| ConnectedToLinkedin   | Boolean   | Whether the user is connected to linkedin or not  |
+| Qualification   | String   | Qualifications of the user   |
+| location   | -   | The location of the user  |
+
+** Schedules
+| Property  | Type | Description  |
+| ------------- | ------------- | ------------- |
+| objectId  | String   | Unique id for a schedule   |
+| course  | Course | What course would be the tutoring session would be for |
+| Tutor  | Pointer to user   | Who the tutor is   |
+| description  | String | What the schedule is about |
+| User   | -   | User to be tutored  |
+| When   | Date   | time of the schedule  |
+
+** Course
+| Property  | Type | Description  |
+| ------------- | ------------- | ------------- |
+| objectId  | String   | Unique id for a course   |
+| Coursename  | String | The title of the course |
 
 
 ### Networking
