@@ -177,7 +177,7 @@ User
 | Qualification   | String   | Qualifications of the user   |
 | location   | -   | The location of the user  |
 
-** Schedules
+Schedules
 | Property  | Type | Description  |
 | ------------- | ------------- | ------------- |
 | objectId  | String   | Unique id for a schedule   |
@@ -187,7 +187,7 @@ User
 | User   | -   | User to be tutored  |
 | When   | Date   | time of the schedule  |
 
-** Course
+Course
 | Property  | Type | Description  |
 | ------------- | ------------- | ------------- |
 | objectId  | String   | Unique id for a course   |
