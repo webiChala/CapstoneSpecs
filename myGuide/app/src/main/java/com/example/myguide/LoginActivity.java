@@ -10,8 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myguide.databinding.ActivityLoginBinding;
+import com.example.myguide.models.User;
 import com.example.myguide.ui.StudentHomeActivity;
+import com.example.myguide.ui.StudentSetupActivity;
 import com.example.myguide.ui.TutorHomeActivity;
+import com.example.myguide.ui.TutorSetupActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -53,6 +56,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = loginBinding.username.getText().toString();
                 String password = loginBinding.pwd.getText().toString();
+                if (password == null || username == null || password == "" || username == "") {
+                    loginBinding.tvError.setVisibility(View.VISIBLE);
+                    return;
+                }
                 LoginUser(username, password);
 
             }
@@ -87,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, String> authData = new HashMap<String, String>();
         authData.put("access_token", tokenString);
         authData.put("id", user);
-        //authData.put("is_mobile_sdk", String.valueOf(true));
         Task<ParseUser> loggedinUser = ParseUser.logInWithInBackground("linkedin", authData);
         Log.i(TAG, String.valueOf(loggedinUser));
         loggedinUser.continueWith(new Continuation<ParseUser, Void>() {
@@ -96,22 +102,46 @@ public class LoginActivity extends AppCompatActivity {
                     Log.w(TAG, "Task cancelled");
                 } else if (task.isFaulted()) {
                     Log.w(TAG, "Save FAIL" + task.getError());
-                    //Utilities.showToast(getResources().getString(R.string.errorLogin) + task.getError(), MainActivity.this);
                 } else {
                     // the object was saved successfully.
                     ParseUser user = (ParseUser) task.getResult();
-                    goToHomeActivity(isTutor);
-//                    if ((!user.isTutor && isTutor) || (!user.isStudent && !isTutor)) {
-//                        loginBinding.tvError.setVisibility(View.VISIBLE);
-//                         return null;
-//                     }
-                    goToHomeActivity(isTutor);
-                    Log.w(TAG, "Success " + user.getObjectId() + " " + user.getUsername() + " " + user.getEmail() + " " + user.getSessionToken());
+                    User loggedUser = (User) user;
+
+
+
+
+                    if (loggedUser.isNew() == false) {
+
+                        if ((loggedUser.isTutor() == false && isTutor) || (loggedUser.isStudent() == false && !isTutor)) {
+                            Toast.makeText(LoginActivity.this, "Please signin with different role.", Toast.LENGTH_SHORT).show();
+                            loginBinding.tvError.setVisibility(View.VISIBLE);
+                            return null;
+                        }
+                    }
+
+                    changeLogInStatus(loggedUser);
+                    if (loggedUser.isNew()) {
+                        if (isTutor) {
+                            Intent gotoregister = new Intent(LoginActivity.this, TutorSetupActivity.class);
+                            startActivity(gotoregister);
+                            finish();
+                        } else {
+                            Intent gotoregister = new Intent(LoginActivity.this, StudentSetupActivity.class);
+                            startActivity(gotoregister);
+                            finish();
+                        }
+
+                    }
+
+
+
+                    goToHomeActivity(isTutor, loggedUser);
                 }
                 return null;
             }
         });
     }
+
 
     private void LoginUser(String username, String password) {
 
@@ -123,11 +153,15 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-//                if ((!user.isTutor && isTutor) || (!user.isStudent && !isTutor)) {
-//                    loginBinding.tvError.setVisibility(View.VISIBLE);
-//                    return;
-//                }
-                goToHomeActivity(isTutor);
+                User loggedUser = (User) user;
+
+                if ((loggedUser.isTutor() == false && isTutor) || (loggedUser.isStudent() == false && !isTutor)) {
+                    Toast.makeText(LoginActivity.this, "Please signin with different role.", Toast.LENGTH_SHORT).show();
+                    loginBinding.tvError.setVisibility(View.VISIBLE);
+                    return;
+                }
+                changeLogInStatus(loggedUser);
+                goToHomeActivity(isTutor, loggedUser);
                 Toast.makeText(LoginActivity.this, "You have successfully loggedin!", Toast.LENGTH_SHORT).show();
 
             }
@@ -142,11 +176,6 @@ public class LoginActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 //Successfully signed in
                 LinkedInUser user = data.getParcelableExtra("social_login");
-
-                //acessing user info
-                Log.i(TAG, user.getFirstName());
-                Log.i(TAG, user.getAccessToken());
-                Log.i(TAG, user.getProfileUrl());
                 loginWithLinkedin(user.getAccessToken(), user.getId());
 
 
@@ -165,8 +194,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void changeLogInStatus(User currentUser) {
+        if (isTutor) {
+            //go to tutor home activity
+            currentUser.setKeyLoggedastutor(true);
 
-    private void goToHomeActivity(boolean isTutor) {
+            currentUser.saveInBackground();
+
+        } else{
+            //go to student home activity
+            currentUser.setKeyLoggedastutor(false);
+            currentUser.saveInBackground();
+
+        }
+
+    }
+
+    private void goToHomeActivity(boolean isTutor, User currentUser) {
         if (isTutor) {
             //go to tutor home activity
             Intent i = new Intent(LoginActivity.this, TutorHomeActivity.class);

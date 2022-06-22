@@ -18,6 +18,12 @@
         android:theme="@style/Theme.MyGuide"
         tools:targetApi="31">
         <activity
+            android:name=".ui.StudentSetupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.TutorSetupActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.StudentHomeActivity"
             android:exported="false" />
         <activity
