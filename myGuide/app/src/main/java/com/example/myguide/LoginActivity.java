@@ -37,9 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                         .setClientSecret(getString(R.string.linkedin_client_secret))
                         .setRedirectURI(REDIRECT_URI)
                         .authenticate(REQUEST_CODE);
-                //WebStorage.getInstance().deleteAllData();
-//                CookieManager.getInstance().removeAllCookies(null);
-//                CookieManager.getInstance().flush();
 
             }
         });
@@ -115,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         if ((loggedUser.isTutor() == false && isTutor) || (loggedUser.isStudent() == false && !isTutor)) {
                             Toast.makeText(LoginActivity.this, "Please signin with different role.", Toast.LENGTH_SHORT).show();
                             loginBinding.tvError.setVisibility(View.VISIBLE);
+                            Log.i(TAG, "Not successs");
                             return null;
                         }
                     }
@@ -122,20 +117,25 @@ public class LoginActivity extends AppCompatActivity {
                     changeLogInStatus(loggedUser);
                     if (loggedUser.isNew()) {
                         if (isTutor) {
+                            loggedUser.setKeyIstutor(true);
                             Intent gotoregister = new Intent(LoginActivity.this, TutorSetupActivity.class);
                             startActivity(gotoregister);
                             finish();
                         } else {
+                            loggedUser.setKeyIsstudent(true);
+
                             Intent gotoregister = new Intent(LoginActivity.this, StudentSetupActivity.class);
                             startActivity(gotoregister);
                             finish();
                         }
 
+                    } else {
+                        goToHomeActivity(isTutor, loggedUser);
+
                     }
 
 
 
-                    goToHomeActivity(isTutor, loggedUser);
                 }
                 return null;
             }
