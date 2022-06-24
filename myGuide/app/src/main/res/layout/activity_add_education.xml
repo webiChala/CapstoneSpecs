@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:paddingStart="10dp"
+    tools:context=".ui.AddEducationActivity">
+
+
+    <TextView
+        android:id="@+id/tvBackButton"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:text="x"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:text="Add education"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBackButton" />
+
+    <TextView
+        android:id="@+id/tvSchool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:text="School *"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <EditText
+        android:id="@+id/etSchool"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Ex: Boston University"
+        android:inputType="textMultiLine"
+        android:minLines="1"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSchool" />
+
+
+    <!--    <com.pchmn.materialchips.ChipsInput-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/tvDegree"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:id="@+id/chips_input"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        app:hint="Enter a name"-->
+    <!--        app:hintColor="@color/light_blue"-->
+    <!--        app:textColor="@color/black"-->
+    <!--        app:maxRows="3"-->
+    <!--        app:chip_labelColor="@color/light_blue"-->
+    <!--        app:chip_hasAvatarIcon="true"-->
+    <!--        app:chip_backgroundColor="@color/purple_500"-->
+    <!--        app:chip_deletable="false"-->
+    <!--        app:chip_deleteIconColor="@color/light_blue"-->
+    <!--        app:chip_detailed_textColor="@color/light_blue"-->
+    <!--        app:chip_detailed_backgroundColor="@color/light_blue"-->
+    <!--        app:chip_detailed_deleteIconColor="@color/light_blue"-->
+    <!--        app:filterable_list_backgroundColor="@color/light_blue"-->
+    <!--        app:filterable_list_textColor="@color/light_blue" />-->
+
+    <TextView
+        android:id="@+id/tvDegree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Degree *"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSchool" />
+
+    <EditText
+        android:id="@+id/etDegree"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Ex: Bachelors"
+        android:inputType="textMultiLine"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivSelectedDegree"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDegree" />
+
+    <ImageView
+        android:id="@+id/ivSelectedDegree"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:drawable/editbox_background"
+        android:padding="10dp"
+        android:src="@android:drawable/arrow_down_float"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etDegree" />
+
+    <TextView
+        android:id="@+id/tvFieldOfStudy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Field of study *"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDegree" />
+
+    <EditText
+        android:id="@+id/etFieldOfStudy"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Ex: Computer Science"
+        android:inputType="textMultiLine"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivSelectedField"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFieldOfStudy" />
+
+    <ImageView
+        android:id="@+id/ivSelectedField"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:drawable/editbox_background"
+        android:padding="10dp"
+        android:src="@android:drawable/arrow_down_float"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etFieldOfStudy" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="#2B96CC"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFieldOfStudy" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
