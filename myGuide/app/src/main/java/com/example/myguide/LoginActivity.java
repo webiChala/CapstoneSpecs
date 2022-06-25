@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     // the object was saved successfully.
                     ParseUser user = (ParseUser) task.getResult();
                     User loggedUser = (User) user;
+                    Log.i(TAG, "Wala");
 
 
 

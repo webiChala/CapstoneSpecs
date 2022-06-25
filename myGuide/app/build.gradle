@@ -32,11 +32,15 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.ovidos:linkedin-android-sdk:0.1.9'
-    implementation 'com.github.Sumudu-Sahan:LinkedInManager:1.01.00'
+
+    implementation 'com.github.pratikbutani:MultiSelectSpinner:1.0.1'
 
     implementation 'com.shantanudeshmukh:linkedinsdk:1.0.0'
-
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    implementation "com.hootsuite.android:nachos:1.1.1"
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
