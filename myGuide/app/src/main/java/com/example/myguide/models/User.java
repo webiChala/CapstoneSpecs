@@ -18,6 +18,8 @@ public class User extends ParseUser {
     public static final String KEY_COURSESTUTORED = "coursesTutored";
     public static final String KEY_ABOUT = "About";
     public static final String KEY_PRICE = "Price";
+    public static final String KEY_PHONENUMBER = "phoneNumber";
+    public static final String KEY_ZIPCODE = "Zipcode";
 
 
 
@@ -71,6 +73,12 @@ public class User extends ParseUser {
 
     public void setPrice(String price) {put(KEY_PRICE, price);}
     public String getPrice() {return getString(KEY_PRICE);}
+
+    public void setKeyPhonenumber(String phonenumber) {put(KEY_PHONENUMBER, phonenumber);}
+    public String getPhonenumber() {return getString(KEY_PHONENUMBER);}
+
+    public void setKeyZipcode(String zipcode) {put(KEY_ZIPCODE, zipcode);}
+    public String getKeyZipcode() {return getString(KEY_ZIPCODE);}
 
     public User(){
 

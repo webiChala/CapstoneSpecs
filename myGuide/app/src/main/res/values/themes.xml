@@ -19,4 +19,7 @@
     <style name="LaunchTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen_drawable</item>
     </style>
+    <style name="Theme.RemoveSplashScreenTheme" parent="@style/Theme.MyGuide">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

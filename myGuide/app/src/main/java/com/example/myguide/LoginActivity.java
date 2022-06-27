@@ -48,6 +48,13 @@ public class LoginActivity extends AppCompatActivity {
 
         isTutor =  getIntent().getExtras().getBoolean("isTutor");
 
+        loginBinding.ibGoBackLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         loginBinding.btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginBinding.btnLinkedinSignin.setOnClickListener(new View.OnClickListener() {
+        loginBinding.ibLinkedinSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LinkedInBuilder.getInstance(LoginActivity.this)

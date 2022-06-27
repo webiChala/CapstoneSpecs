@@ -25,7 +25,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
         chooseRoleBinding = ActivityChooseroleBinding.inflate(getLayoutInflater());
         View view = chooseRoleBinding.getRoot();
         setContentView(view);
-        ParseUser.logOut();
+        //ParseUser.logOut();
 
         if (ParseUser.getCurrentUser() != null) {
 
@@ -68,7 +68,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
-        chooseRoleBinding.ibOptionStudent.setOnClickListener(new View.OnClickListener() {
+        chooseRoleBinding.cardviewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ChooseRoleActivity.this, LoginActivity.class);
@@ -77,7 +77,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
             }
         });
 
-        chooseRoleBinding.ibOptionTutor.setOnClickListener(new View.OnClickListener() {
+        chooseRoleBinding.cardViewTutor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ChooseRoleActivity.this, LoginActivity.class);
