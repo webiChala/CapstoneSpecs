@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/ic_myguide_text.xml" value="0.1035" />
         <entry key="app/src/main/res/drawable/ic_polygon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_sign_in_small___hover.xml" value="0.2925" />
         <entry key="app/src/main/res/drawable/ic_splashscreen_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/launch_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/login_background.xml" value="0.1" />
@@ -20,6 +21,7 @@
         <entry key="app/src/main/res/drawable/round.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/splash_screen_drawable.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/student_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/tab_indicator.xml" value="0.323" />
         <entry key="app/src/main/res/drawable/tutor_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/user_icon.xml" value="0.1" />
         <entry key="app/src/main/res/font/advent_pro.xml" value="0.23333333333333334" />
@@ -28,7 +30,7 @@
         <entry key="app/src/main/res/layout/activity_chooserole.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_general_signup.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.3197463768115942" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.15879828326180256" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3111413043478261" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/activity_student_home.xml" value="0.3072916666666667" />
@@ -36,7 +38,12 @@
         <entry key="app/src/main/res/layout/activity_tutor_home.xml" value="0.3072916666666667" />
         <entry key="app/src/main/res/layout/activity_tutor_setup.xml" value="0.3157894736842105" />
         <entry key="app/src/main/res/layout/dialog_searchable_spinner.xml" value="0.1453900709219858" />
+        <entry key="app/src/main/res/layout/fragment_connected_tutors.xml" value="0.18796296296296297" />
+        <entry key="app/src/main/res/layout/fragment_find_tutor_student.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.34814814814814815" />
+        <entry key="app/src/main/res/layout/fragment_look_for_tutor.xml" value="0.18796296296296297" />
         <entry key="app/src/main/res/layout/item_education.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.3671875" />
         <entry key="app/src/main/res/xml/fileprovider.xml" value="0.15185185185185185" />
       </map>
     </option>

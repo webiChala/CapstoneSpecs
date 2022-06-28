@@ -59,6 +59,9 @@ public class StudentSetupActivity extends AppCompatActivity {
                 onLaunchCamera(v);
             }
         });
+        if (currentUser.getImage() != null) {
+            Glide.with(this).load(currentUser.getImage().getUrl()).circleCrop().into(studentSetupBinding.ibProfile);
+        }
 
         studentSetupBinding.btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
             @Override
