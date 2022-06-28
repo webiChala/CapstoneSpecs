@@ -1,11 +1,13 @@
 package com.example.myguide;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -107,43 +109,23 @@ public class LoginActivity extends AppCompatActivity {
                     // the object was saved successfully.
                     ParseUser user = (ParseUser) task.getResult();
                     User loggedUser = (User) user;
-                    Log.i(TAG, "Wala");
 
-
-
-
-                    if (loggedUser.isNew() == false) {
-
-                        if ((loggedUser.isTutor() == false && isTutor) || (loggedUser.isStudent() == false && !isTutor)) {
-                            Toast.makeText(LoginActivity.this, "Please signin with different role.", Toast.LENGTH_SHORT).show();
-                            loginBinding.tvError.setVisibility(View.VISIBLE);
-                            Log.i(TAG, "Not successs");
-                            return null;
-                        }
+                    if (loggedUser.isTutor() == false && loggedUser.isStudent() == false) {
+                        goToRegistration(loggedUser);
+                        return null;
                     }
 
-                    changeLogInStatus(loggedUser);
-                    if (loggedUser.isNew()) {
-                        if (isTutor) {
-                            loggedUser.setKeyIstutor(true);
-                            Intent gotoregister = new Intent(LoginActivity.this, TutorSetupActivity.class);
-                            startActivity(gotoregister);
-                            finish();
-                        } else {
-                            loggedUser.setKeyIsstudent(true);
-
-                            Intent gotoregister = new Intent(LoginActivity.this, StudentSetupActivity.class);
-                            startActivity(gotoregister);
-                            finish();
-                        }
-
+                    if ((loggedUser.isTutor() != true && isTutor == true) || (loggedUser.isStudent() != true && isTutor != true ) ) {
+                        Log.i(TAG, "Change roles");
+                        loginBinding.tvError.setTextColor(Color.RED);
+                        return null;
                     } else {
-                        goToHomeActivity(isTutor, loggedUser);
-
+                        if (loggedUser.isNew()) {
+                            goToRegistration(loggedUser);
+                        } else {
+                            goToHomeActivity(loggedUser);
+                        }
                     }
-
-
-
                 }
                 return null;
             }
@@ -169,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 changeLogInStatus(loggedUser);
-                goToHomeActivity(isTutor, loggedUser);
+                goToHomeActivity(loggedUser);
                 Toast.makeText(LoginActivity.this, "You have successfully loggedin!", Toast.LENGTH_SHORT).show();
 
             }
@@ -203,22 +185,39 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void changeLogInStatus(User currentUser) {
-        if (isTutor) {
+        if (isTutor == true) {
             //go to tutor home activity
+            Log.i(TAG, "woreked!");
             currentUser.setKeyLoggedastutor(true);
-
             currentUser.saveInBackground();
 
         } else{
             //go to student home activity
+            Log.i(TAG, "student worked!");
             currentUser.setKeyLoggedastutor(false);
             currentUser.saveInBackground();
+
 
         }
 
     }
 
-    private void goToHomeActivity(boolean isTutor, User currentUser) {
+    private void goToRegistration(User loggedUser) {
+        changeLogInStatus(loggedUser);
+        if (isTutor) {
+
+            Intent i = new Intent(LoginActivity.this, TutorSetupActivity.class);
+            startActivity(i);
+            finish();
+        } else{
+            Intent i = new Intent(LoginActivity.this, StudentSetupActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    private void goToHomeActivity(User loggedUser) {
+        changeLogInStatus(loggedUser);
         if (isTutor) {
             //go to tutor home activity
             Intent i = new Intent(LoginActivity.this, TutorHomeActivity.class);

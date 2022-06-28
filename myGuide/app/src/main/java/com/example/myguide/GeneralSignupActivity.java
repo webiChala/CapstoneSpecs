@@ -160,14 +160,14 @@ public class GeneralSignupActivity extends AppCompatActivity {
                         user.saveInBackground();
                         Intent gotoregister = new Intent(GeneralSignupActivity.this, TutorSetupActivity.class);
                         startActivity(gotoregister);
-                        finish();
+                        finishAffinity();
                     } else {
                         user.setKeyIsstudent(true);
                         user.setKeyLoggedastutor(false);
                         user.saveInBackground();
                         Intent gotoregister = new Intent(GeneralSignupActivity.this, StudentSetupActivity.class);
                         startActivity(gotoregister);
-                        finish();
+                        finishAffinity();
                     }
                 } else {
                     generalSignupBinding.tvErrorSignUp.setVisibility(View.VISIBLE);
