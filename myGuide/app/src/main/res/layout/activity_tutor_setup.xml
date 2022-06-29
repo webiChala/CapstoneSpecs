@@ -173,11 +173,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
+
         <Button
             android:id="@+id/btnSaveTutorProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="40dp"
             android:backgroundTint="#2196F3"
             android:text="Save"
@@ -185,7 +186,64 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/isOnlineTutor"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tvZipcodeTutor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Zipcode"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPrice" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/zipcode_text_input_layout_tutor"
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+
+            android:layout_marginTop="8dp"
+            app:boxBackgroundColor="#F6F3F3"
+            app:boxStrokeColor="#FBFBFB"
+            app:endIconTint="#F6F4F4"
+            app:hintTextColor="@color/light_blue"
+            app:layout_constraintStart_toStartOf="@+id/tvZipcodeTutor"
+            app:layout_constraintTop_toBottomOf="@+id/tvZipcodeTutor">
+
+            <EditText
+                android:id="@+id/etZipcode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/login_edit_text_border"
+                android:ems="10"
+                android:hint="Zip code"
+                android:inputType="number"
+                android:minWidth="200sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/isInpersonTutor"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="24dp"
+            android:text="I will be able to give inperson tutoring."
+            app:layout_constraintStart_toStartOf="@+id/zipcode_text_input_layout_tutor"
+            app:layout_constraintTop_toBottomOf="@+id/zipcode_text_input_layout_tutor" />
+
+        <CheckBox
+            android:id="@+id/isOnlineTutor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="I will be able to tutor online."
+            app:layout_constraintStart_toStartOf="@+id/isInpersonTutor"
+            app:layout_constraintTop_toBottomOf="@+id/isInpersonTutor" />
 
         <!--        <com.hootsuite.nachos.NachoTextView-->
         <!--            android:id="@+id/nacho_text_view"-->

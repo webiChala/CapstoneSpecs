@@ -1,4 +1,4 @@
-package com.example.myguide;
+package com.example.myguide.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,12 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.myguide.databinding.ActivityAddEducationBinding;
 import com.example.myguide.databinding.ItemEducationBinding;
 import com.example.myguide.models.Education;
 import com.example.myguide.ui.AddEducationActivity;
-import com.example.myguide.ui.TutorSetupActivity;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
 

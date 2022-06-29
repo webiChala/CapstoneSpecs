@@ -18,11 +18,11 @@ public class MyFragmentAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position == 1) {
-            return new ConnectedTutorsFragment();
+            return new LookForTutorFragment();
 
         }
 
-        return new LookForTutorFragment();
+        return new ConnectedTutorsFragment();
     }
 
     @Override

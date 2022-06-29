@@ -170,6 +170,9 @@ public class GeneralSignupActivity extends AppCompatActivity {
                         finishAffinity();
                     }
                 } else {
+                    Log.e(
+                            TAG, "Signup error:", e
+                    );
                     generalSignupBinding.tvErrorSignUp.setVisibility(View.VISIBLE);
                 }
             }

@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginBinding.tvError.setVisibility(View.VISIBLE);
                     return;
                 }
+
                 LoginUser(username, password);
 
             }
@@ -151,7 +152,12 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 changeLogInStatus(loggedUser);
-                goToHomeActivity(loggedUser);
+                if (loggedUser.isNew() == true) {
+                    goToRegistration(loggedUser);
+                } else {
+                    goToHomeActivity(loggedUser);
+
+                }
                 Toast.makeText(LoginActivity.this, "You have successfully loggedin!", Toast.LENGTH_SHORT).show();
 
             }
@@ -187,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
     private void changeLogInStatus(User currentUser) {
         if (isTutor == true) {
             //go to tutor home activity
-            Log.i(TAG, "woreked!");
+            Log.i(TAG, "worked!");
             currentUser.setKeyLoggedastutor(true);
             currentUser.saveInBackground();
 

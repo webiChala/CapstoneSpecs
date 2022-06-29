@@ -20,14 +20,18 @@ public class User extends ParseUser {
     public static final String KEY_PRICE = "Price";
     public static final String KEY_PHONENUMBER = "phoneNumber";
     public static final String KEY_ZIPCODE = "Zipcode";
+    public static final String KEY_ISONLINETUTOR = "isOnlineTutor";
+    public static final String KEY_ISINPERSONTUTOR = "isInPersonTutor";
+    public double distanceFromCurrentUser = 0;
 
+    public User(){
 
+    }
 
 
     public boolean isTutor() {
         return getBoolean(KEY_ISTUTOR);
     }
-
     public void setKeyIstutor(boolean istutor) {
         put(KEY_ISTUTOR, istutor);
     }
@@ -35,13 +39,11 @@ public class User extends ParseUser {
     public boolean isLoggedAsTutor() {
         return getBoolean(KEY_LOGGEDASTUTOR);
     }
-
     public void setKeyLoggedastutor(boolean isLoggedAsTutor) { put(KEY_LOGGEDASTUTOR, isLoggedAsTutor);}
 
     public boolean isStudent() {
         return getBoolean(KEY_ISSTUDENT);
     }
-
     public void setKeyIsstudent(boolean isStudent) {
         put(KEY_ISSTUDENT, isStudent);
     }
@@ -49,30 +51,28 @@ public class User extends ParseUser {
     public boolean isNew() {
         return getBoolean(KEY_ISNEW);
     }
-
     public void setKeyIsnew(boolean isNew) { put(KEY_ISNEW, isNew);}
 
     public String getName() {
         return getString(KEY_NAME);
     }
-
     public void setName(String name) { put(KEY_NAME, name);}
 
     public ParseFile getImage() {
         return getParseFile(KEY_USERIMAGE);
     }
-
     public void setImage(ParseFile parseFile) {
         put(KEY_USERIMAGE, parseFile);
     }
+
     public List<String> getCourses() {return getList(KEY_COURSESTUTORED);}
     public void setKeyCoursestutored(List<String> coursesTutored) { put(KEY_COURSESTUTORED, coursesTutored);}
 
     public void setAbout(String about) {put(KEY_ABOUT, about);}
     public String getAbout() {return getString(KEY_ABOUT);}
 
-    public void setPrice(String price) {put(KEY_PRICE, price);}
-    public String getPrice() {return getString(KEY_PRICE);}
+    public void setPrice(Number price) {put(KEY_PRICE, price);}
+    public Number getPrice() {return getNumber(KEY_PRICE);}
 
     public void setKeyPhonenumber(String phonenumber) {put(KEY_PHONENUMBER, phonenumber);}
     public String getPhonenumber() {return getString(KEY_PHONENUMBER);}
@@ -80,8 +80,22 @@ public class User extends ParseUser {
     public void setKeyZipcode(String zipcode) {put(KEY_ZIPCODE, zipcode);}
     public String getKeyZipcode() {return getString(KEY_ZIPCODE);}
 
-    public User(){
-
+    public boolean isOnlineTutor() {
+        return getBoolean(KEY_ISONLINETUTOR);
     }
+    public void setKeyIsonlinetutor(boolean isonlinetutor) { put(KEY_ISONLINETUTOR, isonlinetutor);}
+
+    public boolean isInPersonTutor() {
+        return getBoolean(KEY_ISINPERSONTUTOR);
+    }
+    public void setKeyIsinpersontutor(boolean isinpersontutor) { put(KEY_ISINPERSONTUTOR, isinpersontutor);}
+
+    public void setDistanceFromCurrentUser(double distance) {distanceFromCurrentUser = distance;}
+    public double getDistanceFromCurrentUser()
+    {
+        return Math.round(distanceFromCurrentUser);
+    }
+
+
 
 }

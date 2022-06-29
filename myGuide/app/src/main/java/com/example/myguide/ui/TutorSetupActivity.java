@@ -19,31 +19,33 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.bumptech.glide.Glide;
-import com.example.myguide.EducationAdapter;
-import com.example.myguide.R;
-import com.example.myguide.databinding.ActivityAddEducationBinding;
+import com.example.myguide.adapters.EducationAdapter;
 import com.example.myguide.databinding.ActivityTutorSetupBinding;
 import com.example.myguide.models.Course;
-import com.example.myguide.models.Degree;
 import com.example.myguide.models.Education;
 import com.example.myguide.models.User;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.pchmn.materialchips.ChipsInput;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +61,11 @@ public class TutorSetupActivity extends AppCompatActivity {
     MultiSpinnerSearch multiSelectSpinnerWithSearch;
     List<String> selectedCoursesId;
     User currentUser;
+    String about;
+    String price;
+    String zipcode;
+    boolean isOnlineTutor;
+    boolean isInPersonTutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,9 @@ public class TutorSetupActivity extends AppCompatActivity {
         setContentView(view);
 
         selectedCoursesId = new ArrayList<>();
+
+        //Testing
+        //getGeoLocationFromZipcode();
 
 
         tutorSetupBinding.ibAddEducation.setOnClickListener(new View.OnClickListener() {
@@ -99,30 +109,36 @@ public class TutorSetupActivity extends AppCompatActivity {
         tutorSetupBinding.btnSaveTutorProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String about = tutorSetupBinding.etAbout.getText().toString();
-                String price = tutorSetupBinding.etPrice.getText().toString();
-                if (about.length() == 0 || price.length() ==0 || selectedCoursesId.size() == 0) {
+
+                about = tutorSetupBinding.etAbout.getText().toString();
+                price = tutorSetupBinding.etPrice.getText().toString();
+                zipcode = tutorSetupBinding.etZipcode.getText().toString();
+                isOnlineTutor = tutorSetupBinding.isOnlineTutor.isChecked();
+                isInPersonTutor = tutorSetupBinding.isInpersonTutor.isChecked();
+
+                if (about.length() == 0 || price.length() == 0 || zipcode.length() == 0 || selectedCoursesId.size() == 0) {
                     Toast.makeText(TutorSetupActivity.this, "Please fill all the fields!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                currentUser.setPrice(price);
+                if (zipcode.length() != 5) {
+                    Toast.makeText(TutorSetupActivity.this, "Zipcode not found!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (isOnlineTutor == false && isInPersonTutor == false) {
+                    Toast.makeText(TutorSetupActivity.this, "Please select at least one preference for tutoring options!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                currentUser.setPrice(Integer.parseInt(price));
                 currentUser.setAbout(about);
                 currentUser.setKeyCoursestutored(selectedCoursesId);
-                currentUser.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e==null) {
-                            Toast.makeText(TutorSetupActivity.this, "Registration completed successgully!", Toast.LENGTH_SHORT).show();
-                            currentUser.setKeyIsnew(false);
-                            currentUser.saveInBackground();
+                currentUser.setKeyZipcode(zipcode);
+                currentUser.setKeyIsinpersontutor(isInPersonTutor);
+                currentUser.setKeyIsonlinetutor(isOnlineTutor);
+                getGeoLocationFromZipcode();
 
-                            Intent i = new Intent(TutorSetupActivity.this, TutorHomeActivity.class);
-                            startActivity(i);
-                            finish();
 
-                        }
-                    }
-                });
             }
         });
 
@@ -295,6 +311,68 @@ public class TutorSetupActivity extends AppCompatActivity {
                 });
 
 
+            }
+        });
+    }
+
+    private void getGeoLocationFromZipcode() {
+
+        Log.i(TAG, "It works");
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String where = URLEncoder.encode("{" +
+                            "    \"US_Zip_Code\": " + zipcode +
+                            "}", "utf-8");
+                    URL url = new URL("https://parseapi.back4app.com/classes/Uszipcode_US_Zip_Code?limit=1&where=" + where);
+                    HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                    urlConnection.setRequestProperty("X-Parse-Application-Id", "r9pjIpWlLiO3gfmU6ZKPZPa0OPi5jrknUOlsx24g"); // This is your app's application id
+                    urlConnection.setRequestProperty("X-Parse-REST-API-Key", "IZUWWVVGXfs0Kk7aUqWcHMfRo5RzQ3DkhXZ7dZvL"); // This is your app's REST API key
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            stringBuilder.append(line);
+                        }
+                        JSONObject data = new JSONObject(stringBuilder.toString()); // Here you have the data that you need
+                        Log.i(TAG, data.toString(2));
+                        Double Latitude = data.getJSONArray("results").getJSONObject(0).getDouble("Latitude");
+                        Log.i(TAG, String.valueOf(Latitude));
+                        Double Longitude = data.getJSONArray("results").getJSONObject(0).getDouble("Longitude");
+                        ParseGeoPoint currentUserLocation = new ParseGeoPoint(Latitude, Longitude);
+
+                        if (currentUser != null) {
+                            currentUser.put("Location", currentUserLocation);
+                            registerUser();
+                        } 
+                    } finally {
+                        urlConnection.disconnect();
+
+
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            }
+        })).start();
+    }
+
+    private void registerUser() {
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e==null) {
+                    Toast.makeText(TutorSetupActivity.this, "Registration completed successfully!", Toast.LENGTH_SHORT).show();
+                    currentUser.setKeyIsnew(false);
+                    currentUser.saveInBackground();
+
+                    Intent i = new Intent(TutorSetupActivity.this, TutorHomeActivity.class);
+                    startActivity(i);
+                    finish();
+
+                }
             }
         });
     }
