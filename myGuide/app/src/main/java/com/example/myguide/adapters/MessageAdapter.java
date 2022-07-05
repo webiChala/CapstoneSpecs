@@ -16,6 +16,7 @@ import com.example.myguide.databinding.ItemMessageBinding;
 import com.example.myguide.models.Education;
 import com.example.myguide.models.Message;
 import com.example.myguide.models.User;
+import com.example.myguide.services.GetRelativeTime;
 import com.example.myguide.ui.ChatActivity;
 import com.parse.ParseUser;
 
@@ -52,6 +53,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ItemMessageBinding itemMessageBinding;
+        GetRelativeTime getRelativeTime = new GetRelativeTime();
 
         public ViewHolder(ItemMessageBinding binding) {
             super(binding.getRoot());
@@ -74,7 +76,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             }
 
             itemMessageBinding.tvMessageSent.setText((message.getMessage()));
-            itemMessageBinding.tvMessageDateSent.setText(message.getCreatedAt().toString());
+            String dateSent = getRelativeTime.getRelativeTimeAgo(message.getCreatedAt().toString());
+            itemMessageBinding.tvMessageDateSent.setText(dateSent);
 
         }
 

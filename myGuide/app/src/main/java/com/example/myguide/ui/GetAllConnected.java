@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.myguide.adapters.UserTutorConnectionRequestAdapter;
 import com.example.myguide.databinding.ActivityChatBinding;
@@ -38,6 +39,12 @@ public class GetAllConnected extends AppCompatActivity {
         adapter = new UserTutorConnectionRequestAdapter(this, allConnectedUsers, false);
         binding.rvConnectedUsers.setAdapter(adapter);
         binding.rvConnectedUsers.setLayoutManager(new LinearLayoutManager(this));
+        binding.allconnectedGoback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         getAllConnected();
     }
@@ -54,7 +61,13 @@ public class GetAllConnected extends AppCompatActivity {
         UserTutorConnectionServices newUserTutorConnectionServices = new UserTutorConnectionServices(new UserTutorConnectionInterface() {
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
+                if (output.size() == 0) {
+                    binding.rvConnectedUsers.setVisibility(View.GONE);
+                    binding.emptyViewConnected.setVisibility(View.VISIBLE);
+                }
+
                 allConnectedUsers.addAll(output);
+                binding.progressbarConnectedusers.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
             }
 

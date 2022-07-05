@@ -127,7 +127,12 @@ public class ChatFragmentTutor extends Fragment {
                         }
 
                     }
+                    if (allMessages.size() == 0) {
+                        binding.rvMessageTutor.setVisibility(View.GONE);
+                        binding.emptyViewMessage.setVisibility(View.VISIBLE);
+                    }
                     set.clear();
+                    binding.progressbarMessage.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 }
             }

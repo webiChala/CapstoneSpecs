@@ -37,6 +37,12 @@ public class TutorNotificationActivity extends AppCompatActivity {
         adapter = new UserTutorConnectionRequestAdapter(this, allConnectionrequests, true);
         binding.rvRequest.setAdapter(adapter);
         binding.rvRequest.setLayoutManager(new LinearLayoutManager(this));
+        binding.connectionRequestGoback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         getAllConnectionRequests();
 
@@ -50,7 +56,13 @@ public class TutorNotificationActivity extends AppCompatActivity {
         UserTutorConnectionServices userTutorConnectionServices = new UserTutorConnectionServices(new UserTutorConnectionInterface() {
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
+                if (output.size() == 0) {
+                    binding.rvRequest.setVisibility(View.GONE);
+                    binding.emptyViewConnectionRequest.setVisibility(View.VISIBLE);
+                }
+
                 allConnectionrequests.addAll(output);
+                binding.progressbarConnectionRequest.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
             }
 

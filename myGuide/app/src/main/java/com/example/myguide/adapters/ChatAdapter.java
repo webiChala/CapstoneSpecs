@@ -89,6 +89,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
 
         public IncomingMessageViewHolder(MessageIncomingBinding binding) {
             super(binding.getRoot());
+
             messageIncomingBinding = binding;
         }
 

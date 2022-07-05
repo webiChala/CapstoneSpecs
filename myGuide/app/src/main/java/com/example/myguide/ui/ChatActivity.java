@@ -162,6 +162,11 @@ public class ChatActivity extends AppCompatActivity {
             public void getProcessFinish(List<Message> output) {
                 mMessages.clear();
                 mMessages.addAll(output);
+                if (mMessages.size() == 0) {
+                    binding.rvChat.setVisibility(View.GONE);
+                    binding.emptyViewChat.setVisibility(View.VISIBLE);
+                }
+                binding.progressbarChat.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
                 if (mFirstLoad) {
                     binding.rvChat.scrollToPosition(0);
