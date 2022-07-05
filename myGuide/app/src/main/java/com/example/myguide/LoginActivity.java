@@ -99,15 +99,11 @@ public class LoginActivity extends AppCompatActivity {
         authData.put("access_token", tokenString);
         authData.put("id", user);
         Task<ParseUser> loggedinUser = ParseUser.logInWithInBackground("linkedin", authData);
-        Log.i(TAG, String.valueOf(loggedinUser));
         loggedinUser.continueWith(new Continuation<ParseUser, Void>() {
             public Void then(Task task) throws Exception {
                 if (task.isCancelled()) {
-                    Log.w(TAG, "Task cancelled");
                 } else if (task.isFaulted()) {
-                    Log.w(TAG, "Save FAIL" + task.getError());
                 } else {
-                    // the object was saved successfully.
                     ParseUser user = (ParseUser) task.getResult();
                     User loggedUser = (User) user;
 
@@ -117,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if ((loggedUser.isTutor() != true && isTutor == true) || (loggedUser.isStudent() != true && isTutor != true ) ) {
-                        Log.i(TAG, "Change roles");
                         loginBinding.tvError.setTextColor(Color.RED);
                         return null;
                     } else {
@@ -170,20 +165,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE && data != null) {
             if (resultCode == RESULT_OK) {
-                //Successfully signed in
                 LinkedInUser user = data.getParcelableExtra("social_login");
                 loginWithLinkedin(user.getAccessToken(), user.getId());
-
-
             } else {
 
                 if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_USER_DENIED) {
-                    //Handle : user denied access to account
-
                 } else if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_FAILED) {
-
-                    //Handle : Error in API : see logcat output for details
-                    Log.e("LINKEDIN ERROR", data.getStringExtra("err_message"));
                 }
             }
         }
@@ -192,18 +179,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void changeLogInStatus(User currentUser) {
         if (isTutor == true) {
-            //go to tutor home activity
-            Log.i(TAG, "worked!");
             currentUser.setKeyLoggedastutor(true);
+            currentUser.setKeyIstutor(true);
             currentUser.saveInBackground();
 
         } else{
-            //go to student home activity
-            Log.i(TAG, "student worked!");
             currentUser.setKeyLoggedastutor(false);
+            currentUser.setKeyIsstudent(true);
             currentUser.saveInBackground();
-
-
         }
 
     }
@@ -225,12 +208,10 @@ public class LoginActivity extends AppCompatActivity {
     private void goToHomeActivity(User loggedUser) {
         changeLogInStatus(loggedUser);
         if (isTutor) {
-            //go to tutor home activity
             Intent i = new Intent(LoginActivity.this, TutorHomeActivity.class);
             startActivity(i);
             finish();
         } else{
-            //go to student home activity
             Intent i = new Intent(LoginActivity.this, StudentHomeActivity.class);
             startActivity(i);
             finish();

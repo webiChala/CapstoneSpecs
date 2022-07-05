@@ -103,7 +103,6 @@ public class AddEducationActivity extends AppCompatActivity {
                                 data.putExtra("toBeEditedEducation", toBeEditedEducation);
                                 data.putExtra("adapterPosition", adapterPosition);
                                 startActivity(data);
-//                                setResult(RESULT_OK, data); // set result code and bundle data for response
                                 finish();
                             }
                         }
@@ -132,13 +131,10 @@ public class AddEducationActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Error while saving education", e);
                 } else {
                     Toast.makeText(AddEducationActivity.this, "Successfully saved education!", Toast.LENGTH_SHORT).show();
                     Intent data = new Intent();
-                    // Pass relevant data back as a result
                     data.putExtra("newEducation", education);
-                    // Activity finished ok, return the data
                     setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();
                 }
@@ -159,9 +155,7 @@ public class AddEducationActivity extends AppCompatActivity {
                 }
                 fieldOfStudy.addAll(field);
                 for (FieldOfStudy f: fieldOfStudy) {
-                    Log.i(TAG, f.getTitle());
                     fieldOfStudyTitleArrayList.add(f.getTitle().toString());
-
                 }
                 dropdownAction(addEducationBinding.ivSelectedField, false);
             }
@@ -174,36 +168,23 @@ public class AddEducationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Initialize dialog
                 dialog=new Dialog(AddEducationActivity.this);
-
-                // set custom dialog
                 dialog.setContentView(R.layout.dialog_searchable_spinner);
-
-                // set custom height and width
                 dialog.getWindow().setLayout(950,1200);
-
-                // set transparent background
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                // show dialog
                 dialog.show();
 
-                // Initialize and assign variable
                 EditText editText=dialog.findViewById(R.id.edit_text);
                 ListView listView=dialog.findViewById(R.id.list_view);
 
-                // Initialize array adapter
                 ArrayAdapter<String> adapter;
                 if (isDegree) {
                     adapter =new ArrayAdapter<>(AddEducationActivity.this, android.R.layout.simple_list_item_1,degreeTitleArrayList);
 
                 } else {
-
                     adapter=new ArrayAdapter<>(AddEducationActivity.this, android.R.layout.simple_list_item_1,fieldOfStudyTitleArrayList);
 
                 }
-                //set adapter
                 listView.setAdapter(adapter);
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -225,8 +206,7 @@ public class AddEducationActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // when item selected from list
-                        // set selected item on textView
+
                         if (isDegree) {
                             addEducationBinding.etDegree.setText(adapter.getItem(position));
 
@@ -234,8 +214,6 @@ public class AddEducationActivity extends AppCompatActivity {
                             addEducationBinding.etFieldOfStudy.setText(adapter.getItem(position));
 
                         }
-
-                        // Dismiss dialog
                         dialog.dismiss();
                     }
                 });
@@ -245,7 +223,6 @@ public class AddEducationActivity extends AppCompatActivity {
     }
 
     private void getAllDegrees() {
-        //instantiate a query variable that has methods to grab all posts
         ParseQuery<Degree> query = ParseQuery.getQuery(Degree.class);
         query.include(Degree.KEY_TITLE);
         query.orderByAscending("Title");
@@ -257,7 +234,6 @@ public class AddEducationActivity extends AppCompatActivity {
                 }
                 degrees = (ArrayList<Degree>) degree;
                 for (Degree d: degrees) {
-                    Log.i(TAG, d.getTitle());
                     degreeTitleArrayList.add(d.getTitle().toString());
 
                 }

@@ -82,7 +82,6 @@ public class GeneralSignupActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE && data != null) {
             if (resultCode == RESULT_OK) {
-                //Successfully signed in
                 LinkedInUser user = data.getParcelableExtra("social_login");
                 signUpWithLinkedin(user.getAccessToken(), user.getId());
 
@@ -90,12 +89,7 @@ public class GeneralSignupActivity extends AppCompatActivity {
             } else {
 
                 if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_USER_DENIED) {
-                    //Handle : user denied access to account
-
                 } else if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_FAILED) {
-
-                    //Handle : Error in API : see logcat output for details
-                    Log.e("LINKEDIN ERROR", data.getStringExtra("err_message"));
                 }
             }
         }
@@ -107,15 +101,11 @@ public class GeneralSignupActivity extends AppCompatActivity {
         authData.put("access_token", tokenString);
         authData.put("id", user);
         Task<ParseUser> loggedinUser = ParseUser.logInWithInBackground("linkedin", authData);
-        Log.i(TAG, String.valueOf(loggedinUser));
         loggedinUser.continueWith(new Continuation<ParseUser, Void>() {
             public Void then(Task task) throws Exception {
                 if (task.isCancelled()) {
-                    Log.w(TAG, "Task cancelled");
                 } else if (task.isFaulted()) {
-                    Log.w(TAG, "Save FAIL" + task.getError());
                 } else {
-                    // the object was saved successfully.
                     ParseUser user = (ParseUser) task.getResult();
                     User loggedUser = (User) user;
 
@@ -143,14 +133,11 @@ public class GeneralSignupActivity extends AppCompatActivity {
 
     private void SignUp(String username, String pwd, String email, String name ) {
 
-        // Create the ParseUser
         User user = new User();
-        // Set core properties
         user.setUsername(username);
         user.setPassword(pwd);
         user.setName(name);
         user.setEmail(email);
-        // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -170,9 +157,6 @@ public class GeneralSignupActivity extends AppCompatActivity {
                         finishAffinity();
                     }
                 } else {
-                    Log.e(
-                            TAG, "Signup error:", e
-                    );
                     generalSignupBinding.tvErrorSignUp.setVisibility(View.VISIBLE);
                 }
             }

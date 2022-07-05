@@ -22,7 +22,6 @@ public class TutorFragment extends Fragment {
     private MyFragmentAdapter adapter;
 
     public TutorFragment() {
-        // Required empty public constructor
     }
 
     @Override

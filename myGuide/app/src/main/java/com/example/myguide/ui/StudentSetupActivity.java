@@ -99,12 +99,9 @@ public class StudentSetupActivity extends AppCompatActivity {
     }
 
     private  void onLaunchCamera(View view) {
-        // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
         photoFile = getPhotoFileUri(photoFileName);
 
-        // wrap File object into a content provider
         Uri fileProvider = FileProvider.getUriForFile(this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -118,10 +115,7 @@ public class StudentSetupActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP
-                // Load the taken image into a preview
                 if (photoFile != null) {
                     Glide.with(this).load(takenImage).circleCrop().into(studentSetupBinding.ibProfile);
                     currentUser.setImage(new ParseFile(photoFile));
@@ -130,7 +124,6 @@ public class StudentSetupActivity extends AppCompatActivity {
                         public void done(ParseException e) {
                             if (e==null) {
                                 Toast.makeText(StudentSetupActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });
