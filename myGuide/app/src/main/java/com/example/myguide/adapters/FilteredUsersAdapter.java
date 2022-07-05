@@ -1,6 +1,7 @@
 package com.example.myguide.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myguide.databinding.ItemEducationBinding;
 import com.example.myguide.databinding.ItemTutorBinding;
-import com.example.myguide.models.Education;
 import com.example.myguide.models.User;
+import com.example.myguide.ui.TutorDetailActivity;
 
 import java.util.List;
 
@@ -59,11 +59,19 @@ public class FilteredUsersAdapter extends RecyclerView.Adapter<FilteredUsersAdap
         @Override
         public void onClick(View v) {
             Toast.makeText(context, "User clicked!", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(context, TutorDetailActivity.class);
+            i.putExtra("user", users.get(getAdapterPosition()));
+            context.startActivity(i);
+
         }
 
         public void bind(User user) {
             itemTutorBinding.tvFoundTutorAbout.setText(user.getAbout());
-            itemTutorBinding.tvFoundTutorDistance.setText(String.valueOf(user.getDistanceFromCurrentUser()) + "kms");
+            if (user.isShowingLocal()) {
+                itemTutorBinding.tvFoundTutorDistance.setText(String.valueOf(user.getDistanceFromCurrentUser()) + " miles");
+
+            } else {
+            }
             itemTutorBinding.tvFoundtutorPricePerHour.setText(String.valueOf(user.getPrice()) + "/hr");
             itemTutorBinding.tvFoundTutorname.setText(user.getName());
             if (user.getImage() != null) {

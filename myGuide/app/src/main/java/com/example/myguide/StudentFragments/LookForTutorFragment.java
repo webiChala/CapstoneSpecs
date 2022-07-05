@@ -45,7 +45,6 @@ public class LookForTutorFragment extends Fragment {
     String selectedCourseId;
 
     public LookForTutorFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,13 +70,28 @@ public class LookForTutorFragment extends Fragment {
                     return;
                 }
                 String zipcode = binding.etZipcode.getText().toString();
-                String price = binding.etPriceFind.getText().toString();
+                String minPrice = binding.etMinPrice.getText().toString();
+                String maxPrice = binding.etMaxPrice.getText().toString();
+                String rangeInMiles = binding.etRangeInMiles.getText().toString();
+
+                if (zipcode.length() > 0 && zipcode.length() != 5) {
+                    Toast.makeText(getContext(), "Invalid zipcode", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (rangeInMiles.length() > 0 && zipcode.length() == 0) {
+                    Toast.makeText(getContext(), "Please enter zipcode!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
                 SearchResultFragment searchResultFragment = new SearchResultFragment();
                 Bundle args = new Bundle();
                 args.putString("selectedCourseId", selectedCourseId);
                 args.putString("zipcode", zipcode);
-                args.putString("price", price);
+                args.putString("minPrice", minPrice);
+                args.putString("maxPrice", maxPrice);
+                args.putString("rangeInMiles", rangeInMiles);
 
                 searchResultFragment.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, searchResultFragment, "SearchResult").addToBackStack("SearchResult").commit();
@@ -98,34 +112,22 @@ public class LookForTutorFragment extends Fragment {
             @Override
             public void done(List<Course> courses, ParseException e) {
                 if (e != null) {
-                    Log.i(TAG, "not working!", e);
                     return;
                 }
-                for (Course c:courses
-                ) {
-                    Log.i(TAG, c.getTitle());
-
-                }
-
                 setUpCourseDropdown(courses);
-//                spinner();
             }
         });
     }
 
     private void setUpCourseDropdown (List<Course> courses) {
 
-        // Pass true, If you want color separation. Otherwise false. default = false.
         singleSpinnerSearch.setColorseparation(true);
-        // Pass true If you want searchView above the list. Otherwise false. default = true.
         singleSpinnerSearch.setSearchEnabled(true);
-        // A text that will display in search hint.
         singleSpinnerSearch.setSearchHint("Select course");
 
         List<KeyPairBoolData> data = new ArrayList<>();
         for (Course c:courses
         ) {
-            Log.i(TAG, c.getTitle());
             KeyPairBoolData d = new KeyPairBoolData(c.getTitle(), false);
             d.setObject(c);
             data.add(d);

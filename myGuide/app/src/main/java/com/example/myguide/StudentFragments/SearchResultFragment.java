@@ -1,7 +1,9 @@
 package com.example.myguide.StudentFragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -34,6 +36,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +46,16 @@ public class SearchResultFragment extends Fragment {
     public static final String TAG = "SearchResultFragment";
     String selectedCourseId;
     String zipcode;
-    String price;
+    String minPrice;
+    String maxPrice;
+    String rangeInMiles;
     private FilteredUsersAdapter adapter;
     private List<User> allFilteredUsers;
+    private List<User> localUsers;
+    private List<User> onlineUsers;
+
 
     public SearchResultFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -57,7 +64,9 @@ public class SearchResultFragment extends Fragment {
 
         selectedCourseId = getArguments().getString("selectedCourseId");
         zipcode = getArguments().getString("zipcode");
-        price = getArguments().getString("price");
+        minPrice = getArguments().getString("minPrice");
+        maxPrice = getArguments().getString("maxPrice");
+        rangeInMiles = getArguments().getString("rangeInMiles");
 
         binding = FragmentSearchResultBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
@@ -67,6 +76,8 @@ public class SearchResultFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         allFilteredUsers = new ArrayList<>();
+        localUsers = new ArrayList<>();
+        onlineUsers = new ArrayList<>();
         adapter = new FilteredUsersAdapter(getContext(), allFilteredUsers);
         binding.rvSearchResults.setAdapter(adapter);
         binding.rvSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -79,26 +90,47 @@ public class SearchResultFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, lookForTutorFragment).commit();
             }
         });
-        searchByLocationAnd();
+        binding.btnLocal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.btnOnline.setBackgroundColor(getActivity().getColor(R.color.blue));
+                binding.btnLocal.setBackgroundColor(Color.WHITE);
+                allFilteredUsers.clear();
+                allFilteredUsers.addAll(localUsers);
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+        binding.btnOnline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.btnLocal.setBackgroundColor(getActivity().getColor(R.color.blue));
+                binding.btnOnline.setBackgroundColor(Color.WHITE);
+                allFilteredUsers.clear();
+                allFilteredUsers.addAll(onlineUsers);
+                adapter.notifyDataSetChanged();
+
+
+            }
+        });
+        search();
 
     }
 
 
-    private void searchByLocationAnd() {
+    private void search() {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo(User.KEY_ISTUTOR, true);
-        Log.i(TAG, "searchByLocationAnd: "+zipcode);
-
-        if (price != null && price.length() > 0) {
-            Log.i(TAG, "price included");
-
-            query.whereLessThan(User.KEY_PRICE, Integer.parseInt(price));
+        if (minPrice != null && minPrice.length() > 0) {
+            query.whereGreaterThanOrEqualTo(User.KEY_PRICE, Integer.parseInt(minPrice));
         }
+        if (maxPrice != null && maxPrice.length() > 0) {
+            query.whereLessThanOrEqualTo(User.KEY_PRICE, Integer.parseInt(maxPrice));
+        }
+        query.addAscendingOrder(User.KEY_PRICE);
         query.whereContains(User.KEY_COURSESTUTORED, selectedCourseId);
         query.whereNotEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
         if (zipcode != null && zipcode.length() == 5) {
-            Log.i(TAG, "zipcode included");
-            query.whereEqualTo("isInPersonTutor", true);
             getGeoLocationFromZipcode(zipcode, query);
         } else {
             getFilteredUsers(query, getCurrentUserLocation());
@@ -150,37 +182,43 @@ public class SearchResultFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override  public void done(List<ParseUser> nearUsers, ParseException e) {
                 if (e == null) {
-                    // do something with the list of results of your query
                     List<User> newFilteredUsers = new ArrayList<>();
                     for (ParseUser u:nearUsers) {
-                        Log.i(TAG, "user objectid: " + u.getUsername());
                         User user = (User) u;
-                        double distance = currentUserLocation.distanceInKilometersTo(u.getParseGeoPoint("Location"));
-                        user.setDistanceFromCurrentUser(distance);
-                        newFilteredUsers.add(user);
-                        Log.i(TAG, "distance: "+user.getDistanceFromCurrentUser());
+                        if (user.isInPersonTutor()) {
+
+                            double distance = currentUserLocation.distanceInKilometersTo(u.getParseGeoPoint("Location"));
+                            user.setDistanceFromCurrentUser(distance);
+
+                            if (rangeInMiles.length() > 0) {
+                                if (distance < Integer.parseInt(rangeInMiles)) {
+                                    localUsers.add(user);
+                                }
+                            } else {
+                                localUsers.add(user);
+                            }
+                        }
+
+                        if (user.isOnlineTutor()) {
+                            User newUser = user;
+                            newUser.setIsShowingLocal(false);
+                            onlineUsers.add(newUser);
+                        }
                     }
                     allFilteredUsers.clear();
-                    allFilteredUsers.addAll(newFilteredUsers);
+                    allFilteredUsers.addAll(localUsers);
                     adapter.notifyDataSetChanged();
-                } else {
-                    // handle the error
-                    Log.e(TAG, "error getting user", e);
-                }
+                } else {}
             }
         });
         ParseQuery.clearAllCachedResults();
 
     }
     private ParseGeoPoint getCurrentUserLocation(){
-
-        // finding currentUser
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         if (currentUser == null) {
-            // if it's not possible to find the user, do something like returning to login activity
         }
-        // otherwise, return the current user location
         return currentUser.getParseGeoPoint("Location");
 
     }

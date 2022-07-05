@@ -9,17 +9,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/zipcode_text_input_layout_find_tutor"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
 
         android:layout_marginStart="40dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/login_edit_text_border"
         app:boxBackgroundColor="#F6F3F3"
         app:boxStrokeColor="#FBFBFB"
         app:endIconTint="#F6F4F4"
         app:hintTextColor="@color/light_blue"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -39,7 +38,7 @@
     <com.androidbuts.multispinnerfilter.SingleSpinnerSearch
         android:id="@+id/singleItemSelectionSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="40dp"
@@ -52,34 +51,84 @@
         app:layout_constraintTop_toBottomOf="@+id/zipcode_text_input_layout_find_tutor" />
 
 
-
-    <EditText
-        android:id="@+id/etPriceFind"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/login_edit_text_border"
-        android:ems="10"
-        android:hint="Price (optional)"
-        android:inputType="number"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singleItemSelectionSpinner" />
-
     <Button
         android:id="@+id/btnFindTutor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="52dp"
         android:backgroundTint="#2196F3"
         android:text="Find"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPriceFind" />
+        app:layout_constraintTop_toBottomOf="@+id/etMinPrice" />
+
+    <EditText
+        android:id="@+id/etRangeInMiles"
+        android:layout_width="136dp"
+        android:layout_height="45dp"
+        android:background="@drawable/login_edit_text_border"
+        android:ems="10"
+        android:hint="range in miles"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/zipcode_text_input_layout_find_tutor" />
+
+    <EditText
+        android:id="@+id/etMinPrice"
+        android:layout_width="85dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/login_edit_text_border"
+        android:ems="10"
+        android:hint="min"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+    <EditText
+        android:id="@+id/etMaxPrice"
+        android:layout_width="85dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/login_edit_text_border"
+        android:ems="10"
+        android:hint="max"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="-"
+        app:layout_constraintStart_toEndOf="@+id/etMinPrice"
+        app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="-"
+        app:layout_constraintStart_toEndOf="@+id/zipcode_text_input_layout_find_tutor"
+        app:layout_constraintTop_toTopOf="@+id/zipcode_text_input_layout_find_tutor" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:text="Price"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/singleItemSelectionSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/singleItemSelectionSpinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
