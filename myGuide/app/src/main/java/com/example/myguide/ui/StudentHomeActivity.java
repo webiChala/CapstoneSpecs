@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.myguide.R;
+import com.example.myguide.StudentFragments.LookForTutorFragment;
+import com.example.myguide.TutorFragments.ChatFragmentTutor;
 import com.example.myguide.databinding.ActivityStudentHomeBinding;
 import com.example.myguide.StudentFragments.ChatFragment;
 import com.example.myguide.StudentFragments.TutorFragment;
@@ -36,10 +38,10 @@ public class StudentHomeActivity extends AppCompatActivity {
                         fragmentToShow = new HomeFragment();
                         break;
                     case R.id.action_chat:
-                        fragmentToShow = new ChatFragment();
+                        fragmentToShow = new ChatFragmentTutor();
                         break;
                     case R.id.action_search:
-                        fragmentToShow = new TutorFragment();
+                        fragmentToShow = new LookForTutorFragment();
                         break;
                     case R.id.action_schedule:
                         fragmentToShow = new ScheduleFragment();

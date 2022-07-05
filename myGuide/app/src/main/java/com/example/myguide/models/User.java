@@ -23,6 +23,7 @@ public class User extends ParseUser {
     public static final String KEY_ISONLINETUTOR = "isOnlineTutor";
     public static final String KEY_ISINPERSONTUTOR = "isInPersonTutor";
     public double distanceFromCurrentUser = 0;
+    public boolean isShowingLocal = true;
 
     public User(){
 
@@ -94,6 +95,13 @@ public class User extends ParseUser {
     public double getDistanceFromCurrentUser()
     {
         return Math.round(distanceFromCurrentUser);
+    }
+
+    public boolean isShowingLocal() {
+        return isShowingLocal;
+    }
+    public void setIsShowingLocal(boolean isLocal) {
+        isShowingLocal = isLocal;
     }
 
 

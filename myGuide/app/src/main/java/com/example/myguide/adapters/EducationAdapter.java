@@ -24,10 +24,12 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
 
     private Context context;
     private List<Education> educations;
+    private boolean isCurrentUser;
 
-    public EducationAdapter(Context context, List<Education> educations) {
+    public EducationAdapter(Context context, List<Education> educations, boolean isCurrentUser) {
         this.context = context;
         this.educations = educations;
+        this.isCurrentUser = isCurrentUser;
     }
 
     @NonNull
@@ -57,6 +59,11 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
             super(binding.getRoot());
             itemEducationBinding = binding;
             itemEducationBinding.getRoot().setOnClickListener(this);
+
+            if (isCurrentUser == false) {
+                itemEducationBinding.ibEditEducation.setVisibility(View.GONE);
+                itemEducationBinding.btnDeleteEducation.setVisibility(View.GONE);
+            }
             builder = new AlertDialog.Builder(context);
 
             builder.setTitle("Confirm");
@@ -72,7 +79,6 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
                         public void done(ParseException e) {
                             if (e == null) {
                                 Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });
@@ -86,8 +92,6 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
-                    // Do nothing
                     dialog.dismiss();
                 }
             });

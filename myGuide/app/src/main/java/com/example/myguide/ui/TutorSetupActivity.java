@@ -76,10 +76,6 @@ public class TutorSetupActivity extends AppCompatActivity {
 
         selectedCoursesId = new ArrayList<>();
 
-        //Testing
-        //getGeoLocationFromZipcode();
-
-
         tutorSetupBinding.ibAddEducation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +91,7 @@ public class TutorSetupActivity extends AppCompatActivity {
 
 
         allEducations = new ArrayList<>();
-        adapter = new EducationAdapter(this, allEducations);
+        adapter = new EducationAdapter(this, allEducations, true);
         tutorSetupBinding.rvEducation.setAdapter(adapter);
         tutorSetupBinding.rvEducation.setLayoutManager(new LinearLayoutManager(this));
 
@@ -116,11 +112,11 @@ public class TutorSetupActivity extends AppCompatActivity {
                 isOnlineTutor = tutorSetupBinding.isOnlineTutor.isChecked();
                 isInPersonTutor = tutorSetupBinding.isInpersonTutor.isChecked();
 
-                if (about.length() == 0 || price.length() == 0 || zipcode.length() == 0 || selectedCoursesId.size() == 0) {
+                if (about.length() == 0 || price.length() == 0 || selectedCoursesId.size() == 0) {
                     Toast.makeText(TutorSetupActivity.this, "Please fill all the fields!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (zipcode.length() != 5) {
+                if (isInPersonTutor==true && zipcode.length() != 5) {
                     Toast.makeText(TutorSetupActivity.this, "Zipcode not found!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -136,7 +132,12 @@ public class TutorSetupActivity extends AppCompatActivity {
                 currentUser.setKeyZipcode(zipcode);
                 currentUser.setKeyIsinpersontutor(isInPersonTutor);
                 currentUser.setKeyIsonlinetutor(isOnlineTutor);
-                getGeoLocationFromZipcode();
+                if (zipcode.length() == 5) {
+                    getGeoLocationFromZipcode();
+                } else {
+                    registerUser();
+                }
+
 
 
             }
@@ -153,11 +154,9 @@ public class TutorSetupActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    // If the user comes back to this activity from EditActivity
-                    // with no error or cancellation
+
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        // Get the data passed from EditActivity
                         if (data.hasExtra("newEducation")) {
                             Education education = data.getExtras().getParcelable("newEducation");
                             allEducations.add(0, education);
@@ -170,12 +169,9 @@ public class TutorSetupActivity extends AppCompatActivity {
             });
 
     private  void onLaunchCamera(View view) {
-        // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
         photoFile = getPhotoFileUri(photoFileName);
 
-        // wrap File object into a content provider
         Uri fileProvider = FileProvider.getUriForFile(this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -189,10 +185,8 @@ public class TutorSetupActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP
-                // Load the taken image into a preview
+
                 if (photoFile != null) {
                     Glide.with(this).load(takenImage).circleCrop().into(tutorSetupBinding.ibTutorProfileRegister);
                     currentUser.setImage(new ParseFile(photoFile));
@@ -218,18 +212,13 @@ public class TutorSetupActivity extends AppCompatActivity {
         }
     }
 
-    // Returns the File for a photo stored on disk given the fileName
     private File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
+
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
-        // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
         }
 
-        // Return the file target for the photo based on filename
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
 
 
@@ -266,11 +255,6 @@ public class TutorSetupActivity extends AppCompatActivity {
                     return;
                 }
                 setUpCourseDropdown(courses);
-
-
-
-
-
             }
         });
     }
@@ -316,8 +300,6 @@ public class TutorSetupActivity extends AppCompatActivity {
     }
 
     private void getGeoLocationFromZipcode() {
-
-        Log.i(TAG, "It works");
         (new Thread(new Runnable() {
             @Override
             public void run() {
@@ -337,9 +319,7 @@ public class TutorSetupActivity extends AppCompatActivity {
                             stringBuilder.append(line);
                         }
                         JSONObject data = new JSONObject(stringBuilder.toString()); // Here you have the data that you need
-                        Log.i(TAG, data.toString(2));
                         Double Latitude = data.getJSONArray("results").getJSONObject(0).getDouble("Latitude");
-                        Log.i(TAG, String.valueOf(Latitude));
                         Double Longitude = data.getJSONArray("results").getJSONObject(0).getDouble("Longitude");
                         ParseGeoPoint currentUserLocation = new ParseGeoPoint(Latitude, Longitude);
 
@@ -353,7 +333,6 @@ public class TutorSetupActivity extends AppCompatActivity {
 
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, e.toString());
                 }
             }
         })).start();
