@@ -43,6 +43,7 @@ public class MessageServices {
                 if (e==null) {
                     delegate.getProcessFinish(messages);
                 } else {
+                    Log.i(TAG, "done: " + e.toString());
                     delegate.getProcessFinish(null);
                 }
             }

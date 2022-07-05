@@ -28,6 +28,7 @@ public class UserTutorConnectionServices {
         if (userTutorConnectionParseQuery != null) {
             query = userTutorConnectionParseQuery;
         }
+        Log.i(TAG, "getUserTutorConnections: got into the function");
         query.include(UserTutorConnection.KEY_MESSAGE);
         query.include(UserTutorConnection.KEY_TUTOR);
         query.include(UserTutorConnection.KEY_STUDENT);
@@ -36,12 +37,14 @@ public class UserTutorConnectionServices {
             @Override
             public void done(List<UserTutorConnection> connections, ParseException e) {
                 if (e != null) {
+                    Log.i(TAG, "done: done but error: " + e.toString());
                     return;
                 }
                 delegate.getProcessFinish(connections);
             }
         });
     }
+
 
     public void sendUserTutorConnection(UserTutorConnection userTutorConnection) {
 

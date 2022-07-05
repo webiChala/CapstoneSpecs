@@ -25,6 +25,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
         chooseRoleBinding = ActivityChooseroleBinding.inflate(getLayoutInflater());
         View view = chooseRoleBinding.getRoot();
         setContentView(view);
+        //ParseUser.logOut();
         if (ParseUser.getCurrentUser() != null) {
 
             User currentUser = (User) ParseUser.getCurrentUser();
