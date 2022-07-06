@@ -147,6 +147,8 @@ public class LookForTutorFragment extends Fragment {
                 Toast.makeText(getContext(), "Cleared Selected Item", Toast.LENGTH_SHORT).show();
             }
         });
+        binding.progressbarSearchTutor.setVisibility(View.GONE);
+        binding.cardViewSearchTutor.setVisibility(View.VISIBLE);
 
     }
 

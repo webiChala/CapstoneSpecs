@@ -7,128 +7,207 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/zipcode_text_input_layout_find_tutor"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
+    <androidx.appcompat.widget.Toolbar
 
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/login_edit_text_border"
-        app:boxBackgroundColor="#F6F3F3"
-        app:boxStrokeColor="#FBFBFB"
-        app:endIconTint="#F6F4F4"
-        app:hintTextColor="@color/light_blue"
+        android:id="@+id/search_tutor_toolbar"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingLeft="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@android:color/black">
 
-        <EditText
-            android:id="@+id/etZipcode"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/login_edit_text_border"
-            android:ems="10"
-            android:hint="Zip code (optional)"
-            android:inputType="number"
-            android:minWidth="200sp" />
+            android:fitsSystemWindows="true">
+
+            <TextView
+                android:id="@+id/tv_search_tutor_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-5dp"
+                android:text="Search"
+                android:textColor="#40C4FF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </androidx.appcompat.widget.Toolbar>
 
-    <com.androidbuts.multispinnerfilter.SingleSpinnerSearch
-        android:id="@+id/singleItemSelectionSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/login_edit_text_border"
-        android:minHeight="60dp"
-        app:hintText="Single a course (required)"
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/cardViewSearchTutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="20dp"
+        android:minHeight="350dp"
+        android:padding="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/zipcode_text_input_layout_find_tutor" />
+        app:layout_constraintTop_toBottomOf="@id/search_tutor_toolbar"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="326dp"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:padding="20dp">
+
+            <EditText
+                android:id="@+id/etZipcode"
+                android:layout_width="123dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/login_edit_text_border"
+                android:ems="10"
+                android:hint="zipcode"
+                android:inputType="number"
+                android:maxWidth="0dp"
+                android:minHeight="50dp"
+                android:padding="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/textView6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/btnFindTutor"
+            <com.androidbuts.multispinnerfilter.SingleSpinnerSearch
+                android:id="@+id/singleItemSelectionSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/login_edit_text_border"
+                android:minHeight="60dp"
+                app:hintText="Select a course (required)"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.158"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etZipcode" />
+
+
+            <Button
+                android:id="@+id/btnFindTutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="#2196F3"
+                android:text="Find"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etMinPrice" />
+
+            <EditText
+                android:id="@+id/etRangeInMiles"
+                android:layout_width="122dp"
+                android:layout_height="39dp"
+                android:background="@drawable/login_edit_text_border"
+                android:ems="10"
+                android:hint="range (miles)"
+                android:inputType="numberDecimal"
+                android:maxWidth="90dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView6"
+                app:layout_constraintTop_toTopOf="@+id/etZipcode" />
+
+            <EditText
+                android:id="@+id/etMinPrice"
+                android:layout_width="85dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/login_edit_text_border"
+                android:ems="10"
+                android:hint="min"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@+id/singleItemSelectionSpinner" />
+
+            <EditText
+                android:id="@+id/etMaxPrice"
+                android:layout_width="85dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/login_edit_text_border"
+                android:ems="10"
+                android:hint="max"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="-"
+                app:layout_constraintBottom_toBottomOf="@+id/etMaxPrice"
+                app:layout_constraintStart_toEndOf="@+id/etMinPrice"
+                app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                app:layout_constraintBottom_toBottomOf="@+id/etRangeInMiles"
+                app:layout_constraintEnd_toStartOf="@+id/etRangeInMiles"
+                app:layout_constraintStart_toEndOf="@+id/etZipcode"
+                app:layout_constraintTop_toTopOf="@+id/etZipcode" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Price"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/etMinPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressbar_search_tutor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:backgroundTint="#2196F3"
-        android:text="Find"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etMinPrice" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:minHeight="100dp"
+        android:paddingTop="20dp"/>
 
-    <EditText
-        android:id="@+id/etRangeInMiles"
-        android:layout_width="136dp"
-        android:layout_height="45dp"
-        android:background="@drawable/login_edit_text_border"
-        android:ems="10"
-        android:hint="range in miles"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/zipcode_text_input_layout_find_tutor" />
 
-    <EditText
-        android:id="@+id/etMinPrice"
-        android:layout_width="85dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/login_edit_text_border"
-        android:ems="10"
-        android:hint="min"
-        android:inputType="number"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/textView8" />
-
-    <EditText
-        android:id="@+id/etMaxPrice"
-        android:layout_width="85dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="12dp"
-        android:background="@drawable/login_edit_text_border"
-        android:ems="10"
-        android:hint="max"
-        android:inputType="number"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="-"
-        app:layout_constraintStart_toEndOf="@+id/etMinPrice"
-        app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="-"
-        app:layout_constraintStart_toEndOf="@+id/zipcode_text_input_layout_find_tutor"
-        app:layout_constraintTop_toTopOf="@+id/zipcode_text_input_layout_find_tutor" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="40dp"
-        android:text="Price"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/singleItemSelectionSpinner"
-        app:layout_constraintTop_toBottomOf="@+id/singleItemSelectionSpinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

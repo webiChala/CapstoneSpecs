@@ -97,6 +97,13 @@ public class SearchResultFragment extends Fragment {
                 binding.btnLocal.setBackgroundColor(Color.WHITE);
                 allFilteredUsers.clear();
                 allFilteredUsers.addAll(localUsers);
+                if (allFilteredUsers.size() == 0) {
+                    binding.rvSearchResults.setVisibility(View.GONE);
+                    binding.emptyViewSearchResult.setVisibility(View.VISIBLE);
+                } else {
+                    binding.rvSearchResults.setVisibility(View.VISIBLE);
+                    binding.emptyViewSearchResult.setVisibility(View.GONE);
+                }
                 adapter.notifyDataSetChanged();
 
             }
@@ -108,6 +115,13 @@ public class SearchResultFragment extends Fragment {
                 binding.btnOnline.setBackgroundColor(Color.WHITE);
                 allFilteredUsers.clear();
                 allFilteredUsers.addAll(onlineUsers);
+                if (allFilteredUsers.size() == 0) {
+                    binding.rvSearchResults.setVisibility(View.GONE);
+                    binding.emptyViewSearchResult.setVisibility(View.VISIBLE);
+                } else {
+                    binding.rvSearchResults.setVisibility(View.VISIBLE);
+                    binding.emptyViewSearchResult.setVisibility(View.GONE);
+                }
                 adapter.notifyDataSetChanged();
 
 
@@ -207,6 +221,11 @@ public class SearchResultFragment extends Fragment {
                     }
                     allFilteredUsers.clear();
                     allFilteredUsers.addAll(localUsers);
+                    if (allFilteredUsers.size() == 0) {
+                        binding.rvSearchResults.setVisibility(View.GONE);
+                        binding.emptyViewSearchResult.setVisibility(View.VISIBLE);
+                    }
+                    binding.progressbarSearchResult.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 } else {}
             }
