@@ -45,7 +45,6 @@ public class ProfileFragmentTutor extends Fragment {
 
 
     public ProfileFragmentTutor() {
-        // Required empty public constructor
     }
 
 

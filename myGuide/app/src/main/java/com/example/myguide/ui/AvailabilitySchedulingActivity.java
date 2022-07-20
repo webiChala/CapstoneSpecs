@@ -49,9 +49,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-/**
- * This sample activity demonstrates how to populate the day view with events.
- */
 public class AvailabilitySchedulingActivity extends AppCompatActivity {
 
     private Calendar day;

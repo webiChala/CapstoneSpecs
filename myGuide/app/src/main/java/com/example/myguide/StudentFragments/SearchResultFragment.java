@@ -33,6 +33,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -45,10 +47,21 @@ public class SearchResultFragment extends Fragment {
     String maxPrice;
     String rangeInMiles;
     String availability;
+    boolean specificTimeSearch;
+
     private FilteredUsersAdapter adapter;
     private List<User> allFilteredUsers;
     private List<User> localUsers;
     private List<User> onlineUsers;
+
+    Calendar c = Calendar.getInstance();
+    int hour1  = c.get(Calendar.HOUR_OF_DAY);;
+    int hour2 = c.get(Calendar.HOUR_OF_DAY);
+
+    int minute1 = c.get(Calendar.MINUTE);
+    int minute2 = c.get(Calendar.MINUTE);
+    Date startTime = null;
+    Date endTime = null;
 
 
     public SearchResultFragment() {
@@ -64,6 +77,14 @@ public class SearchResultFragment extends Fragment {
         maxPrice = getArguments().getString("maxPrice");
         rangeInMiles = getArguments().getString("rangeInMiles");
         availability = getArguments().getString("Availability");
+        specificTimeSearch = getArguments().getBoolean("specificTimeSearch");
+
+        if (specificTimeSearch) {
+            hour1 = getArguments().getInt("hour1");
+            hour2 = getArguments().getInt("hour2");
+            minute1 = getArguments().getInt("minute1");
+            minute2 = getArguments().getInt("minute2");
+        }
 
         binding = FragmentSearchResultBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
@@ -140,9 +161,28 @@ public class SearchResultFragment extends Fragment {
                             refreshList();
                             return;
                         }
-                        for (Availability a: objects) {
-                            availableUsersId.add(a.getUser().getObjectId());
+
+                        if (specificTimeSearch) {
+                            startTime = getTime(hour1, minute1);
+                            endTime = getTime(hour2, minute2);
+                            for (Availability a: objects) {
+                                Calendar availStart = Calendar.getInstance();
+                                Calendar availEnd = Calendar.getInstance();
+                                availStart.set(Calendar.HOUR_OF_DAY, a.getHour().intValue());
+                                availStart.set(Calendar.MINUTE, a.getMinute().intValue());
+                                availEnd.set(Calendar.HOUR_OF_DAY, a.getHour().intValue());
+                                availEnd.set(Calendar.MINUTE, a.getMinute().intValue());
+                                availEnd.add(Calendar.MINUTE, a.getDuration().intValue());
+                                if ((availStart.getTime().before(startTime) || availStart.getTime().equals(startTime)) && (availEnd.getTime().after(endTime) || availEnd.getTime().equals(endTime))) {
+                                    availableUsersId.add(a.getUser().getObjectId());
+                                }
+                            }
+                        } else {
+                            for (Availability a: objects) {
+                                availableUsersId.add(a.getUser().getObjectId());
+                            }
                         }
+
                         search2(availableUsersId);
                     }
                 }
@@ -150,6 +190,15 @@ public class SearchResultFragment extends Fragment {
         } else {
             search2(null);
         }
+    }
+
+    private Date getTime(Integer hour, Integer minute) {
+        Calendar time = Calendar.getInstance();
+        time.setTime(new Date());
+        time.set(Calendar.HOUR_OF_DAY, hour);
+        time.set(Calendar.MINUTE, minute);
+        time.set(Calendar.SECOND, 0);
+        return time.getTime();
     }
 
     private void search2(List<String> availableUsersId) {

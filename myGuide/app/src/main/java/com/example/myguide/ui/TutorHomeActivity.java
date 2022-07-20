@@ -12,6 +12,7 @@ import com.example.myguide.CommonFragments.ChatFragment;
 import com.example.myguide.TutorFragments.HomeFragmentTutor;
 import com.example.myguide.TutorFragments.ProfileFragmentTutor;
 import com.example.myguide.CommonFragments.ScheduleFragment;
+import com.example.myguide.databinding.ActivityTutorHomeBinding;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class TutorHomeActivity extends AppCompatActivity {

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.myguide.R;
 import com.example.myguide.Utils.UserTutorConnectionUtils;
+import com.example.myguide.databinding.FragmentBottomSheetBinding;
 import com.example.myguide.interfaces.UserTutorConnectionInterface;
 import com.example.myguide.models.Event;
 import com.example.myguide.models.User;
@@ -73,7 +74,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public static Button btnSaveEvent;
     public BottomSheetFragment b;
 
-    com.example.myguide.databinding.FragmentBottomSheetBinding binding;
+    FragmentBottomSheetBinding binding;
     public static final String TAG = "BottomSheetFragment";
 
     public BottomSheetFragment() {

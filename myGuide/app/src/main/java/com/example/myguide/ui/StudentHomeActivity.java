@@ -13,6 +13,7 @@ import com.example.myguide.R;
 import com.example.myguide.StudentFragments.LookForTutorFragment;
 import com.example.myguide.CommonFragments.ScheduleFragment;
 import com.example.myguide.StudentFragments.HomeFragment;
+import com.example.myguide.databinding.ActivityStudentHomeBinding;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class StudentHomeActivity extends AppCompatActivity {
