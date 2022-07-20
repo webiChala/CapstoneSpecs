@@ -1,5 +1,7 @@
 package com.example.myguide.models;
 
+import androidx.annotation.NonNull;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -16,6 +18,11 @@ public class Course extends ParseObject {
     public String getTitle() {
         return getString(KEY_TITLE);
     }
+    public void setTitle(String title) {put(KEY_TITLE, title);}
 
+    @Override
+    public String toString() {
+        return getTitle();
+    }
 }
 

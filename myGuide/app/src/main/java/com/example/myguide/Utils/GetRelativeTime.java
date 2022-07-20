@@ -1,4 +1,4 @@
-package com.example.myguide.services;
+package com.example.myguide.Utils;
 
 import android.text.format.DateUtils;
 

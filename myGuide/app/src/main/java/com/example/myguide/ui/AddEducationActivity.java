@@ -114,6 +114,13 @@ public class AddEducationActivity extends AppCompatActivity {
             }
         });
 
+        addEducationBinding.tvBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         getAllFieldOfStudies();
         getAllDegrees();
 

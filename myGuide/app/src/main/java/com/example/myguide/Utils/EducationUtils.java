@@ -1,4 +1,4 @@
-package com.example.myguide.services;
+package com.example.myguide.Utils;
 
 import com.example.myguide.interfaces.EducationInterface;
 import com.example.myguide.models.Education;
@@ -6,15 +6,14 @@ import com.example.myguide.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.List;
 
-public class EducationServices {
+public class EducationUtils {
 
     public EducationInterface delegate = null;
 
-    public EducationServices(EducationInterface asyncResponse) {
+    public EducationUtils(EducationInterface asyncResponse) {
         delegate = asyncResponse;
     }
 

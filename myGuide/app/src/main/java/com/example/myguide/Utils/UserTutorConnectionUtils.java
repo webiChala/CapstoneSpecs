@@ -1,25 +1,20 @@
-package com.example.myguide.services;
-
-import android.util.Log;
+package com.example.myguide.Utils;
 
 import com.example.myguide.interfaces.UserTutorConnectionInterface;
 import com.example.myguide.models.UserTutorConnection;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.File;
 import java.util.List;
 
-public class UserTutorConnectionServices {
+public class UserTutorConnectionUtils {
 
     public UserTutorConnectionInterface delegate = null;
-    public static final String TAG = "UserTutorConnectionServices";
+    public static final String TAG = "UserTutorConnectionUtils";
 
-    public UserTutorConnectionServices(UserTutorConnectionInterface asyncResponse) {
+    public UserTutorConnectionUtils(UserTutorConnectionInterface asyncResponse) {
         delegate = asyncResponse;
     }
 
@@ -28,7 +23,6 @@ public class UserTutorConnectionServices {
         if (userTutorConnectionParseQuery != null) {
             query = userTutorConnectionParseQuery;
         }
-        Log.i(TAG, "getUserTutorConnections: got into the function");
         query.include(UserTutorConnection.KEY_MESSAGE);
         query.include(UserTutorConnection.KEY_TUTOR);
         query.include(UserTutorConnection.KEY_STUDENT);
@@ -37,7 +31,6 @@ public class UserTutorConnectionServices {
             @Override
             public void done(List<UserTutorConnection> connections, ParseException e) {
                 if (e != null) {
-                    Log.i(TAG, "done: done but error: " + e.toString());
                     return;
                 }
                 delegate.getProcessFinish(connections);

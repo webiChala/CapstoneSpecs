@@ -9,7 +9,7 @@
     tools:context=".ui.StudentHomeActivity">
 
     <FrameLayout
-        android:id="@+id/flContainer"
+        android:id="@+id/flContainerScheduleFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_tutor"
@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="-5dp"
-        app:itemIconTint="@color/black"
+        app:itemIconTint="#40C4FF"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

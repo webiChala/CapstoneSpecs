@@ -4,22 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.myguide.R;
+import com.example.myguide.Utils.MessageUtils;
 import com.example.myguide.adapters.ChatAdapter;
 import com.example.myguide.databinding.ActivityChatBinding;
-import com.example.myguide.databinding.ActivityStudentSetupBinding;
-import com.example.myguide.interfaces.EducationInterface;
 import com.example.myguide.interfaces.MessageInterface;
-import com.example.myguide.models.Education;
 import com.example.myguide.models.Message;
 import com.example.myguide.models.User;
-import com.example.myguide.services.EducationServices;
-import com.example.myguide.services.MessageServices;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -40,6 +34,7 @@ public class ChatActivity extends AppCompatActivity {
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     boolean mFirstLoad;
     User otherUser;
+    User currentUser = (User) ParseUser.getCurrentUser();
 
 
     @Override
@@ -74,22 +69,28 @@ public class ChatActivity extends AppCompatActivity {
         ParseQuery<ParseObject> parseQuery = new ParseQuery<>("Message");
         SubscriptionHandling<ParseObject> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
-            Message newMessage = new Message();
             Message output = (Message) object;
-            newMessage.setMessage(output.getMessage());
-            newMessage.setReceiver(output.getReceiver());
-            mMessages.add(0, (Message) object);
+            try{
+                User messageSender = (User) output.getSender().fetchIfNeeded();
+                User messageReceiver = (User) output.getReceiver().fetchIfNeeded();
+                if ((messageSender.getObjectId().equals(otherUser.getObjectId()) && messageReceiver.getObjectId().equals(currentUser.getObjectId()))) {
+                    binding.emptyViewChat.setVisibility(View.GONE);
+                    mMessages.add(0, output);
 
-            // RecyclerView updates need to be run on the UI thread
-            ChatActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.notifyItemInserted(0);
-                    binding.rvChat.smoothScrollToPosition(0);
+                    // RecyclerView updates need to be run on the UI thread
+                    ChatActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyItemInserted(0);
+                            binding.rvChat.smoothScrollToPosition(0);
+                        }
+                    });
                 }
-            });
-        });
 
+            } catch (ParseException e) {
+            }
+
+        });
 
     }
 
@@ -103,14 +104,19 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, "Please enter a message!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                User currentUser = (User) ParseUser.getCurrentUser();
 
                 Message message = new Message();
-                message.setSender((User) ParseUser.getCurrentUser());
+                message.setSender(currentUser);
                 message.setReceiver(otherUser);
                 message.setMessage(data);
+                if (currentUser.isLoggedAsTutor() == true) {
+                    message.setIsForTutor(false);
+                } else {
+                    message.setIsForTutor(true);
+                }
 
-
-                MessageServices newMessageServices = new MessageServices(new MessageInterface() {
+                MessageUtils newMessageUtils = new MessageUtils(new MessageInterface() {
                     @Override
                     public void getProcessFinish(List<Message> output) {
 
@@ -120,11 +126,12 @@ public class ChatActivity extends AppCompatActivity {
                     public void postProcessFinish(ParseException e) {
                         if (e == null) {
                             Toast.makeText(ChatActivity.this, "Message posted successfully!", Toast.LENGTH_SHORT).show();
+                            binding.emptyViewChat.setVisibility(View.GONE);
                             refreshMessages();
                             binding.etMessage.setText(null);
                         } else {}}
                 });
-                newMessageServices.sendMessage(message);
+                newMessageUtils.sendMessage(message);
 
             }
         });
@@ -157,13 +164,12 @@ public class ChatActivity extends AppCompatActivity {
         ParseQuery<Message> query3 = ParseQuery.or(list);
         query3.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
-        MessageServices newMessageServices = new MessageServices(new MessageInterface() {
+        MessageUtils newMessageUtils = new MessageUtils(new MessageInterface() {
             @Override
             public void getProcessFinish(List<Message> output) {
                 mMessages.clear();
                 mMessages.addAll(output);
                 if (mMessages.size() == 0) {
-                    binding.rvChat.setVisibility(View.GONE);
                     binding.emptyViewChat.setVisibility(View.VISIBLE);
                 }
                 binding.progressbarChat.setVisibility(View.GONE);
@@ -172,7 +178,6 @@ public class ChatActivity extends AppCompatActivity {
                     binding.rvChat.scrollToPosition(0);
                     mFirstLoad = false;
                 }
-
             }
 
             @Override
@@ -181,7 +186,7 @@ public class ChatActivity extends AppCompatActivity {
             }
 
         });
-        newMessageServices.getMessage(query3);
+        newMessageUtils.getMessage(query3);
 
     }
 }

@@ -22,12 +22,11 @@ public class User extends ParseUser {
     public static final String KEY_ZIPCODE = "Zipcode";
     public static final String KEY_ISONLINETUTOR = "isOnlineTutor";
     public static final String KEY_ISINPERSONTUTOR = "isInPersonTutor";
+    public static final String KEY_PASSWORD = "password";
     public double distanceFromCurrentUser = 0;
     public boolean isShowingLocal = true;
 
-    public User(){
-
-    }
+    public User(){}
 
 
     public boolean isTutor() {
@@ -102,6 +101,11 @@ public class User extends ParseUser {
     }
     public void setIsShowingLocal(boolean isLocal) {
         isShowingLocal = isLocal;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 

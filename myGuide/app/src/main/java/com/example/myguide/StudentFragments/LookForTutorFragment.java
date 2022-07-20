@@ -1,29 +1,25 @@
 package com.example.myguide.StudentFragments;
 
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.SingleSpinnerListener;
 import com.androidbuts.multispinnerfilter.SingleSpinnerSearch;
+import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.myguide.R;
 import com.example.myguide.databinding.FragmentLookForTutorBinding;
 import com.example.myguide.models.Course;
@@ -32,17 +28,23 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class LookForTutorFragment extends Fragment {
 
     private FragmentLookForTutorBinding binding;
-    ArrayList<String> courseList;
+    //ArrayList<String> courseList;
+    ArrayList<Course> courseList;
     Dialog dialog;
     public static final String TAG = "LookForTutorFragment";
     SingleSpinnerSearch singleSpinnerSearch;
-    String selectedCourseId;
+    Course selectedCourse;
+    List<String> WeekDays;
+    ArrayAdapter weekDaysAdapter;
+    String selectedWeekDay;
+    private SmartMaterialSpinner<Course> courseSpinner;
 
     public LookForTutorFragment() {
     }
@@ -58,14 +60,42 @@ public class LookForTutorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        courseList = new ArrayList<String>();
-        singleSpinnerSearch = binding.singleItemSelectionSpinner;
-        selectedCourseId = null;
+        courseList = new ArrayList<Course>();
+        Course starterCourse = new Course();
+        starterCourse.setTitle("Loading...");
+        courseList.add(starterCourse);
+        selectedCourse = null;
+        courseSpinner = binding.singleItemSelectionSpinner;
+        courseSpinner.setItem(courseList);
+
+        courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                selectedCourse = courseList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        WeekDays = Arrays.asList(getResources().getStringArray(R.array.WeekDays));
+        weekDaysAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_weekdays_search_fragment, WeekDays);
+        binding.AvailabilityDropDown.setAdapter(weekDaysAdapter);
+        selectedWeekDay = WeekDays.get(0);
+
+        binding.AvailabilityDropDown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), WeekDays.get(position), Toast.LENGTH_SHORT).show();
+                selectedWeekDay = WeekDays.get(position);
+            }
+        });
 
         binding.btnFindTutor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedCourseId==null || selectedCourseId.length() == 0) {
+                if (selectedCourse==null) {
                     Toast.makeText(getContext(), "Please select a course!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -84,24 +114,22 @@ public class LookForTutorFragment extends Fragment {
                     return;
                 }
 
-
                 SearchResultFragment searchResultFragment = new SearchResultFragment();
                 Bundle args = new Bundle();
-                args.putString("selectedCourseId", selectedCourseId);
+                args.putString("selectedCourseId", selectedCourse.getObjectId());
                 args.putString("zipcode", zipcode);
                 args.putString("minPrice", minPrice);
                 args.putString("maxPrice", maxPrice);
                 args.putString("rangeInMiles", rangeInMiles);
-
+                if (selectedWeekDay.equals(WeekDays.get(0))) {
+                    selectedWeekDay = null;
+                }
+                args.putString("Availability", selectedWeekDay);
                 searchResultFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, searchResultFragment, "SearchResult").addToBackStack("SearchResult").commit();
-
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainerScheduleFragment, searchResultFragment, "SearchResult").addToBackStack("SearchResult").commit();
             }
         });
-
         getAllCourses();
-
-
     }
 
     public void getAllCourses() {
@@ -114,45 +142,14 @@ public class LookForTutorFragment extends Fragment {
                 if (e != null) {
                     return;
                 }
-                setUpCourseDropdown(courses);
+                if (courses.size()>0) {
+                    courseList.clear();
+                    courseList.addAll(courses);
+                }
+
             }
         });
     }
-
-    private void setUpCourseDropdown (List<Course> courses) {
-
-        singleSpinnerSearch.setColorseparation(true);
-        singleSpinnerSearch.setSearchEnabled(true);
-        singleSpinnerSearch.setSearchHint("Select course");
-
-        List<KeyPairBoolData> data = new ArrayList<>();
-        for (Course c:courses
-        ) {
-            KeyPairBoolData d = new KeyPairBoolData(c.getTitle(), false);
-            d.setObject(c);
-            data.add(d);
-        }
-
-        singleSpinnerSearch.setItems(data, new SingleSpinnerListener() {
-            @Override
-            public void onItemsSelected(KeyPairBoolData selectedItem) {
-                Course selectedCourse = (Course) selectedItem.getObject();
-                selectedCourseId = selectedCourse.getObjectId();
-                Toast.makeText(getContext(), "Selected: " + selectedCourse.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onClear() {
-                selectedCourseId = null;
-                Toast.makeText(getContext(), "Cleared Selected Item", Toast.LENGTH_SHORT).show();
-            }
-        });
-        binding.progressbarSearchTutor.setVisibility(View.GONE);
-        binding.cardViewSearchTutor.setVisibility(View.VISIBLE);
-
-    }
-
-
 }
 
 

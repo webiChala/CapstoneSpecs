@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,43 +16,37 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#40C4FF"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_background"
             android:minHeight="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibNotification"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:titleTextColor="@android:color/white">
 
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@color/white"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search" />
-
-            <ImageButton
-                android:id="@+id/ibNotification"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_margin="10dp"
-                android:background="#40C4FF"
-                android:src="@drawable/notification_icon"
-                tools:layout_editor_absoluteX="391dp"
-                tools:layout_editor_absoluteY="18dp">
-
-            </ImageButton>
-
         </androidx.appcompat.widget.Toolbar>
+
+        <ImageButton
+            android:id="@+id/ibNotification"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:background="@color/white"
+            android:src="@drawable/notification_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbar">
+
+        </ImageButton>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMessageTutor"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

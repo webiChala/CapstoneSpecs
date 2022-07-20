@@ -3,13 +3,10 @@ package com.example.myguide.StudentFragments;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myguide.R;
-import com.example.myguide.adapters.EducationAdapter;
 import com.example.myguide.adapters.FilteredUsersAdapter;
 import com.example.myguide.databinding.FragmentLookForTutorBinding;
 import com.example.myguide.databinding.FragmentSearchResultBinding;
-import com.example.myguide.models.Education;
+import com.example.myguide.models.Availability;
 import com.example.myguide.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -36,7 +32,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +44,7 @@ public class SearchResultFragment extends Fragment {
     String minPrice;
     String maxPrice;
     String rangeInMiles;
+    String availability;
     private FilteredUsersAdapter adapter;
     private List<User> allFilteredUsers;
     private List<User> localUsers;
@@ -67,6 +63,7 @@ public class SearchResultFragment extends Fragment {
         minPrice = getArguments().getString("minPrice");
         maxPrice = getArguments().getString("maxPrice");
         rangeInMiles = getArguments().getString("rangeInMiles");
+        availability = getArguments().getString("Availability");
 
         binding = FragmentSearchResultBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
@@ -87,7 +84,7 @@ public class SearchResultFragment extends Fragment {
                 LookForTutorFragment lookForTutorFragment = new LookForTutorFragment();
                 Bundle args = new Bundle();
                 lookForTutorFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, lookForTutorFragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainerScheduleFragment, lookForTutorFragment).commit();
             }
         });
         binding.btnLocal.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +102,6 @@ public class SearchResultFragment extends Fragment {
                     binding.emptyViewSearchResult.setVisibility(View.GONE);
                 }
                 adapter.notifyDataSetChanged();
-
             }
         });
         binding.btnOnline.setOnClickListener(new View.OnClickListener() {
@@ -123,8 +119,6 @@ public class SearchResultFragment extends Fragment {
                     binding.emptyViewSearchResult.setVisibility(View.GONE);
                 }
                 adapter.notifyDataSetChanged();
-
-
             }
         });
         search();
@@ -133,8 +127,37 @@ public class SearchResultFragment extends Fragment {
 
 
     private void search() {
+        if (availability!=null) {
+            List<String> availableUsersId = new ArrayList<>();
+            ParseQuery<Availability> queryAvailability = ParseQuery.getQuery(Availability.class);
+            queryAvailability.whereEqualTo(Availability.KEY_AVAILABLE, true);
+            queryAvailability.whereEqualTo(Availability.KEY_WEEKDAY, availability);
+            queryAvailability.findInBackground(new FindCallback<Availability>() {
+                @Override
+                public void done(List<Availability> objects, ParseException e) {
+                    if (e==null) {
+                        if (objects.size()==0) {
+                            refreshList();
+                            return;
+                        }
+                        for (Availability a: objects) {
+                            availableUsersId.add(a.getUser().getObjectId());
+                        }
+                        search2(availableUsersId);
+                    }
+                }
+            });
+        } else {
+            search2(null);
+        }
+    }
+
+    private void search2(List<String> availableUsersId) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo(User.KEY_ISTUTOR, true);
+        if (availableUsersId != null) {
+            query.whereContainedIn(User.KEY_OBJECT_ID, availableUsersId);
+        }
         if (minPrice != null && minPrice.length() > 0) {
             query.whereGreaterThanOrEqualTo(User.KEY_PRICE, Integer.parseInt(minPrice));
         }
@@ -172,9 +195,7 @@ public class SearchResultFragment extends Fragment {
                             stringBuilder.append(line);
                         }
                         JSONObject data = new JSONObject(stringBuilder.toString()); // Here you have the data that you need
-                        Log.i(TAG, data.toString(2));
                         Double Latitude = data.getJSONArray("results").getJSONObject(0).getDouble("Latitude");
-                        Log.i(TAG, String.valueOf(Latitude));
                         Double Longitude = data.getJSONArray("results").getJSONObject(0).getDouble("Longitude");
                         ParseGeoPoint currentUserLocation = new ParseGeoPoint(Latitude, Longitude);
                         query.whereNear("Location", currentUserLocation);
@@ -184,7 +205,6 @@ public class SearchResultFragment extends Fragment {
                         urlConnection.disconnect();
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, e.toString());
                 }
             }
         })).start();
@@ -219,19 +239,24 @@ public class SearchResultFragment extends Fragment {
                             onlineUsers.add(newUser);
                         }
                     }
-                    allFilteredUsers.clear();
-                    allFilteredUsers.addAll(localUsers);
-                    if (allFilteredUsers.size() == 0) {
-                        binding.rvSearchResults.setVisibility(View.GONE);
-                        binding.emptyViewSearchResult.setVisibility(View.VISIBLE);
-                    }
-                    binding.progressbarSearchResult.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
+                    refreshList();
+
                 } else {}
             }
         });
         ParseQuery.clearAllCachedResults();
 
+    }
+
+    private void refreshList() {
+        allFilteredUsers.clear();
+        allFilteredUsers.addAll(localUsers);
+        if (allFilteredUsers.size() == 0) {
+            binding.rvSearchResults.setVisibility(View.GONE);
+            binding.emptyViewSearchResult.setVisibility(View.VISIBLE);
+        }
+        binding.progressbarSearchResult.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
     }
     private ParseGeoPoint getCurrentUserLocation(){
         ParseUser currentUser = ParseUser.getCurrentUser();

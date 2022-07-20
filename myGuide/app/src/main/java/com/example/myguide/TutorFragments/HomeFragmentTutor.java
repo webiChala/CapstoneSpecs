@@ -14,14 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.example.myguide.R;
+import com.example.myguide.Utils.UserTutorConnectionUtils;
 import com.example.myguide.adapters.HomeConnectedTutorsAdapter;
-import com.example.myguide.databinding.FragmentHomeBinding;
 import com.example.myguide.databinding.FragmentHomeTutorBinding;
 import com.example.myguide.interfaces.UserTutorConnectionInterface;
 import com.example.myguide.models.User;
 import com.example.myguide.models.UserTutorConnection;
-import com.example.myguide.services.UserTutorConnectionServices;
 import com.example.myguide.ui.GetAllConnected;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -70,7 +68,6 @@ public class HomeFragmentTutor extends Fragment {
 
     private void getConnectedUsers() {
         ParseQuery<UserTutorConnection> query = ParseQuery.getQuery(UserTutorConnection.class);
-        Log.i("HomeFragment", "getConnectedUsers: started fetching...");
         if (currentUser.isLoggedAsTutor() == true) {
             query.whereEqualTo(UserTutorConnection.KEY_TUTOR, currentUser);
         } else {
@@ -79,7 +76,7 @@ public class HomeFragmentTutor extends Fragment {
         query.whereEqualTo(UserTutorConnection.KEY_ACCEPTED, true);
         query.setLimit(4);
 
-        UserTutorConnectionServices newUserTutorConnectionServices = new UserTutorConnectionServices(new UserTutorConnectionInterface() {
+        UserTutorConnectionUtils newUserTutorConnectionUtils = new UserTutorConnectionUtils(new UserTutorConnectionInterface() {
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
                 userTutorConnectionLists.addAll(output);
@@ -98,7 +95,7 @@ public class HomeFragmentTutor extends Fragment {
             }
         });
 
-        newUserTutorConnectionServices.getUserTutorConnections(query);
+        newUserTutorConnectionUtils.getUserTutorConnections(query);
 
     }
 }

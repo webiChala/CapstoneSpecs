@@ -1,14 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TutorFragments.ProfileFragmentTutor">
+    tools:context=".ui.GetAllConnected"
+    android:fitsSystemWindows="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.appcompat.widget.Toolbar
+
+        android:id="@+id/profile_tutor_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingLeft="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@android:color/black">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="8dp">
+
+
+            <TextView
+                android:id="@+id/tv_title_profile_tutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-5dp"
+                android:text="Profile"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/profile_tutor_Logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="8dp"
+                android:background="@color/white"
+                android:text="Logout"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#40C4FF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/iv_profile_picture_tutor"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/profile_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_tutor_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_username_profile_tutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Webi Chala"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile_picture_tutor" />
+
+
+    <ImageView
+        android:id="@+id/iv_small_user_icon_profile_tutor"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username_profile_tutor"
+        app:srcCompat="@drawable/small_user_icon" />
+
+    <TextView
+        android:id="@+id/tv_my_profile_tutor"
+        android:layout_width="146dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/profile_textview_background"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="My Profile"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_small_user_icon_profile_tutor"
+        app:layout_constraintStart_toEndOf="@+id/iv_small_user_icon_profile_tutor"
+        app:layout_constraintTop_toTopOf="@+id/iv_small_user_icon_profile_tutor" />
+
+    <ImageView
+        android:id="@+id/iv_password_key_profile_tutor"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/password_key_icon"
+        app:layout_constraintStart_toStartOf="@+id/iv_small_user_icon_profile_tutor"
+        app:layout_constraintTop_toBottomOf="@+id/iv_small_user_icon_profile_tutor" />
+
+    <TextView
+        android:id="@+id/tv_change_password_profile_tutor"
+        android:layout_width="146dp"
+        android:layout_height="42dp"
+        android:background="@drawable/profile_textview_background"
+        android:fallbackLineSpacing="true"
+        android:padding="10dp"
+        android:text="Change Password"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_password_key_profile_tutor"
+        app:layout_constraintStart_toStartOf="@+id/tv_my_profile_tutor"
+        app:layout_constraintTop_toTopOf="@+id/iv_password_key_profile_tutor" />
+
+    <ImageView
+        android:id="@+id/iv_change_role_profile_tutor"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/change_role_icon"
+        app:layout_constraintStart_toStartOf="@+id/iv_password_key_profile_tutor"
+        app:layout_constraintTop_toBottomOf="@+id/iv_password_key_profile_tutor" />
+
+    <TextView
+        android:id="@+id/tv_change_role_profile_tutor"
+        android:layout_width="146dp"
+        android:layout_height="42dp"
+        android:background="@drawable/profile_textview_background"
+        android:padding="10dp"
+        android:text="Change to student"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_change_role_profile_tutor"
+        app:layout_constraintStart_toStartOf="@+id/tv_change_password_profile_tutor"
+        app:layout_constraintTop_toTopOf="@+id/iv_change_role_profile_tutor" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

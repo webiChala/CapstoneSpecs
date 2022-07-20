@@ -2,9 +2,11 @@ package com.example.myguide;
 
 import android.app.Application;
 
+import com.example.myguide.models.Availability;
 import com.example.myguide.models.Course;
 import com.example.myguide.models.Degree;
 import com.example.myguide.models.Education;
+import com.example.myguide.models.Event;
 import com.example.myguide.models.FieldOfStudy;
 import com.example.myguide.models.Message;
 import com.example.myguide.models.User;
@@ -23,6 +25,10 @@ public class App extends Application {
         ParseObject.registerSubclass(Course.class);
         ParseObject.registerSubclass(UserTutorConnection.class);
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(Availability.class);
+
+
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))

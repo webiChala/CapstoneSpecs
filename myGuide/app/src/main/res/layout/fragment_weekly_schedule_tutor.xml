@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/WeekDaysHorizontalScrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:scrollbars="none">-->
+
+
+
+<!--        <LinearLayout-->
+<!--            android:orientation="horizontal"-->
+<!--            android:id="@+id/shapeLayout"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp" >-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnMonday"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:textSize="11sp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:text="Mon"-->
+<!--                android:textColor="#40C4FF"-->
+<!--                 />-->
+
+<!--            <Button-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:textSize="11sp"-->
+<!--                android:id="@+id/btnTuesday"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:text="Tue"-->
+<!--                android:textColor="#40C4FF" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnWednesday"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:text="Wed"-->
+<!--                android:textColor="#40C4FF"-->
+<!--                android:textSize="11sp" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnThursday"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:textSize="11sp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:text="Thursday"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:textColor="#40C4FF" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnFriday"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:text="Fri"-->
+<!--                android:textColor="#40C4FF"-->
+<!--                android:textSize="11sp" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnSaturday"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:text="Sat"-->
+<!--                android:textColor="#40C4FF"-->
+<!--                android:textSize="11sp" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnSunday"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:text="Sun"-->
+<!--                android:textColor="#40C4FF"-->
+<!--                android:textSize="11sp" />-->
+
+<!--        </LinearLayout>-->
+<!--    </HorizontalScrollView>-->
+
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvNewEventWeekly"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:text="New Event +"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/WeekDaysHorizontalScrollView" />-->
+
+<!--    <View-->
+<!--        android:id="@+id/hl"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="5dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:background="@color/black"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvNewEventWeekly" />-->
+
+
+
+
+    <!--    <com.example.myguide.IconCropView-->
+
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/white"-->
+<!--        app:cornerSize="20dp"-->
+<!--         />-->
+
+<!--    <com.example.myguide.DrawView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:background="@color/teal_200"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvNewEventWeekly"-->
+<!--        />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

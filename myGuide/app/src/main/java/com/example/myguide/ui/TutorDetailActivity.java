@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -15,6 +14,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myguide.R;
+import com.example.myguide.Utils.CourseUtils;
+import com.example.myguide.Utils.UserTutorConnectionUtils;
 import com.example.myguide.adapters.CourseAdapter;
 import com.example.myguide.adapters.EducationAdapter;
 import com.example.myguide.databinding.ActivityTutorDetailBinding;
@@ -26,9 +27,7 @@ import com.example.myguide.models.Course;
 import com.example.myguide.models.Education;
 import com.example.myguide.models.User;
 import com.example.myguide.models.UserTutorConnection;
-import com.example.myguide.services.CourseServices;
-import com.example.myguide.services.EducationServices;
-import com.example.myguide.services.UserTutorConnectionServices;
+import com.example.myguide.Utils.EducationUtils;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -97,7 +96,7 @@ public class TutorDetailActivity extends AppCompatActivity {
         ParseQuery<UserTutorConnection> query = ParseQuery.getQuery(UserTutorConnection.class);
         query.whereEqualTo(UserTutorConnection.KEY_TUTOR, user);
         query.whereEqualTo(UserTutorConnection.KEY_STUDENT, (User) ParseUser.getCurrentUser());
-        UserTutorConnectionServices userTutorConnectionServices = new UserTutorConnectionServices(new UserTutorConnectionInterface() {
+        UserTutorConnectionUtils userTutorConnectionUtils = new UserTutorConnectionUtils(new UserTutorConnectionInterface() {
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
                 if (output.size() > 0) {
@@ -124,7 +123,7 @@ public class TutorDetailActivity extends AppCompatActivity {
             }
         });
 
-        userTutorConnectionServices.getUserTutorConnections(query);
+        userTutorConnectionUtils.getUserTutorConnections(query);
     }
 
     private void requestConnectionRequest(User user) {
@@ -175,7 +174,7 @@ public class TutorDetailActivity extends AppCompatActivity {
         if (message != null && message.length() > 0) {
             userTutorConnection.setMessage(message);
         }
-        UserTutorConnectionServices asyncTask =new UserTutorConnectionServices(new UserTutorConnectionInterface() {
+        UserTutorConnectionUtils asyncTask =new UserTutorConnectionUtils(new UserTutorConnectionInterface() {
 
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
@@ -197,7 +196,7 @@ public class TutorDetailActivity extends AppCompatActivity {
     }
 
     private void getUserEducation(User user) {
-        EducationServices asyncTask =new EducationServices(new EducationInterface() {
+        EducationUtils asyncTask =new EducationUtils(new EducationInterface() {
 
             @Override
             public void processFinish(List<Education> output) {
@@ -213,7 +212,7 @@ public class TutorDetailActivity extends AppCompatActivity {
         query.include(Course.KEY_TITLE);
         query.orderByAscending(Course.KEY_TITLE);
         query.whereContainedIn(Course.KEY_OBJECT_ID, user.getCourses());
-        CourseServices courseService = new CourseServices(new CourseInterface() {
+        CourseUtils courseService = new CourseUtils(new CourseInterface() {
             @Override
             public void processFinish(List<Course> output) {
                 coursesSupported.addAll(output);

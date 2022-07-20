@@ -2,8 +2,6 @@ package com.example.myguide.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myguide.Utils.MessageUtils;
 import com.example.myguide.databinding.ItemConnectionRequestBinding;
-import com.example.myguide.databinding.ItemEducationBinding;
 import com.example.myguide.interfaces.MessageInterface;
-import com.example.myguide.interfaces.UserTutorConnectionInterface;
-import com.example.myguide.models.Education;
 import com.example.myguide.models.Message;
 import com.example.myguide.models.User;
 import com.example.myguide.models.UserTutorConnection;
-import com.example.myguide.services.MessageServices;
-import com.example.myguide.services.UserTutorConnectionServices;
 import com.example.myguide.ui.ChatActivity;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -143,8 +136,9 @@ public class UserTutorConnectionRequestAdapter extends RecyclerView.Adapter<User
             newMessage.setMessage(userTutorConnection.getMessage());
             newMessage.setSender(userTutorConnection.getStudent());
             newMessage.setReceiver(userTutorConnection.getTutor());
+            newMessage.setIsForTutor(true);
 
-            MessageServices messageServices = new MessageServices(new MessageInterface() {
+            MessageUtils messageUtils = new MessageUtils(new MessageInterface() {
                 @Override
                 public void getProcessFinish(List<Message> output) {
 
@@ -157,7 +151,7 @@ public class UserTutorConnectionRequestAdapter extends RecyclerView.Adapter<User
                     }
                 }
             });
-            messageServices.sendMessage(newMessage);
+            messageUtils.sendMessage(newMessage);
         }
 
         @Override

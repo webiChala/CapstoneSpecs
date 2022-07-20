@@ -2,7 +2,6 @@ package com.example.myguide.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myguide.databinding.ItemEducationBinding;
 import com.example.myguide.databinding.ItemMessageBinding;
-import com.example.myguide.models.Education;
 import com.example.myguide.models.Message;
 import com.example.myguide.models.User;
-import com.example.myguide.services.GetRelativeTime;
+import com.example.myguide.Utils.GetRelativeTime;
 import com.example.myguide.ui.ChatActivity;
 import com.parse.ParseUser;
 

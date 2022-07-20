@@ -56,14 +56,14 @@
         android:layout_marginEnd="20dp"
         android:minHeight="350dp"
         android:padding="20dp"
+        android:visibility="visible"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:cardMaxElevation="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_tutor_toolbar"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@id/search_tutor_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="326dp"
@@ -88,20 +88,42 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <com.androidbuts.multispinnerfilter.SingleSpinnerSearch
+<!--            <com.androidbuts.multispinnerfilter.SingleSpinnerSearch-->
+<!--                android:id="@+id/singleItemSelectionSpinner"-->
+
+<!--                android:background="@drawable/login_edit_text_border"-->
+<!--                android:minHeight="60dp"-->
+<!--                app:hintText="Select a course (required)"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.158"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/etZipcode" />-->
+
+            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                 android:id="@+id/singleItemSelectionSpinner"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/login_edit_text_border"
-                android:minHeight="60dp"
-                app:hintText="Select a course (required)"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.158"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etZipcode" />
+                app:layout_constraintTop_toBottomOf="@+id/etZipcode"
+                app:smsp_floatingLabelColor="@color/black"
+                app:smsp_floatingLabelText="Course"
+                app:smsp_hint="Select course"
+                app:smsp_hintColor="@color/black"
+                app:smsp_isSearchable="true"
+                app:smsp_itemColor="@color/black"
+                app:smsp_itemListColor="@color/black"
+                app:smsp_itemListHintBackgroundColor="#808080"
+                app:smsp_itemListHintColor="#FFFFFF"
+                app:smsp_multilineError="false"
+                app:smsp_selectedItemListColor="#40C4FF"
+                app:smsp_underlineSize="0dp"/>
 
 
             <Button
@@ -114,12 +136,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etMinPrice" />
+                app:layout_constraintTop_toBottomOf="@+id/AvailabilityTextInputLayout" />
 
             <EditText
                 android:id="@+id/etRangeInMiles"
-                android:layout_width="122dp"
-                android:layout_height="39dp"
+                android:layout_width="132dp"
+                android:layout_height="38dp"
                 android:background="@drawable/login_edit_text_border"
                 android:ems="10"
                 android:hint="range (miles)"
@@ -189,6 +211,33 @@
                 app:layout_constraintBottom_toBottomOf="@+id/etMinPrice"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/AvailabilityTextInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="283dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/login_edit_text_border"
+                android:hint="Availability"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/singleItemSelectionSpinner"
+                app:layout_constraintStart_toStartOf="@+id/singleItemSelectionSpinner"
+                app:layout_constraintTop_toBottomOf="@id/etMinPrice">
+
+                <AutoCompleteTextView
+                    android:id="@+id/AvailabilityDropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="Not Selected"
+                    android:textAlignment="gravity" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

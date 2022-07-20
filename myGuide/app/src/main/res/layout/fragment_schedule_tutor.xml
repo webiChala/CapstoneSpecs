@@ -1,14 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TutorFragments.ScheduleFragmentTutor">
+    tools:context=".ui.TutorHomeActivity"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:context=".CommonFragments.ScheduleFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarScheduleTutor"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:autofillHints="Search here"
+                android:background="@drawable/edittext_background"
+                android:minHeight="?attr/actionBarSize"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/ivCheckAvailability"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:titleTextColor="@android:color/white">
 
-</FrameLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+                android:id="@+id/calendarView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+
+                app:buttonLeft_drawableTintColor="@android:color/white"
+                app:buttonRight_drawableTintColor="@android:color/white"
+                app:expandIconColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbarScheduleTutor"
+                app:primaryColor="@color/white"
+                app:selectedItem_background="@color/white"
+                app:selectedItem_textColor="@color/red"
+                app:textColor="@color/black"
+                app:todayItem_background="@color/white"
+                app:todayItem_textColor="@color/blue">
+
+
+            </com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
+
+            <ImageView
+                android:id="@+id/ivCheckAvailability"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/white_transparency"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbarScheduleTutor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/toolbarScheduleTutor"
+                app:srcCompat="@drawable/calender_icon" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvEvents"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calendarView" />
+
+            <TextView
+                android:id="@+id/tvErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="No plans on this day!"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calendarView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/createNewEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:backgroundTint="#ffffff"
+            android:src="@android:drawable/ic_input_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

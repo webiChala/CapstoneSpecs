@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,11 +24,16 @@ import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.bumptech.glide.Glide;
+import com.example.myguide.Utils.CourseUtils;
+import com.example.myguide.adapters.CourseAdapter;
 import com.example.myguide.adapters.EducationAdapter;
 import com.example.myguide.databinding.ActivityTutorSetupBinding;
+import com.example.myguide.interfaces.CourseInterface;
 import com.example.myguide.models.Course;
 import com.example.myguide.models.Education;
 import com.example.myguide.models.User;
+import com.example.myguide.Utils.CourseUtils;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -66,6 +70,8 @@ public class TutorSetupActivity extends AppCompatActivity {
     String zipcode;
     boolean isOnlineTutor;
     boolean isInPersonTutor;
+    private List<Course> courseUserSupports;
+    private CourseAdapter courseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,11 @@ public class TutorSetupActivity extends AppCompatActivity {
         setContentView(view);
 
         selectedCoursesId = new ArrayList<>();
+        courseUserSupports = new ArrayList<>();
+        courseAdapter = new CourseAdapter(this, courseUserSupports);
+        currentUser = (User) ParseUser.getCurrentUser();
+        tutorSetupBinding.rvCoursesRegistration.setAdapter(courseAdapter);
+        tutorSetupBinding.rvCoursesRegistration.setLayoutManager(new FlexboxLayoutManager(this));
 
         tutorSetupBinding.ibAddEducation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +95,7 @@ public class TutorSetupActivity extends AppCompatActivity {
             }
         });
 
-        currentUser = (User) ParseUser.getCurrentUser();
-        if (currentUser.getImage() != null) {
-            Glide.with(this).load(currentUser.getImage().getUrl()).circleCrop().into(tutorSetupBinding.ibTutorProfileRegister);
-        }
+        preSetFields();
 
 
         allEducations = new ArrayList<>();
@@ -112,8 +120,12 @@ public class TutorSetupActivity extends AppCompatActivity {
                 isOnlineTutor = tutorSetupBinding.isOnlineTutor.isChecked();
                 isInPersonTutor = tutorSetupBinding.isInpersonTutor.isChecked();
 
-                if (about.length() == 0 || price.length() == 0 || selectedCoursesId.size() == 0) {
+                if (about.length() == 0 || price.length() == 0 ) {
                     Toast.makeText(TutorSetupActivity.this, "Please fill all the fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ( selectedCoursesId.size() == 0) {
+                    Toast.makeText(TutorSetupActivity.this, "Add at least one course", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (isInPersonTutor==true && zipcode.length() != 5) {
@@ -135,18 +147,81 @@ public class TutorSetupActivity extends AppCompatActivity {
                 if (zipcode.length() == 5) {
                     getGeoLocationFromZipcode();
                 } else {
-                    registerUser();
+                    saveUser();
                 }
-
-
-
             }
         });
 
+        tutorSetupBinding.ivSelectCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tutorSetupBinding.multipleItemSelectionSpinner.performClick();
+            }
+        });
 
+        if (getIntent().hasExtra("ChangeRole") || getIntent().hasExtra("ProfileFragmentTutor")) {
+            tutorSetupBinding.ivGoBackTutorRegistration.setVisibility(View.VISIBLE);
+            tutorSetupBinding.ivGoBackTutorRegistration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
         multiSelectSpinnerWithSearch = tutorSetupBinding.multipleItemSelectionSpinner;
         getAllCourses();
+        getCoursesUserTutors();
         getAllEducation();
+    }
+
+    private void getCoursesUserTutors() {
+        if (currentUser.getCourses() == null || currentUser.getCourses().size() == 0) {
+            tutorSetupBinding.progressbarRegistrationTutorCourse.setVisibility(View.GONE);
+            tutorSetupBinding.emptyViewRegistrationTutorCourse.setVisibility(View.VISIBLE);
+            return;
+        }
+        CourseUtils courseService = new CourseUtils(new CourseInterface() {
+            @Override
+            public void processFinish(List<Course> output) {
+                tutorSetupBinding.progressbarRegistrationTutorCourse.setVisibility(View.GONE);
+                if (output == null) {
+                    tutorSetupBinding.emptyViewRegistrationTutorCourse.setVisibility(View.VISIBLE);
+                } else {
+                    courseUserSupports.addAll(output);
+                    courseAdapter.notifyDataSetChanged();
+                    for (Course c:output) {
+                        selectedCoursesId.add(c.getObjectId());
+                    }
+                }
+            }
+        });
+        courseService.getUserCourses(currentUser);
+    }
+
+    private void preSetFields() {
+
+        if (currentUser.getImage() != null) {
+            Glide.with(this).load(currentUser.getImage().getUrl()).circleCrop().into(tutorSetupBinding.ibTutorProfileRegister);
+        }
+
+        if (currentUser.getAbout() != null) {
+            tutorSetupBinding.etAbout.setText(currentUser.getAbout());
+        }
+
+        if (currentUser.getPrice() != null) {
+            tutorSetupBinding.etPrice.setText(currentUser.getPrice().toString());
+        }
+        if(currentUser.getKeyZipcode() != null) {
+            tutorSetupBinding.etZipcode.setText(currentUser.getKeyZipcode());
+        }
+
+        if (currentUser.isOnlineTutor()) {
+            tutorSetupBinding.isOnlineTutor.setChecked(true);
+        }
+
+        if (currentUser.isInPersonTutor()) {
+            tutorSetupBinding.isInpersonTutor.setChecked(true);
+        }
     }
 
     ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
@@ -160,10 +235,13 @@ public class TutorSetupActivity extends AppCompatActivity {
                         if (data.hasExtra("newEducation")) {
                             Education education = data.getExtras().getParcelable("newEducation");
                             allEducations.add(0, education);
+                            if (allEducations.size() != 0) {
+                                tutorSetupBinding.emptyViewRegistrationTutorEducation.setVisibility(View.GONE);
+                            }
                             adapter.notifyItemInserted(0);
+                            tutorSetupBinding.emptyViewRegistrationTutorCourse.setVisibility(View.GONE);
                             tutorSetupBinding.rvEducation.smoothScrollToPosition(0);
                         }
-
                     }
                 }
             });
@@ -199,13 +277,7 @@ public class TutorSetupActivity extends AppCompatActivity {
                             }
                         }
                     });
-
                 }
-
-
-
-
-
             } else {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -225,7 +297,7 @@ public class TutorSetupActivity extends AppCompatActivity {
     }
     private void getAllEducation() {
         ParseQuery<Education> query = ParseQuery.getQuery(Education.class);
-        query.whereEqualTo("Owner", ParseUser.getCurrentUser());
+        query.whereEqualTo("Owner", (User) ParseUser.getCurrentUser());
         query.include(Education.KEY_OWNER);
         query.include(Education.KEY_FIELDOFSTUDY);
         query.include(Education.KEY_DEGREE);
@@ -239,6 +311,10 @@ public class TutorSetupActivity extends AppCompatActivity {
                 }
                 allEducations.clear();
                 allEducations.addAll(educations);
+                tutorSetupBinding.progressbarRegistrationTutorEducation.setVisibility(View.GONE);
+                if (allEducations.size() == 0) {
+                    tutorSetupBinding.emptyViewRegistrationTutorEducation.setVisibility(View.VISIBLE);
+                }
                 adapter.notifyDataSetChanged();
             }
         });
@@ -277,13 +353,18 @@ public class TutorSetupActivity extends AppCompatActivity {
             @Override
             public void onItemsSelected(List<KeyPairBoolData> items) {
                 selectedCoursesId.clear();
+                courseUserSupports.clear();
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
                         Course selectedCourse = (Course) items.get(i).getObject();
+                        courseUserSupports.add(selectedCourse);
                         selectedCoursesId.add(selectedCourse.getObjectId());
-//
                     }
                 }
+                if (courseUserSupports.size() == 0) {
+                    tutorSetupBinding.emptyViewRegistrationTutorCourse.setVisibility(View.VISIBLE);
+                } else {tutorSetupBinding.emptyViewRegistrationTutorCourse.setVisibility(View.GONE);}
+                courseAdapter.notifyDataSetChanged();
                 currentUser.setKeyCoursestutored(selectedCoursesId);
                 currentUser.saveInBackground(new SaveCallback() {
                     @Override
@@ -297,6 +378,7 @@ public class TutorSetupActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void getGeoLocationFromZipcode() {
@@ -325,7 +407,7 @@ public class TutorSetupActivity extends AppCompatActivity {
 
                         if (currentUser != null) {
                             currentUser.put("Location", currentUserLocation);
-                            registerUser();
+                            saveUser();
                         } 
                     } finally {
                         urlConnection.disconnect();
@@ -338,18 +420,29 @@ public class TutorSetupActivity extends AppCompatActivity {
         })).start();
     }
 
-    private void registerUser() {
+    private void saveUser() {
         currentUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e==null) {
-                    Toast.makeText(TutorSetupActivity.this, "Registration completed successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TutorSetupActivity.this, "User saved!", Toast.LENGTH_SHORT).show();
                     currentUser.setKeyIsnew(false);
-                    currentUser.saveInBackground();
-
-                    Intent i = new Intent(TutorSetupActivity.this, TutorHomeActivity.class);
-                    startActivity(i);
-                    finish();
+                    currentUser.setKeyIstutor(true);
+                    currentUser.setKeyLoggedastutor(true);
+                    currentUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e==null) {
+                                if (getIntent().hasExtra("ProfileFragmentTutor")) {
+                                    finish();
+                                } else{
+                                    Intent i = new Intent(TutorSetupActivity.this, TutorHomeActivity.class);
+                                    startActivity(i);
+                                    finishAffinity();
+                                }
+                            }
+                        }
+                    });
 
                 }
             }

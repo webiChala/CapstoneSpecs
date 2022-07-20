@@ -1,25 +1,18 @@
-package com.example.myguide.services;
+package com.example.myguide.Utils;
 
-import android.util.Log;
-
-import com.example.myguide.interfaces.CourseInterface;
 import com.example.myguide.interfaces.MessageInterface;
-import com.example.myguide.models.Course;
 import com.example.myguide.models.Message;
-import com.example.myguide.models.User;
-import com.example.myguide.models.UserTutorConnection;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
 
-public class MessageServices {
-    public static final String TAG = "MessageServices";
+public class MessageUtils {
+    public static final String TAG = "MessageUtils";
     public MessageInterface delegate = null;
-    public MessageServices(MessageInterface asyncResponse) {
+    public MessageUtils(MessageInterface asyncResponse) {
         delegate = asyncResponse;
     }
 
@@ -43,7 +36,6 @@ public class MessageServices {
                 if (e==null) {
                     delegate.getProcessFinish(messages);
                 } else {
-                    Log.i(TAG, "done: " + e.toString());
                     delegate.getProcessFinish(null);
                 }
             }
@@ -52,13 +44,6 @@ public class MessageServices {
     }
 
     public void sendMessage(Message message) {
-
-        if (((User) ParseUser.getCurrentUser()).isLoggedAsTutor() == true) {
-            message.setIsForTutor(false);
-        } else {
-            message.setIsForTutor(true);
-        }
-
         message.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

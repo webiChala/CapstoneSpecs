@@ -18,7 +18,7 @@
             android:id="@+id/ivDetailTutorProfile"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="44dp"
             android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
             android:id="@+id/tvDetailedTutorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="16dp"
             android:text="Webi Chala"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="40dp"
-            android:text="Experience"
+            android:text="Education"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="@+id/tvDetailedAboutTitle"
             app:layout_constraintTop_toBottomOf="@+id/cardviewAbout" />
@@ -145,8 +145,8 @@
 
         <TextView
             android:id="@+id/tvHourlyRateDetailed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -155,11 +155,13 @@
         <Button
             android:id="@+id/btnConnect"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="44dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="#2196F3"
             android:text="Connect"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvIsInperson"
             app:layout_constraintTop_toBottomOf="@+id/tvHourlyRateDetailed" />
 

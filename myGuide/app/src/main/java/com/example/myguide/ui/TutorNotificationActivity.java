@@ -3,17 +3,15 @@ package com.example.myguide.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.myguide.adapters.UserTutorConnectionRequestAdapter;
-import com.example.myguide.databinding.ActivityStudentHomeBinding;
 import com.example.myguide.databinding.ActivityTutorNotificationBinding;
 import com.example.myguide.interfaces.UserTutorConnectionInterface;
 import com.example.myguide.models.User;
 import com.example.myguide.models.UserTutorConnection;
-import com.example.myguide.services.UserTutorConnectionServices;
+import com.example.myguide.Utils.UserTutorConnectionUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -53,7 +51,7 @@ public class TutorNotificationActivity extends AppCompatActivity {
         ParseQuery<UserTutorConnection> query = ParseQuery.getQuery(UserTutorConnection.class);
         query.whereEqualTo(UserTutorConnection.KEY_TUTOR, (User) ParseUser.getCurrentUser());
         query.whereEqualTo(UserTutorConnection.KEY_ACCEPTED, false);
-        UserTutorConnectionServices userTutorConnectionServices = new UserTutorConnectionServices(new UserTutorConnectionInterface() {
+        UserTutorConnectionUtils userTutorConnectionUtils = new UserTutorConnectionUtils(new UserTutorConnectionInterface() {
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
                 if (output.size() == 0) {
@@ -72,7 +70,7 @@ public class TutorNotificationActivity extends AppCompatActivity {
             }
         });
 
-        userTutorConnectionServices.getUserTutorConnections(query);
+        userTutorConnectionUtils.getUserTutorConnections(query);
 
     }
 }

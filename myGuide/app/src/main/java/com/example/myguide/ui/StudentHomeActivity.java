@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.myguide.CommonFragments.ChatFragment;
 import com.example.myguide.R;
 import com.example.myguide.StudentFragments.LookForTutorFragment;
-import com.example.myguide.TutorFragments.ChatFragmentTutor;
-import com.example.myguide.databinding.ActivityStudentHomeBinding;
-import com.example.myguide.StudentFragments.ChatFragment;
-import com.example.myguide.StudentFragments.TutorFragment;
+import com.example.myguide.CommonFragments.ScheduleFragment;
 import com.example.myguide.StudentFragments.HomeFragment;
-import com.example.myguide.StudentFragments.ScheduleFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class StudentHomeActivity extends AppCompatActivity {
@@ -38,7 +35,7 @@ public class StudentHomeActivity extends AppCompatActivity {
                         fragmentToShow = new HomeFragment();
                         break;
                     case R.id.action_chat:
-                        fragmentToShow = new ChatFragmentTutor();
+                        fragmentToShow = new ChatFragment();
                         break;
                     case R.id.action_search:
                         fragmentToShow = new LookForTutorFragment();
@@ -52,7 +49,7 @@ public class StudentHomeActivity extends AppCompatActivity {
 
                 if (fragmentToShow != null) {
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragmentToShow).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.flContainerScheduleFragment, fragmentToShow).commit();
                 }
                 return true;
             }

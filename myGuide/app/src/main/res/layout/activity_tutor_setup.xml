@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:text="About"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
@@ -60,40 +60,26 @@
             app:layout_constraintStart_toEndOf="@id/ibTutorProfileRegister"
             app:layout_constraintTop_toTopOf="@id/ibTutorProfileRegister" />
 
+        <EditText
+            android:id="@+id/etAbout"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/about_text_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="156dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edittext_background"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Tell us about you"
+            android:inputType="textMultiLine"
+            android:minLines="3"
             android:paddingLeft="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="140"
+            android:paddingTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAboutRegistration">
-
-            <EditText
-                android:id="@+id/etAbout"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-
-                android:layout_marginRight="10dp"
-                android:background="@drawable/edittextbackground"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="Tell us about you"
-                android:inputType="textMultiLine"
-                android:minLines="5"
-                android:paddingTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="116dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/tvAboutRegistration" />
 
 
         <TextView
@@ -106,25 +92,50 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/about_text_input_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/etAbout"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvEducation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:minHeight="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEducationRegistration" />
+
+        <TextView
+            android:id="@+id/empty_view_registration_tutor_education"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:minHeight="50dp"
+            android:paddingTop="20dp"
+            android:text="Start adding education"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEducationRegistration" />
+
+        <ProgressBar
+            android:id="@+id/progressbar_registration_tutor_education"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:minHeight="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvEducationRegistration" />
 
         <ImageButton
             android:id="@+id/ibAddEducation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/about_text_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/etAbout"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <TextView
@@ -142,13 +153,60 @@
 
         <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
             android:id="@+id/multipleItemSelectionSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:layout_margin="10dp"
-            app:hintText="Select a course"
-            android:background="@drawable/edittextbackground"
+            android:layout_marginEnd="8dp"
+            android:background="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCourse"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCourse"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/ivSelectCourse"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_margin="10dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCourse"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCourse" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCoursesRegistration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCourse" />
+        <TextView
+            android:id="@+id/empty_view_registration_tutor_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:minHeight="50dp"
+            android:paddingTop="20dp"
+            android:text="Start adding course"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCourse"/>
+
+        <ProgressBar
+            android:id="@+id/progressbar_registration_tutor_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:minHeight="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCourse"/>
 
         <TextView
             android:id="@+id/tvPrice"
@@ -156,21 +214,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Price per hour"
+            android:text="Price"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/multipleItemSelectionSpinner" />
+            app:layout_constraintTop_toBottomOf="@id/rvCoursesRegistration" />
 
         <EditText
             android:id="@+id/etPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="189dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittextbackground"
             android:ems="10"
+            android:hint="hourly rate"
             android:inputType="number"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvPrice"
             app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
 
@@ -201,31 +260,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPrice" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/zipcode_text_input_layout_tutor"
-            android:layout_width="300dp"
-            android:layout_height="0dp"
-
+        <EditText
+            android:id="@+id/etZipcode"
+            android:layout_width="189dp"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
-            app:boxBackgroundColor="#F6F3F3"
-            app:boxStrokeColor="#FBFBFB"
-            app:endIconTint="#F6F4F4"
-            app:hintTextColor="@color/light_blue"
+            android:background="@drawable/edittextbackground"
+            android:ems="10"
+            android:hint="Zip code"
+            android:inputType="number"
+            android:minWidth="200sp"
             app:layout_constraintStart_toStartOf="@+id/tvZipcodeTutor"
-            app:layout_constraintTop_toBottomOf="@+id/tvZipcodeTutor">
+            app:layout_constraintTop_toBottomOf="@+id/tvZipcodeTutor" />
 
-            <EditText
-                android:id="@+id/etZipcode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/login_edit_text_border"
-                android:ems="10"
-                android:hint="Zip code"
-                android:inputType="number"
-                android:minWidth="200sp" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
             android:id="@+id/isInpersonTutor"
@@ -233,8 +280,8 @@
             android:layout_height="45dp"
             android:layout_marginTop="24dp"
             android:text="I will be able to give inperson tutoring."
-            app:layout_constraintStart_toStartOf="@+id/zipcode_text_input_layout_tutor"
-            app:layout_constraintTop_toBottomOf="@+id/zipcode_text_input_layout_tutor" />
+            app:layout_constraintStart_toStartOf="@+id/etZipcode"
+            app:layout_constraintTop_toBottomOf="@+id/etZipcode" />
 
         <CheckBox
             android:id="@+id/isOnlineTutor"
@@ -245,22 +292,16 @@
             app:layout_constraintStart_toStartOf="@+id/isInpersonTutor"
             app:layout_constraintTop_toBottomOf="@+id/isInpersonTutor" />
 
-        <!--        <com.hootsuite.nachos.NachoTextView-->
-        <!--            android:id="@+id/nacho_text_view"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--             />-->
-
-        <!--        <Button-->
-        <!--            android:id="@+id/button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="64dp"-->
-        <!--            android:layout_marginTop="24dp"-->
-        <!--            android:text="Button"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/nacho_text_view" />-->
+        <ImageView
+            android:id="@+id/ivGoBackTutorRegistration"
+            android:layout_width="33dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

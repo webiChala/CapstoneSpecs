@@ -26,6 +26,9 @@
         android:theme="@style/Theme.MyGuide"
         tools:targetApi="31">
         <activity
+            android:name=".ui.AvailabilitySchedulingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.GetAllConnected"
             android:exported="false" />
         <activity

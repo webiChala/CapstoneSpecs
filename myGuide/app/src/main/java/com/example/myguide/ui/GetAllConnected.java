@@ -4,16 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.myguide.adapters.UserTutorConnectionRequestAdapter;
-import com.example.myguide.databinding.ActivityChatBinding;
 import com.example.myguide.databinding.ActivityGetAllConnectedBinding;
 import com.example.myguide.interfaces.UserTutorConnectionInterface;
 import com.example.myguide.models.User;
 import com.example.myguide.models.UserTutorConnection;
-import com.example.myguide.services.UserTutorConnectionServices;
+import com.example.myguide.Utils.UserTutorConnectionUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -58,7 +56,7 @@ public class GetAllConnected extends AppCompatActivity {
         }
         query.whereEqualTo(UserTutorConnection.KEY_ACCEPTED, true);
 
-        UserTutorConnectionServices newUserTutorConnectionServices = new UserTutorConnectionServices(new UserTutorConnectionInterface() {
+        UserTutorConnectionUtils newUserTutorConnectionUtils = new UserTutorConnectionUtils(new UserTutorConnectionInterface() {
             @Override
             public void getProcessFinish(List<UserTutorConnection> output) {
                 if (output.size() == 0) {
@@ -77,7 +75,7 @@ public class GetAllConnected extends AppCompatActivity {
             }
         });
 
-        newUserTutorConnectionServices.getUserTutorConnections(query);
+        newUserTutorConnectionUtils.getUserTutorConnections(query);
 
 
     }

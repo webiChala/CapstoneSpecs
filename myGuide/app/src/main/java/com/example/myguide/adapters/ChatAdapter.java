@@ -1,6 +1,7 @@
 package com.example.myguide.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import com.example.myguide.databinding.ItemCourseBinding;
 import com.example.myguide.databinding.MessageIncomingBinding;
 import com.example.myguide.databinding.MessageOutgoingBinding;
 import com.example.myguide.models.Message;
+import com.example.myguide.models.User;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -97,7 +101,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
         public void bindMessage(Message message) {
 
             messageIncomingBinding.tvBody.setText(message.getMessage());
+            try{
+                User messageSender = (User) message.getSender().fetchIfNeeded();
+                messageIncomingBinding.tvName.setText(messageSender.getName());
+                if (messageSender.getImage() != null) {
+                    Glide.with(mContext).load(messageSender.getImage().getUrl()).circleCrop().into(messageIncomingBinding.ivProfileOther);
+                }
 
+            } catch (ParseException e) {
+            }
         }
     }
 
@@ -111,8 +123,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
 
         @Override
         public void bindMessage(Message message) {
-
             messageOutgoingBinding.tvBody.setText(message.getMessage());
+            User currentUser = (User) ParseUser.getCurrentUser();
+            if(currentUser.getImage() != null) {
+                Glide.with(mContext).load(currentUser.getImage().getUrl()).circleCrop().into(messageOutgoingBinding.ivProfileMe);
+            }
         }
     }
 
