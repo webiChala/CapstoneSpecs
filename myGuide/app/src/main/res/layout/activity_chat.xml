@@ -2,32 +2,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:id="@+id/chat_activity">
 
     <EditText
         android:id="@+id/etMessage"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/edittext_background"
         android:hint="@string/message_hint"
         android:imeOptions="actionSend"
-        android:inputType="textShortMessage"
+        android:inputType="text"
+        android:paddingLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ibSend"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvChat" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/ibSend"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:background="#69F0AE"
+        android:layout_marginBottom="6dp"
+        android:background="@color/white"
         android:contentDescription="@string/send"
         android:gravity="center"
         android:paddingRight="10dp"
@@ -43,12 +46,12 @@
         android:id="@+id/rvChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/etMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ivOtherUserProfileImage" />
 
     <TextView
         android:id="@+id/empty_view_chat"
@@ -73,4 +76,38 @@
         app:layout_constraintTop_toTopOf="parent"
         android:minHeight="100dp"
         android:paddingTop="20dp"/>
+
+    <ImageButton
+        android:id="@+id/ivBack"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@color/smsp_transparent_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left_icon" />
+
+    <ImageView
+        android:id="@+id/ivOtherUserProfileImage"
+        android:layout_width="43dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/ivBack"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile_icon" />
+
+    <TextView
+        android:id="@+id/tvOtherUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:text="No name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivOtherUserProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/ivOtherUserProfileImage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:paddingStart="10dp"
-    tools:context=".ui.AddEducationActivity">
+    tools:context=".ui.AddEducationActivity"
+    android:id="@+id/AddEducationActivity">
 
 
     <TextView

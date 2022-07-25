@@ -8,7 +8,8 @@
 
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context=".ui.ChooseRoleActivity">
+    tools:context=".ui.ChooseRoleActivity"
+    android:id="@+id/ChooseRoleActivity">
 
 
     <TextView

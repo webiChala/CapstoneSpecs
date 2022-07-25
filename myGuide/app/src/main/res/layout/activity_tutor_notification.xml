@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.TutorNotificationActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:id="@+id/TutorNotificationActivity">
     <androidx.appcompat.widget.Toolbar
 
         android:id="@+id/connection_request_toolbar"

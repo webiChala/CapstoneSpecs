@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:fitsSystemWindows="true"
+    android:id="@+id/student_setup">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,48 +18,37 @@
 
         <ImageButton
             android:id="@+id/ibProfile"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="115dp"
+            android:layout_height="103dp"
             android:layout_marginTop="40dp"
             android:background="@color/white"
             android:foregroundGravity="center"
-            android:src="@drawable/user_icon"
+            android:src="@drawable/registration_user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPhonenumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="39dp"
-            android:text="Phone number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#03A9F4"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ibProfile" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phonenumber_text_input_layout"
             android:layout_width="300dp"
             android:layout_height="0dp"
 
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="50dp"
+            android:background="@android:color/transparent"
             app:boxBackgroundColor="#F6F3F3"
-            app:boxStrokeColor="#FBFBFB"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeWidthFocused="0.5dp"
             app:endIconTint="#F6F4F4"
-            app:hintTextColor="@color/light_blue"
-            app:layout_constraintStart_toStartOf="@+id/tvPhonenumber"
-            app:layout_constraintTop_toBottomOf="@+id/tvPhonenumber">
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ibAddProfile">
 
             <EditText
                 android:id="@+id/etPhonenumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/login_edit_text_border"
+                android:background="@drawable/dropdown_background"
                 android:ems="10"
                 android:hint="Phone number"
                 android:inputType="phone"
@@ -67,67 +58,56 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <TextView
-            android:id="@+id/tvZipCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Zip code"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#2196F3"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/phonenumber_text_input_layout"
-            app:layout_constraintTop_toBottomOf="@+id/phonenumber_text_input_layout" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/zipcode_text_input_layout"
             android:layout_width="300dp"
             android:layout_height="0dp"
 
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="40dp"
             app:boxBackgroundColor="#F6F3F3"
-            app:boxStrokeColor="#FBFBFB"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeWidthFocused="0.5dp"
             app:endIconTint="#F6F4F4"
-            app:hintTextColor="@color/light_blue"
-            app:layout_constraintStart_toStartOf="@+id/tvZipCode"
-            app:layout_constraintTop_toBottomOf="@+id/tvZipCode" >
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phonenumber_text_input_layout">
 
             <EditText
                 android:id="@+id/etZipcode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/dropdown_background"
                 android:ems="10"
-                android:inputType="number"
-                android:background="@drawable/login_edit_text_border"
                 android:hint="Zip code"
-                android:minWidth="200sp"  />
+                android:inputType="number"
+                android:minWidth="200sp" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/ibAddProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-5dp"
-            android:background="@drawable/add_profile_studentsetup_background"
-            app:layout_constraintBottom_toBottomOf="@+id/ibProfile"
-            app:layout_constraintStart_toEndOf="@+id/ibProfile"
-            app:layout_constraintTop_toTopOf="@+id/ibProfile"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@android:drawable/ic_input_add" />
 
         <Button
             android:id="@+id/btnRegisterStudent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="#2196F3"
+            android:layout_marginTop="36dp"
+            android:backgroundTint="@color/blue"
             android:text="Register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/zipcode_text_input_layout" />
+
+        <TextView
+            android:id="@+id/ibAddProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Change profile picture"
+            android:textColor="@color/blue"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ibProfile" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

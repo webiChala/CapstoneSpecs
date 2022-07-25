@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myguide.R;
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.databinding.ActivityAddEducationBinding;
 import com.example.myguide.databinding.ActivityChooseroleBinding;
 import com.example.myguide.models.Degree;
@@ -46,6 +47,7 @@ public class AddEducationActivity extends AppCompatActivity {
     public static final String TAG = "AddEducationActivity";
     Education toBeEditedEducation;
     Integer adapterPosition = 1;
+    SnackBarUtil snackBarUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,22 +69,23 @@ public class AddEducationActivity extends AppCompatActivity {
             addEducationBinding.etDegree.setText(toBeEditedEducation.getDegree());
             addEducationBinding.etSchool.setText(toBeEditedEducation.getSchool());
         }
+        snackBarUtil = new SnackBarUtil(this, addEducationBinding.AddEducationActivity);
 
 
         addEducationBinding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (addEducationBinding.etSchool.getText().toString().length() == 0) {
-                    Toast.makeText(AddEducationActivity.this, "Please insert a school", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please insert a school");
                     return;
                 }
                 if (addEducationBinding.etDegree.getText().toString().length() == 0) {
-                    Toast.makeText(AddEducationActivity.this, "Please insert a degree", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please insert a degree");
                     return;
 
                 }
                 if (addEducationBinding.etFieldOfStudy.getText().length() == 0) {
-                    Toast.makeText(AddEducationActivity.this, "Please insert field of study", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please insert field of study");
                     return;
 
                 }
@@ -98,7 +101,7 @@ public class AddEducationActivity extends AppCompatActivity {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                Toast.makeText(AddEducationActivity.this, "Edit saved successfully", Toast.LENGTH_SHORT).show();
+                                snackBarUtil.setSnackBar("Edit saved successfully");
                                 Intent data = new Intent(AddEducationActivity.this, TutorSetupActivity.class);
                                 data.putExtra("toBeEditedEducation", toBeEditedEducation);
                                 data.putExtra("adapterPosition", adapterPosition);
@@ -139,7 +142,7 @@ public class AddEducationActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e != null) {
                 } else {
-                    Toast.makeText(AddEducationActivity.this, "Successfully saved education!", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Successfully saved education!");
                     Intent data = new Intent();
                     data.putExtra("newEducation", education);
                     setResult(RESULT_OK, data); // set result code and bundle data for response
