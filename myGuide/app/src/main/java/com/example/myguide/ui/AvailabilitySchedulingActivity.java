@@ -10,6 +10,7 @@ package com.example.myguide.ui;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -244,7 +245,20 @@ public class AvailabilitySchedulingActivity extends AppCompatActivity {
 
         // Update the day view with the new events
         dayView.setEventViews(eventViews, eventTimeRanges);
-        dayView.setOnTouchListener(new MyOnTouchListener(this));
+        dayView.setOnTouchListener(new OnSwipeTouchListener(AvailabilitySchedulingActivity.this) {
+            public void onSwipeTop() {
+            }
+            public void onSwipeRight() {
+                onPreviousClick();
+            }
+            public void onSwipeLeft() {
+                onNextClick();
+            }
+            public void onSwipeBottom() {
+            }
+
+        });
+        //dayView.setOnTouchListener(new MyOnTouchListener(this));
     }
 
     private void showEditEventDialog(boolean eventExists, String eventTitle, @ColorRes int eventColor) {
@@ -508,8 +522,6 @@ public class AvailabilitySchedulingActivity extends AppCompatActivity {
                         if (availabilitiy != null) {
                             availabilitiy.remove(editEventDraft);
                         }
-
-                        Toast.makeText(AvailabilitySchedulingActivity.this, "deleted", Toast.LENGTH_SHORT).show();
                         editEventDraft = null;
                         onEventsChange();
                     }
@@ -557,49 +569,70 @@ public class AvailabilitySchedulingActivity extends AppCompatActivity {
 
     }
 
-    public class MyOnTouchListener implements View.OnTouchListener {
-        final GestureDetector gesture;
+    public class OnSwipeTouchListener implements View.OnTouchListener {
 
-        public MyOnTouchListener(Activity activity) {
-            gesture = new GestureDetector(activity, new MyGestureListener());
+        private final GestureDetector gestureDetector;
+
+        public OnSwipeTouchListener (Context ctx){
+            gestureDetector = new GestureDetector(ctx, new GestureListener());
         }
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            return gesture.onTouchEvent(event);
-        }
-    }
-
-    public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
+            return gestureDetector.onTouchEvent(event);
         }
 
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            final int SWIPE_MIN_DISTANCE = 120;
-            final int SWIPE_MAX_OFF_PATH = 250;
-            final int SWIPE_THRESHOLD_VELOCITY = 200;
+        private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
-            try {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
-                    return false;
-                }
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
-                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    // TODO action for right to left swipe
-                    onNextClick();
-                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    // TODO action for left to right swipe
-                    onPreviousClick();
-                }
-            } catch (Exception e) {
-                // nothing
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
             }
 
-            return super.onFling(e1, e2, velocityX, velocityY);
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                            result = true;
+                        }
+                    }
+                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
+                        result = true;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+        }
+
+        public void onSwipeRight() {
+        }
+
+        public void onSwipeLeft() {
+        }
+
+        public void onSwipeTop() {
+        }
+
+        public void onSwipeBottom() {
         }
     }
 }
