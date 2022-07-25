@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +51,8 @@ public class TutorDetailActivity extends AppCompatActivity {
     private SendConnectionDialogBinding sendConnectionDialogBinding;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +71,10 @@ public class TutorDetailActivity extends AppCompatActivity {
         binding.rvDetailedEducation.setLayoutManager(new LinearLayoutManager(this));
 
         User user = getIntent().getParcelableExtra("user");
-        binding.tvDetailedTutorName.setText(user.getName());
+        if (user.getName() != null && user.getName().length() > 0) {
+            binding.tvDetailedTutorName.setText(user.getName());
+        }
+
         binding.tvDetailedAbout.setText(user.getAbout());
         binding.tvHourlyRateDetailed.setText(String.valueOf(user.getPrice()) + "/hr");
 
@@ -75,7 +84,7 @@ public class TutorDetailActivity extends AppCompatActivity {
             binding.tvIsOnline.setText("not online");
         }
         if (user.isInPersonTutor()) {
-            binding.tvIsInperson.setText(String.valueOf(user.getDistanceFromCurrentUser()) + " kms");
+            binding.tvIsInperson.setText(String.valueOf(user.getDistanceFromCurrentUser()) + " miles");
         } else {
             binding.tvIsInperson.setText("not inperson");
         }
@@ -102,7 +111,7 @@ public class TutorDetailActivity extends AppCompatActivity {
                 if (output.size() > 0) {
                     if (output.get(0).hasAccepted() == true) {
                         binding.btnConnect.setText("connected");
-                        binding.btnConnect.setBackgroundColor(Color.DKGRAY);
+                        binding.btnConnect.setBackgroundColor(Color.GREEN);
                     } else {
                         binding.btnConnect.setText("requested");
                         binding.btnConnect.setBackgroundColor(Color.DKGRAY);
@@ -133,10 +142,28 @@ public class TutorDetailActivity extends AppCompatActivity {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Request");
         alertDialog.setCancelable(false);
-        alertDialog.setMessage("Send a connection request");
+        //alertDialog.setMessage("Send a connection request");
 
 
         final EditText etComments = (EditText) view.findViewById(R.id.etComments);
+        //etComments.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        etComments.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if(actionId == EditorInfo.IME_ACTION_SEND){
+                    // Your action on done
+                    Log.i(TAG, "onEditorAction: Done");
+                    sendConnectionRequest(user, etComments.getText().toString());
+                    alertDialog.dismiss();
+                    if(view.getParent() != null) {
+                        ((ViewGroup)view.getParent()).removeView(view);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             @Override
@@ -184,7 +211,6 @@ public class TutorDetailActivity extends AppCompatActivity {
             @Override
             public void postProcessFinish(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(TutorDetailActivity.this, "Requested!", Toast.LENGTH_SHORT).show();
                     binding.btnConnect.setText("requested");
                     binding.btnConnect.setBackgroundColor(Color.DKGRAY);
                 }

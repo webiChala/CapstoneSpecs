@@ -83,7 +83,6 @@ public class UserTutorConnectionRequestAdapter extends RecyclerView.Adapter<User
                                 if (e==null) {
                                     userTutorConnections.remove(getAdapterPosition());
                                     notifyItemRemoved(getAdapterPosition());
-                                    Toast.makeText(context, "Accepted request!", Toast.LENGTH_SHORT).show();
                                     if (userTutorConnection.getMessage() != null && userTutorConnection.getMessage().length() > 0) {
                                         sendMessage(userTutorConnection);
                                     }
@@ -102,7 +101,6 @@ public class UserTutorConnectionRequestAdapter extends RecyclerView.Adapter<User
                                 if (e == null) {
                                     userTutorConnections.remove(getAdapterPosition());
                                     notifyItemRemoved(getAdapterPosition());
-                                    Toast.makeText(context, "Declined request!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -147,7 +145,6 @@ public class UserTutorConnectionRequestAdapter extends RecyclerView.Adapter<User
                 @Override
                 public void postProcessFinish(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Request Message posted!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

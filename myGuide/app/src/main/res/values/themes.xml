@@ -49,5 +49,13 @@
         <item name="colorAccent">@android:color/holo_blue_light</item>
     </style>
 
+    <style name="CustomSnackbarTheme">
+        <item name="snackbarStyle">@style/MySnackBarStyle</item>
+    </style>
+
+    <style name="MySnackBarStyle" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:background">@color/blue</item>
+    </style>
+
 
 </resources>

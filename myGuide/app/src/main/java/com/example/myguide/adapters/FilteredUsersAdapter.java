@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myguide.R;
 import com.example.myguide.databinding.ItemTutorBinding;
 import com.example.myguide.models.User;
 import com.example.myguide.ui.TutorDetailActivity;
@@ -58,7 +59,6 @@ public class FilteredUsersAdapter extends RecyclerView.Adapter<FilteredUsersAdap
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "User clicked!", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(context, TutorDetailActivity.class);
             i.putExtra("user", users.get(getAdapterPosition()));
             context.startActivity(i);
@@ -67,15 +67,13 @@ public class FilteredUsersAdapter extends RecyclerView.Adapter<FilteredUsersAdap
 
         public void bind(User user) {
             itemTutorBinding.tvFoundTutorAbout.setText(user.getAbout());
-            if (user.isShowingLocal()) {
-                itemTutorBinding.tvFoundTutorDistance.setText(String.valueOf(user.getDistanceFromCurrentUser()) + " miles");
-
-            } else {
-            }
+            itemTutorBinding.tvFoundTutorDistance.setText(String.valueOf(user.getDistanceFromCurrentUser()) + " miles");
             itemTutorBinding.tvFoundtutorPricePerHour.setText(String.valueOf(user.getPrice()) + "/hr");
             itemTutorBinding.tvFoundTutorname.setText(user.getName());
             if (user.getImage() != null) {
                 Glide.with(context).load(user.getImage().getUrl()).circleCrop().into(itemTutorBinding.ivFoundTutorProfile);
+            } else {
+                itemTutorBinding.ivFoundTutorProfile.setImageDrawable(context.getDrawable(R.drawable.profile_icon));
             }
         }
     }

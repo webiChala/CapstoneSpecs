@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.GetAllConnected"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:id="@+id/FragmentProfileTutor">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -71,7 +72,8 @@
         android:src="@drawable/profile_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_tutor_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_tutor_toolbar"
+        app:srcCompat="@drawable/registration_user" />
 
     <TextView
         android:id="@+id/tv_username_profile_tutor"

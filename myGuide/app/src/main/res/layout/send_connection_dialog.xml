@@ -8,14 +8,18 @@
 
     <EditText
         android:id="@+id/etComments"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginTop="10dp"
         android:gravity="top"
-        android:hint="Enter comments(Optional)"
-        android:inputType="textMultiLine"
-        android:lines="8"
+        android:hint="Enter comment(Optional)"
+        android:imeOptions="actionSend"
+        android:inputType="textCapSentences|textAutoCorrect"
         android:maxLines="3"
-        android:minLines="6"
-        android:scrollbars="vertical" />
+        android:minLines="2"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:scrollbars="horizontal"
+        android:singleLine="true" />
 
 </LinearLayout>

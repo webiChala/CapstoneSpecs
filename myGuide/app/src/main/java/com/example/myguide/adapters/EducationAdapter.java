@@ -10,11 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.databinding.ItemEducationBinding;
 import com.example.myguide.models.Education;
 import com.example.myguide.ui.AddEducationActivity;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
 
@@ -30,6 +33,7 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
         this.context = context;
         this.educations = educations;
         this.isCurrentUser = isCurrentUser;
+
     }
 
     @NonNull
@@ -78,7 +82,6 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

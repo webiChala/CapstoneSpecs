@@ -8,13 +8,13 @@
 
     <ImageView
         android:id="@+id/ivFoundTutorProfile"
-        android:layout_width="82dp"
-        android:layout_height="69dp"
+        android:layout_width="81dp"
+        android:layout_height="71dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/avatar" />
+        app:srcCompat="@drawable/profile_icon" />
 
     <TextView
         android:id="@+id/tvFoundTutorname"
@@ -28,10 +28,15 @@
 
     <TextView
         android:id="@+id/tvFoundTutorAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="I a profiecient tutor!"
+        app:layout_constraintEnd_toStartOf="@+id/tvFoundTutorDistance"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tvFoundTutorname"
         app:layout_constraintTop_toBottomOf="@+id/tvFoundTutorname" />
 

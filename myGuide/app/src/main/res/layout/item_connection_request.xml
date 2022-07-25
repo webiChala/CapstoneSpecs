@@ -4,60 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:fitsSystemWindows="true"
+    android:id="@+id/ItemConnectionRequest">
 
     <ImageView
         android:id="@+id/ivStudentProfileImage"
-        android:layout_width="82dp"
-        android:layout_height="69dp"
+        android:layout_width="72dp"
+        android:layout_height="74dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/avatar" />
+        app:srcCompat="@drawable/registration_user" />
 
     <TextView
         android:id="@+id/tvRequestorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="67dp"
+        android:layout_height="22dp"
         android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="No name"
         app:layout_constraintStart_toEndOf="@+id/ivStudentProfileImage"
         app:layout_constraintTop_toTopOf="@+id/ivStudentProfileImage" />
 
     <TextView
         android:id="@+id/tvRequestorMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="86dp"
+        android:layout_height="22dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="TextView"
+        android:text="No message"
         app:layout_constraintEnd_toStartOf="@+id/btnDeclineRequest"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivStudentProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvRequestorName"
-        app:layout_constraintHorizontal_bias="0.0"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvRequestorName" />
 
-    <ImageButton
+    <TextView
         android:id="@+id/btnDeclineRequest"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="104dp"
-        android:background="@color/gray"
-        app:layout_constraintStart_toEndOf="@+id/tvRequestorName"
-        app:layout_constraintTop_toTopOf="@+id/tvRequestorName"
-        app:srcCompat="@drawable/ic_cancel_white_24dp" />
+        android:layout_width="79dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/dropdown_background"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="Decline"
+        android:textColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAcceptRequest" />
 
-    <ImageButton
+    <TextView
         android:id="@+id/btnAcceptRequest"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="12dp"
-        android:background="@color/gray"
-        app:layout_constraintStart_toEndOf="@+id/btnDeclineRequest"
-        app:layout_constraintTop_toTopOf="@+id/btnDeclineRequest"
-        app:srcCompat="@android:drawable/checkbox_on_background" />
+        android:layout_width="79dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/dropdown_background"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="Accept"
+        android:textColor="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvRequestorName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myguide.R;
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.databinding.ChangePasswordDialogBinding;
 import com.example.myguide.databinding.FragmentHomeTutorBinding;
 import com.example.myguide.databinding.FragmentProfileTutorBinding;
@@ -41,6 +42,7 @@ public class ProfileFragmentTutor extends Fragment {
     AlertDialog.Builder builder;
     public AlertDialog.Builder dialogBuilder;
     public AlertDialog dialog;
+    SnackBarUtil snackBarUtil;
 
 
 
@@ -66,6 +68,7 @@ public class ProfileFragmentTutor extends Fragment {
         if (!currentUser.isLoggedAsTutor()) {
             binding.tvChangeRoleProfileTutor.setText("Change to Tutor");
         }
+        snackBarUtil = new SnackBarUtil(getContext(), binding.FragmentProfileTutor);
 
         builder = new AlertDialog.Builder(getContext());
         binding.tvUsernameProfileTutor.setText(currentUser.getName());
@@ -225,9 +228,9 @@ public class ProfileFragmentTutor extends Fragment {
                                 public void done(ParseException e) {
                                     if (e==null) {
                                         dialog.dismiss();
-                                        Toast.makeText(getContext(), "Password reset successfully!", Toast.LENGTH_SHORT).show();
+                                        snackBarUtil.setSnackBar("Password reset successfully!");
                                     } else {
-                                        Toast.makeText(getContext(), "Error saving new password!", Toast.LENGTH_SHORT).show();
+                                        snackBarUtil.setSnackBar("Error saving new password!");
                                     }
                                 }
                             });

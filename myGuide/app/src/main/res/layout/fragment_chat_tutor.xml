@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.TutorHomeActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/ChatFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,6 +21,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/edittext_background"
             android:minHeight="?attr/actionBarSize"
             app:layout_constraintEnd_toStartOf="@+id/ibNotification"

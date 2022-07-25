@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@android:color/white"
+    android:id="@+id/dialogSearchableSpinner"
     >
 
     <!-- Text view to show the text Select course-->

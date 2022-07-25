@@ -260,9 +260,6 @@ public class ScheduleFragment extends Fragment {
                             binding.tvErrorMessage.setText("No result");
                         }
                     }
-
-
-
                 }
             }
         });

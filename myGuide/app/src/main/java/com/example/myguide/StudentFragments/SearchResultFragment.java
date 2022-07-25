@@ -270,7 +270,7 @@ public class SearchResultFragment extends Fragment {
                         User user = (User) u;
                         if (user.isInPersonTutor()) {
 
-                            double distance = currentUserLocation.distanceInKilometersTo(u.getParseGeoPoint("Location"));
+                            double distance = currentUserLocation.distanceInMilesTo(u.getParseGeoPoint("Location"));
                             user.setDistanceFromCurrentUser(distance);
 
                             if (rangeInMiles.length() > 0) {
@@ -283,9 +283,7 @@ public class SearchResultFragment extends Fragment {
                         }
 
                         if (user.isOnlineTutor()) {
-                            User newUser = user;
-                            newUser.setIsShowingLocal(false);
-                            onlineUsers.add(newUser);
+                            onlineUsers.add(user);
                         }
                     }
                     refreshList();

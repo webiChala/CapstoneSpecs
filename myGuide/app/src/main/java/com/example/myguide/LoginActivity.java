@@ -11,6 +11,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.databinding.ActivityLoginBinding;
 import com.example.myguide.models.User;
 import com.example.myguide.ui.StudentHomeActivity;
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private String authorization = "Authorization: Bearer ";
     private Integer REQUEST_CODE = 1337;
     private String REDIRECT_URI = "https://myguide.com";
+    SnackBarUtil snackBarUtil;
 
 
 
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = loginBinding.getRoot();
         setContentView(view);
+        snackBarUtil = new SnackBarUtil(this, loginBinding.LoginActivity);
 
 
 
@@ -142,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 User loggedUser = (User) user;
 
                 if ((loggedUser.isTutor() == false && isTutor) || (loggedUser.isStudent() == false && !isTutor)) {
-                    Toast.makeText(LoginActivity.this, "Please signin with different role.", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please signin with different role.");
                     loginBinding.tvError.setVisibility(View.VISIBLE);
                     return;
                 }
@@ -153,8 +156,6 @@ public class LoginActivity extends AppCompatActivity {
                     goToHomeActivity(loggedUser);
 
                 }
-                Toast.makeText(LoginActivity.this, "You have successfully loggedin!", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

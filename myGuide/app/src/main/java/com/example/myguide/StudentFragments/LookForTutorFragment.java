@@ -25,6 +25,7 @@ import com.androidbuts.multispinnerfilter.SingleSpinnerListener;
 import com.androidbuts.multispinnerfilter.SingleSpinnerSearch;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.myguide.R;
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.databinding.FragmentLookForTutorBinding;
 import com.example.myguide.models.Course;
 import com.parse.FindCallback;
@@ -41,7 +42,6 @@ import java.util.List;
 public class LookForTutorFragment extends Fragment {
 
     private FragmentLookForTutorBinding binding;
-    //ArrayList<String> courseList;
     ArrayList<Course> courseList;
     Dialog dialog;
     public static final String TAG = "LookForTutorFragment";
@@ -59,6 +59,7 @@ public class LookForTutorFragment extends Fragment {
     int minute2 = c.get(Calendar.MINUTE);
     Date startDate = null;
     Date endDate = null;
+    SnackBarUtil snackBarUtil;
 
 
     public LookForTutorFragment() {
@@ -83,6 +84,8 @@ public class LookForTutorFragment extends Fragment {
         courseSpinner = binding.singleItemSelectionSpinner;
         courseSpinner.setItem(courseList);
 
+        snackBarUtil = new SnackBarUtil(getContext(), binding.lookForTutor);
+
         courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -102,8 +105,6 @@ public class LookForTutorFragment extends Fragment {
         binding.AvailabilityDropDown.setAdapter(weekDaysAdapter);
         selectedWeekDay = WeekDays.get(0);
 
-        binding.isAnytime.setChecked(true);
-
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,29 +118,28 @@ public class LookForTutorFragment extends Fragment {
             }
         });
 
-        binding.isAnytime.setOnClickListener(new View.OnClickListener() {
+        binding.AllDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.TimeRange.setVisibility(View.GONE);
+                if (binding.AllDay.isChecked()) {
+                    binding.TimeRange.setVisibility(View.GONE);
+                } else {
+                    binding.TimeRange.setVisibility(View.VISIBLE);
+                }
             }
         });
-        binding.isNotAnyTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.TimeRange.setVisibility(View.VISIBLE);
-            }
-        });
+
 
         binding.AvailabilityDropDown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), WeekDays.get(position), Toast.LENGTH_SHORT).show();
                 selectedWeekDay = WeekDays.get(position);
                 if (position==0) {
                     binding.radioGroup.setVisibility(View.GONE);
                     binding.TimeRange.setVisibility(View.GONE);
                 } else {
                     binding.radioGroup.setVisibility(View.VISIBLE);
+                    binding.TimeRange.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -150,7 +150,7 @@ public class LookForTutorFragment extends Fragment {
             public void onClick(View v) {
                 boolean specificTimeSearch = false;
                 if (selectedCourse==null) {
-                    Toast.makeText(getContext(), "Please select a course!", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please select a course!");
                     return;
                 }
                 String zipcode = binding.etZipcode.getText().toString();
@@ -159,19 +159,19 @@ public class LookForTutorFragment extends Fragment {
                 String rangeInMiles = binding.etRangeInMiles.getText().toString();
 
                 if (zipcode.length() > 0 && zipcode.length() != 5) {
-                    Toast.makeText(getContext(), "Invalid zipcode", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Invalid zipcode");
                     return;
                 }
 
                 if (rangeInMiles.length() > 0 && zipcode.length() == 0) {
-                    Toast.makeText(getContext(), "Please enter zipcode!", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please enter zipcode!");
                     return;
                 }
 
                 if (selectedWeekDay.equals(WeekDays.get(0))) {
                     selectedWeekDay = null;
                 } else {
-                    if (binding.isNotAnyTime.isChecked()) {
+                    if (!binding.AllDay.isChecked()) {
                         if (!hasPassedRequirement()) {
                             return;
                         }
@@ -217,10 +217,9 @@ public class LookForTutorFragment extends Fragment {
         endTime.set(Calendar.SECOND, 0);
 
         if (endTime.before(startTime) || endTime.equals(startTime)) {
-            Toast.makeText(getContext(), "End date should be after the start date", Toast.LENGTH_SHORT).show();
+            snackBarUtil.setSnackBar("End date should be after the start date");
             return false;
         }
-        Log.i(TAG, "hasPassedRequirement: " + startTime.getTime());
         startDate = startTime.getTime();
         endDate = endTime.getTime();
 

@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.myguide.R;
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.Utils.UserTutorConnectionUtils;
 import com.example.myguide.databinding.FragmentBottomSheetBinding;
 import com.example.myguide.interfaces.UserTutorConnectionInterface;
@@ -255,7 +256,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void done(ParseException e) {
                 if (e==null) {
-                    Toast.makeText(getContext(), "Event/s saved successfully!", Toast.LENGTH_SHORT).show();
                     b.dismiss();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainerScheduleFragment, new ScheduleFragment()).commit();
                     return;

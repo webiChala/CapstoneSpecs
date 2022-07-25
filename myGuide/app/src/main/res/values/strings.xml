@@ -36,6 +36,7 @@
     <string name="scroll_target_last_event_top">Last Event Top</string>
     <string name="scroll_target_last_event_bottom">Last Event Bottom</string>
     <string name="GoBackButtonText"><![CDATA[<]]></string>
+    <string name="GoBackButtonText2"><![CDATA[< Back]]></string>
 
 
     <string-array name="WeekDays">

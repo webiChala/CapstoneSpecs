@@ -202,7 +202,6 @@ public class ChatFragment extends Fragment {
             @Override
             public void getProcessFinish(List<Message> output) {
                 if (output == null) {
-                    Toast.makeText(getContext(), "Message Loading Failed!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (SearchQuery==null) {
                         allMessages.clear();

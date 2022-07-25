@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:id="@+id/lookForTutor">
 
     <androidx.appcompat.widget.Toolbar
 
@@ -49,10 +50,9 @@
     <androidx.cardview.widget.CardView
 
         android:id="@+id/cardViewSearchTutor"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:minHeight="350dp"
         android:padding="20dp"
@@ -64,11 +64,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_tutor_toolbar"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="@+id/search_tutor_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="326dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:padding="20dp">
@@ -76,33 +75,32 @@
             <EditText
                 android:id="@+id/etZipcode"
                 android:layout_width="123dp"
-                android:layout_height="39dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/login_edit_text_border"
+                android:background="@drawable/dropdown_background"
                 android:ems="10"
                 android:hint="zipcode"
                 android:inputType="number"
                 android:maxWidth="0dp"
                 android:minHeight="50dp"
                 android:padding="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/textView6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                 android:id="@+id/singleItemSelectionSpinner"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/login_edit_text_border"
+                android:background="@drawable/dropdown_background"
+                android:paddingLeft="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.158"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etZipcode"
-                app:smsp_floatingLabelColor="@color/black"
+                app:smsp_floatingLabelColor="@color/white"
                 app:smsp_floatingLabelText="Course"
                 app:smsp_hint="Select course"
                 app:smsp_hintColor="@color/black"
@@ -112,6 +110,8 @@
                 app:smsp_itemListHintBackgroundColor="#808080"
                 app:smsp_itemListHintColor="#FFFFFF"
                 app:smsp_multilineError="false"
+                app:smsp_outlinedBoxColor="@color/black"
+                app:smsp_outlinedBoxRadius="10dp"
                 app:smsp_selectedItemListColor="#40C4FF"
                 app:smsp_underlineSize="0dp" />
 
@@ -131,8 +131,8 @@
             <EditText
                 android:id="@+id/etRangeInMiles"
                 android:layout_width="132dp"
-                android:layout_height="38dp"
-                android:background="@drawable/login_edit_text_border"
+                android:layout_height="45dp"
+                android:background="@drawable/dropdown_background"
                 android:ems="10"
                 android:hint="range (miles)"
                 android:inputType="numberDecimal"
@@ -140,43 +140,41 @@
                 android:paddingLeft="10dp"
                 android:paddingEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
                 app:layout_constraintTop_toTopOf="@+id/etZipcode" />
 
             <EditText
                 android:id="@+id/etMinPrice"
-                android:layout_width="85dp"
+                android:layout_width="120dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/login_edit_text_border"
+                android:background="@drawable/dropdown_background"
                 android:ems="10"
-                android:hint="min"
+                android:hint="$ min price"
                 android:inputType="number"
                 android:paddingLeft="10dp"
-                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="@+id/singleItemSelectionSpinner"
                 app:layout_constraintTop_toBottomOf="@+id/singleItemSelectionSpinner" />
 
             <EditText
                 android:id="@+id/etMaxPrice"
-                android:layout_width="85dp"
+                android:layout_width="120dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="12dp"
-                android:background="@drawable/login_edit_text_border"
+                android:background="@drawable/dropdown_background"
                 android:ems="10"
-                android:hint="max"
+                android:hint="$ max price"
                 android:inputType="number"
                 android:paddingLeft="10dp"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="@+id/singleItemSelectionSpinner"
                 app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="-"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/etMaxPrice"
+                app:layout_constraintEnd_toStartOf="@+id/etMaxPrice"
                 app:layout_constraintStart_toEndOf="@+id/etMinPrice"
                 app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
 
@@ -185,30 +183,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/etRangeInMiles"
                 app:layout_constraintEnd_toStartOf="@+id/etRangeInMiles"
                 app:layout_constraintStart_toEndOf="@+id/etZipcode"
                 app:layout_constraintTop_toTopOf="@+id/etZipcode" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Price"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/etMinPrice"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/etMinPrice" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/AvailabilityTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="283dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/login_edit_text_border"
+                android:background="@color/white"
                 android:hint="Availability"
                 app:boxStrokeColor="@color/black"
                 app:hintTextColor="@color/black"
@@ -221,7 +209,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:background="@drawable/login_edit_text_border"
                     android:inputType="none"
                     android:text="Not Selected"
                     android:textAlignment="gravity" />
@@ -233,9 +221,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/AvailabilityTextInputLayout"
-                app:layout_constraintTop_toBottomOf="@+id/AvailabilityTextInputLayout"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@+id/AvailabilityTextInputLayout">
 
                 <TextView
                     android:id="@+id/tvStartTime"
@@ -263,32 +251,41 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/medium_padding"
                 android:paddingBottom="@dimen/medium_padding"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/AvailabilityTextInputLayout"
-                app:layout_constraintTop_toBottomOf="@id/AvailabilityTextInputLayout"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@id/AvailabilityTextInputLayout">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Anytime" />
 
-                <RadioButton
-                    android:id="@+id/isAnytime"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/All_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:background="@android:color/holo_green_dark" />
+                    android:thumb="@drawable/thumb"
+                    app:showText="false"
+                    app:track="@drawable/track" />
 
-                <RadioButton
-                    android:id="@+id/isNotAnyTime"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@android:color/holo_red_light" />
+                <!--                <RadioButton-->
+                <!--                    android:id="@+id/isAnytime"-->
+                <!--                    android:layout_width="38dp"-->
+                <!--                    android:layout_height="38dp"-->
+                <!--                    android:layout_marginLeft="20dp"-->
+                <!--                    android:background="@android:color/holo_green_dark" />-->
+
+                <!--                <RadioButton-->
+                <!--                    android:id="@+id/isNotAnyTime"-->
+                <!--                    android:layout_width="38dp"-->
+                <!--                    android:layout_height="38dp"-->
+                <!--                    android:layout_marginLeft="20dp"-->
+                <!--                    android:background="@android:color/holo_red_light" />-->
 
 
             </RadioGroup>
