@@ -2,6 +2,8 @@ package com.example.myguide.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.content.Intent;
@@ -12,9 +14,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -22,12 +27,21 @@ import com.example.myguide.R;
 import com.example.myguide.databinding.ActivityGeneralSignupBinding;
 import com.example.myguide.databinding.ActivityStudentSetupBinding;
 import com.example.myguide.models.User;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class StudentSetupActivity extends AppCompatActivity {
 
@@ -37,6 +51,10 @@ public class StudentSetupActivity extends AppCompatActivity {
     public String photoFileName = "photo.jpg";
     private File photoFile;
     public static final String TAG = "StudentSetupActivity";
+    View viewSnack;
+    ContextThemeWrapper ctw;
+    Snackbar snack;
+    String zipcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +64,13 @@ public class StudentSetupActivity extends AppCompatActivity {
         View view = studentSetupBinding.getRoot();
         setContentView(view);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
+        ctw = new ContextThemeWrapper(StudentSetupActivity.this, R.style.CustomSnackbarTheme);
+        snack = Snackbar.make(ctw, studentSetupBinding.studentSetup, "Zipcode is incorrect", Snackbar.LENGTH_LONG);
+        viewSnack = snack.getView();
+        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)viewSnack.getLayoutParams();
+        params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
+        params.setMargins(0, 40, 0, 0);
+        viewSnack.setLayoutParams(params);
 
         currentUser = (User) ParseUser.getCurrentUser();
 
@@ -63,34 +84,34 @@ public class StudentSetupActivity extends AppCompatActivity {
             Glide.with(this).load(currentUser.getImage().getUrl()).circleCrop().into(studentSetupBinding.ibProfile);
         }
 
+        if (currentUser.getPhonenumber() != null) {
+            studentSetupBinding.etPhonenumber.setText(currentUser.getPhonenumber());
+        }
+
+        if (currentUser.getKeyZipcode() != null) {
+            studentSetupBinding.etZipcode.setText(currentUser.getKeyZipcode());
+        }
+
         studentSetupBinding.btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phonenumber = studentSetupBinding.etPhonenumber.getText().toString();
-                String zipcode = studentSetupBinding.etZipcode.getText().toString();
+                zipcode = studentSetupBinding.etZipcode.getText().toString();
+
 
                 if (phonenumber.length() == 0 || zipcode.length() == 0) {
-                    Toast.makeText(StudentSetupActivity.this, "Please fill all the fields!", Toast.LENGTH_SHORT).show();
+                    snack.setText("Please fill out all the field!");
+                    snack.show();
+                    return;
+                }
+                if (zipcode.length() != 5) {
+                    snack.setText("Zipcode is incorrect!");
+                    snack.show();
                     return;
                 }
                 currentUser.setKeyPhonenumber(phonenumber);
                 currentUser.setKeyZipcode(zipcode);
-                currentUser.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null) {
-                            Toast.makeText(StudentSetupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                            currentUser.setKeyIsnew(false);
-                            currentUser.saveInBackground();
-                            Intent i = new Intent(StudentSetupActivity.this, StudentHomeActivity.class);
-                            startActivity(i);
-
-                        }
-
-                    }
-                });
-
-
+                getGeoLocationFromZipcode();
 
             }
         });
@@ -123,19 +144,16 @@ public class StudentSetupActivity extends AppCompatActivity {
                         @Override
                         public void done(ParseException e) {
                             if (e==null) {
-                                Toast.makeText(StudentSetupActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                                snack.setText("Profile updated successfully!");
+                                snack.show();
                             }
                         }
                     });
 
                 }
-
-
-
-
-
             } else {
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                snack.setText("Picture wasn't taken!");
+                snack.show();
             }
         }
     }
@@ -155,5 +173,56 @@ public class StudentSetupActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
 
 
+    }
+
+    private void getGeoLocationFromZipcode() {
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String where = URLEncoder.encode("{" +
+                            "    \"US_Zip_Code\": " + zipcode +
+                            "}", "utf-8");
+                    URL url = new URL("https://parseapi.back4app.com/classes/Uszipcode_US_Zip_Code?limit=1&where=" + where);
+                    HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                    urlConnection.setRequestProperty("X-Parse-Application-Id", "r9pjIpWlLiO3gfmU6ZKPZPa0OPi5jrknUOlsx24g"); // This is your app's application id
+                    urlConnection.setRequestProperty("X-Parse-REST-API-Key", "IZUWWVVGXfs0Kk7aUqWcHMfRo5RzQ3DkhXZ7dZvL"); // This is your app's REST API key
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            stringBuilder.append(line);
+                        }
+                        JSONObject data = new JSONObject(stringBuilder.toString()); // Here you have the data that you need
+                        Double Latitude = data.getJSONArray("results").getJSONObject(0).getDouble("Latitude");
+                        Double Longitude = data.getJSONArray("results").getJSONObject(0).getDouble("Longitude");
+
+                        ParseGeoPoint currentUserLocation = new ParseGeoPoint(Latitude, Longitude);
+
+                        if (currentUser != null) {
+                            currentUser.put("Location", currentUserLocation);
+                            saveUser();
+                        }
+                    } finally {
+                        urlConnection.disconnect();
+                    }
+                } catch (Exception e) {
+                }
+            }
+        })).start();
+    }
+    private void saveUser() {
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null) {
+                    currentUser.setKeyIsnew(false);
+                    currentUser.saveInBackground();
+                    Intent i = new Intent(StudentSetupActivity.this, StudentHomeActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
 }

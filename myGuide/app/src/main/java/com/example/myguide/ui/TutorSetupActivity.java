@@ -25,6 +25,7 @@ import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.bumptech.glide.Glide;
 import com.example.myguide.Utils.CourseUtils;
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.adapters.CourseAdapter;
 import com.example.myguide.adapters.EducationAdapter;
 import com.example.myguide.databinding.ActivityTutorSetupBinding;
@@ -72,6 +73,7 @@ public class TutorSetupActivity extends AppCompatActivity {
     boolean isInPersonTutor;
     private List<Course> courseUserSupports;
     private CourseAdapter courseAdapter;
+    SnackBarUtil snackBarUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class TutorSetupActivity extends AppCompatActivity {
         tutorSetupBinding = ActivityTutorSetupBinding.inflate(getLayoutInflater());
         View view = tutorSetupBinding.getRoot();
         setContentView(view);
+        snackBarUtil = new SnackBarUtil(this, tutorSetupBinding.TutorSetupActivity);
 
         selectedCoursesId = new ArrayList<>();
         courseUserSupports = new ArrayList<>();
@@ -121,20 +124,20 @@ public class TutorSetupActivity extends AppCompatActivity {
                 isInPersonTutor = tutorSetupBinding.isInpersonTutor.isChecked();
 
                 if (about.length() == 0 || price.length() == 0 ) {
-                    Toast.makeText(TutorSetupActivity.this, "Please fill all the fields!", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please fill all the fields!");
                     return;
                 }
                 if ( selectedCoursesId.size() == 0) {
-                    Toast.makeText(TutorSetupActivity.this, "Add at least one course", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Add at least one course");
                     return;
                 }
                 if (isInPersonTutor==true && zipcode.length() != 5) {
-                    Toast.makeText(TutorSetupActivity.this, "Zipcode not found!", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Zipcode not found!");
                     return;
                 }
 
                 if (isOnlineTutor == false && isInPersonTutor == false) {
-                    Toast.makeText(TutorSetupActivity.this, "Please select at least one preference for tutoring options!", Toast.LENGTH_SHORT).show();
+                    snackBarUtil.setSnackBar("Please select at least one preference for tutoring options!");
                     return;
                 }
 
@@ -147,7 +150,15 @@ public class TutorSetupActivity extends AppCompatActivity {
                 if (zipcode.length() == 5) {
                     getGeoLocationFromZipcode();
                 } else {
-                    saveUser();
+
+                    Double Latitude = 0.0;
+                    Double Longitude = 0.0;
+
+                    ParseGeoPoint currentUserLocation = new ParseGeoPoint(Latitude, Longitude);
+                    if (currentUser != null) {
+                        currentUser.put("Location", currentUserLocation);
+                        saveUser();
+                    }
                 }
             }
         });
@@ -272,14 +283,14 @@ public class TutorSetupActivity extends AppCompatActivity {
                         @Override
                         public void done(ParseException e) {
                             if (e==null) {
-                                Toast.makeText(TutorSetupActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-
+                                snackBarUtil.setSnackBar("Profile updated successfully!");
                             }
                         }
                     });
                 }
             } else {
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                snackBarUtil.setSnackBar("Picture wasn't taken!");
+
             }
         }
     }
@@ -370,7 +381,7 @@ public class TutorSetupActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            Toast.makeText(TutorSetupActivity.this, "Course list saved successfully!", Toast.LENGTH_SHORT).show();
+                            snackBarUtil.setSnackBar("Course list saved successfully!");
                         }
                     }
                 });
@@ -403,6 +414,7 @@ public class TutorSetupActivity extends AppCompatActivity {
                         JSONObject data = new JSONObject(stringBuilder.toString()); // Here you have the data that you need
                         Double Latitude = data.getJSONArray("results").getJSONObject(0).getDouble("Latitude");
                         Double Longitude = data.getJSONArray("results").getJSONObject(0).getDouble("Longitude");
+
                         ParseGeoPoint currentUserLocation = new ParseGeoPoint(Latitude, Longitude);
 
                         if (currentUser != null) {
@@ -425,7 +437,6 @@ public class TutorSetupActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e==null) {
-                    Toast.makeText(TutorSetupActivity.this, "User saved!", Toast.LENGTH_SHORT).show();
                     currentUser.setKeyIsnew(false);
                     currentUser.setKeyIstutor(true);
                     currentUser.setKeyLoggedastutor(true);
