@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myguide.R;
 import com.example.myguide.Utils.MessageUtils;
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.adapters.ChatAdapter;
 import com.example.myguide.databinding.ActivityChatBinding;
 import com.example.myguide.interfaces.MessageInterface;
@@ -35,6 +37,7 @@ public class ChatActivity extends AppCompatActivity {
     boolean mFirstLoad;
     User otherUser;
     User currentUser = (User) ParseUser.getCurrentUser();
+    SnackBarUtil snackBar;
 
 
     @Override
@@ -45,6 +48,20 @@ public class ChatActivity extends AppCompatActivity {
 
         otherUser = getIntent().getParcelableExtra("otherUser");
         mFirstLoad = true;
+        snackBar = new SnackBarUtil(this, binding.chatActivity);
+        if (otherUser.getImage() != null) {
+            Glide.with(this).load(otherUser.getImage().getUrl()).circleCrop().into(binding.ivOtherUserProfileImage);
+        }
+        if (otherUser.getName() != null) {
+            binding.tvOtherUserName.setText(otherUser.getName());
+        }
+
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mMessages = new ArrayList<>();
         mAdapter = new ChatAdapter(this, ParseUser.getCurrentUser().getObjectId(), mMessages);
@@ -101,7 +118,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String data = binding.etMessage.getText().toString();
                 if (data == null || data.length() == 0) {
-                    Toast.makeText(ChatActivity.this, "Please enter a message!", Toast.LENGTH_SHORT).show();
+                    snackBar.setSnackBar("Please enter a message!");
                     return;
                 }
                 User currentUser = (User) ParseUser.getCurrentUser();
@@ -125,9 +142,10 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void postProcessFinish(ParseException e) {
                         if (e == null) {
-                            Toast.makeText(ChatActivity.this, "Message posted successfully!", Toast.LENGTH_SHORT).show();
                             binding.emptyViewChat.setVisibility(View.GONE);
-                            refreshMessages();
+                            mMessages.add(0, message);
+                            mAdapter.notifyItemInserted(0);
+                            binding.rvChat.smoothScrollToPosition(0);
                             binding.etMessage.setText(null);
                         } else {}}
                 });
