@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -26,6 +27,7 @@ public class TutorHomeActivity extends AppCompatActivity {
         tutorHomeBinding = ActivityTutorHomeBinding.inflate(getLayoutInflater());
         setContentView(tutorHomeBinding.getRoot());
 
+
         tutorHomeBinding.bottomNavigationTutor.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -36,9 +38,6 @@ public class TutorHomeActivity extends AppCompatActivity {
                         break;
                     case R.id.action_chat:
                         fragmentToShow = new ChatFragment();
-                        break;
-                    case R.id.action_profile:
-                        fragmentToShow = new ProfileFragmentTutor();
                         break;
                     case R.id.action_schedule:
                         fragmentToShow = new ScheduleFragment();

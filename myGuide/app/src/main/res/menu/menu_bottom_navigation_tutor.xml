@@ -21,10 +21,4 @@
         android:title="Schedule"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_profile"
-        android:enabled="true"
-        android:icon="@drawable/profile_icon"
-        android:title="Profile"
-        app:showAsAction="always" />
 </menu>
