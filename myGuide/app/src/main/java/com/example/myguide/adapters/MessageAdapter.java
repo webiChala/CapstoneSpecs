@@ -2,6 +2,8 @@ package com.example.myguide.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +74,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 }
             }
 
+
+
             itemMessageBinding.tvMessageSent.setText((message.getMessage()));
             String dateSent = getRelativeTime.getRelativeTimeAgo(message.getCreatedAt().toString());
             itemMessageBinding.tvMessageDateSent.setText(dateSent);
+
+            if (!message.isRead()) {
+                Log.i("MessageAdapter", "bind: " + message.isRead());
+                //itemMessageBinding.tvMessageSent.setTypeface(null, Typeface.BOLD);
+            }
 
         }
 
@@ -84,12 +93,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             Intent i = new Intent(context, ChatActivity.class);
             User otherUser;
             String userId = ParseUser.getCurrentUser().getObjectId().toString();
-            String messageSenderId = messages.get(getAdapterPosition()).getSender().getObjectId().toString();
+            Message m = messages.get(getAdapterPosition());
+            String messageSenderId = m.getSender().getObjectId().toString();
+
             if (userId.equals(messageSenderId))
             {
-                otherUser = messages.get(getAdapterPosition()).getReceiver();
+                otherUser = m.getReceiver();
             } else {
-                otherUser = messages.get(getAdapterPosition()).getSender();
+                otherUser = m.getSender();
             }
             i.putExtra("otherUser", otherUser);
             context.startActivity(i);

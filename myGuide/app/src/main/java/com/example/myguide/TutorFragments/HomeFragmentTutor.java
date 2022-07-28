@@ -134,7 +134,13 @@ public class HomeFragmentTutor extends Fragment {
         }
         if (currentUser.isLoggedAsTutor()) {
             loggedAs.setText("Tutor");
-        } else {loggedAs.setText("Student");}
+            binding.tvYourStudentOrTutor.setText("Your students");
+        } else {
+            loggedAs.setText("Student");
+            binding.tvYourStudentOrTutor.setText("Your tutors");
+        }
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +218,7 @@ public class HomeFragmentTutor extends Fragment {
                 if (output.size() == 0) {
                     binding.rvHomeStudents.setVisibility(View.GONE);
                     binding.emptyViewTutor.setVisibility(View.VISIBLE);
+                    binding.tvSeeMoreHomeTutor.setVisibility(View.GONE);
                 }
                 binding.progressbarRvHomeStudents.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();

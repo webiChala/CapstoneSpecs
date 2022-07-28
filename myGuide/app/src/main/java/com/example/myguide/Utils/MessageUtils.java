@@ -1,5 +1,7 @@
 package com.example.myguide.Utils;
 
+import android.util.Log;
+
 import com.example.myguide.interfaces.MessageInterface;
 import com.example.myguide.models.Message;
 import com.parse.FindCallback;
@@ -28,6 +30,7 @@ public class MessageUtils {
         query.include(Message.KEY_SENDER);
         query.include(Message.KEY_CREATED_AT);
         query.orderByDescending(Message.KEY_CREATED_AT);
+        query.setLimit(20);
 
 
         query.findInBackground(new FindCallback<Message>() {
@@ -36,6 +39,8 @@ public class MessageUtils {
                 if (e==null) {
                     delegate.getProcessFinish(messages);
                 } else {
+                    e.printStackTrace();
+                    Log.e(TAG, "done: ", e);
                     delegate.getProcessFinish(null);
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.myguide.CommonFragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -39,6 +40,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -49,6 +51,9 @@ public class ChatFragment extends Fragment {
     private List<Message> allMessages;
     public static final String TAG = "ChatFragment";
     private User currentUser;
+    ParseLiveQueryClient parseLiveQueryClient = null;
+    ParseQuery<ParseObject> parseQuery;
+    SubscriptionHandling<ParseObject> subscriptionHandling;
 
     public ChatFragment() {
     }
@@ -138,37 +143,43 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        ParseLiveQueryClient parseLiveQueryClient = null;
+        //getMessage(null);
+        startLiveQuery();
+        Log.i(TAG, "onViewCreated: chat fragment");
+
+    }
+
+    private void startLiveQuery() {
+
         try {
             parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient(new URI(getString(R.string.websocketurl)));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        ParseQuery<ParseObject> parseQuery = new ParseQuery<>("Message");
-        SubscriptionHandling<ParseObject> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+        parseQuery = new ParseQuery<>("Message");
+        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
             Message output = (Message) object;
             try{
                 User messageSender = (User) output.getSender().fetchIfNeeded();
                 User messageReceiver = (User) output.getReceiver().fetchIfNeeded();
                 if (messageSender.getObjectId().equals(currentUser.getObjectId()) || messageReceiver.getObjectId().equals(currentUser.getObjectId()) ) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            getMessage(null);
-                        }
-                    });
-                }
+                    Activity activity = getActivity();
+                    if (activity!=null) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getMessage(null);
+                            }
+                        });
+                    } else {
+                        Log.e(TAG, "onViewCreated: ");
+                }}
 
             } catch (ParseException e) {
             }
 
         });
-
-
-        getMessage(null);
-
     }
 
     private void getMessage(String SearchQuery) {
@@ -246,7 +257,21 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
         newMessageService.getMessage(query);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        parseLiveQueryClient.unsubscribe(parseQuery, subscriptionHandling);
+        Log.i(TAG, "onStop: chat fragment stopped");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMessage(null);
+        //startLiveQuery();
+        Log.i(TAG, "onResume: chat fragment resumed");
     }
 }

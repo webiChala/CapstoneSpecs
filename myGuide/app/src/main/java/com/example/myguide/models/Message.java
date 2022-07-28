@@ -10,6 +10,7 @@ public class Message extends ParseObject {
     public static final String KEY_SENDER = "Sender";
     public static final String KEY_RECEIVER = "Receiver";
     public static final String KEY_IS_FOR_TUTOR = "IsForTutor";
+    public static final String KEY_READ = "Read";
 
     public Message() {
 
@@ -42,6 +43,9 @@ public class Message extends ParseObject {
     public void setIsForTutor(boolean isForTutor) {
         put(KEY_IS_FOR_TUTOR, isForTutor);
     }
+
+    public boolean isRead() {return getBoolean((KEY_READ));}
+    public void setIsRead (boolean isRead) {put(KEY_READ, isRead);}
 
 
 }

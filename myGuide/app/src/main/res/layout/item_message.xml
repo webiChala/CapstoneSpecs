@@ -22,6 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="TextView"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivMessageSender"
         app:layout_constraintTop_toTopOf="@+id/ivMessageSender" />
 
@@ -44,6 +46,15 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvMessageSenderName" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="13dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvMessageSent"
+        app:layout_constraintTop_toBottomOf="@id/tvMessageSent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

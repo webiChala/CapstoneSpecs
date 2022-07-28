@@ -18,11 +18,11 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item android:id="@+id/ChangeRole"
-                    android:icon="@drawable/logout_icon"
+                    android:icon="@drawable/change_role"
                     android:title="Change Role"/>
                 <item
                     android:id="@+id/Logout"
-                    android:icon="@drawable/change_role"
+                    android:icon="@drawable/logout_icon"
                     android:title="Log out" />
             </group>
         </menu>

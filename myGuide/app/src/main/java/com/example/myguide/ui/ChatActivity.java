@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.SubscriptionHandling;
 
@@ -38,6 +40,9 @@ public class ChatActivity extends AppCompatActivity {
     User otherUser;
     User currentUser = (User) ParseUser.getCurrentUser();
     SnackBarUtil snackBar;
+    SubscriptionHandling<ParseObject> subscriptionHandling;
+    ParseLiveQueryClient parseLiveQueryClient = null;
+    ParseQuery<ParseObject> parseQuery;
 
 
     @Override
@@ -76,28 +81,32 @@ public class ChatActivity extends AppCompatActivity {
         setupMessagePosting(otherUser);
         refreshMessages();
 
-        ParseLiveQueryClient parseLiveQueryClient = null;
+        //setUpLiveQuery();
+    }
+
+    void setUpLiveQuery() {
         try {
             parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient(new URI(getString(R.string.websocketurl)));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        ParseQuery<ParseObject> parseQuery = new ParseQuery<>("Message");
-        SubscriptionHandling<ParseObject> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+        parseQuery = new ParseQuery<>("Message");
+        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
             Message output = (Message) object;
             try{
                 User messageSender = (User) output.getSender().fetchIfNeeded();
                 User messageReceiver = (User) output.getReceiver().fetchIfNeeded();
                 if ((messageSender.getObjectId().equals(otherUser.getObjectId()) && messageReceiver.getObjectId().equals(currentUser.getObjectId()))) {
-                    binding.emptyViewChat.setVisibility(View.GONE);
+
                     mMessages.add(0, output);
 
                     // RecyclerView updates need to be run on the UI thread
-                    ChatActivity.this.runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            binding.emptyViewChat.setVisibility(View.GONE);
                             mAdapter.notifyItemInserted(0);
                             binding.rvChat.smoothScrollToPosition(0);
                         }
@@ -108,7 +117,6 @@ public class ChatActivity extends AppCompatActivity {
             }
 
         });
-
     }
 
     void setupMessagePosting(User otherUser) {
@@ -196,6 +204,21 @@ public class ChatActivity extends AppCompatActivity {
                     binding.rvChat.scrollToPosition(0);
                     mFirstLoad = false;
                 }
+                List<Message> allMessages = new ArrayList<>();
+                for (Message m: output)
+                {
+                    m.setIsRead(true);
+                    allMessages.add(m);
+                }
+                if (allMessages.size() > 0) {
+                    ParseObject.saveAllInBackground(allMessages, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+
+                        }
+                    });
+                }
+
             }
 
             @Override
@@ -205,6 +228,27 @@ public class ChatActivity extends AppCompatActivity {
 
         });
         newMessageUtils.getMessage(query3);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: chat activity started");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpLiveQuery();
+        Log.i(TAG, "onResume: chat activity resumed");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        parseLiveQueryClient.unsubscribe(parseQuery, subscriptionHandling);
+        Log.i(TAG, "onStop: unsubscribed and chat activity stopped!");
 
     }
 }
