@@ -1,6 +1,7 @@
 package com.example.myguide;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myguide.Utils.SnackBarUtil;
 import com.example.myguide.databinding.ActivityGeneralSignupBinding;
 import com.example.myguide.databinding.ActivityLoginBinding;
 import com.example.myguide.models.User;
@@ -32,6 +34,7 @@ public class GeneralSignupActivity extends AppCompatActivity {
     boolean isTutor;
     private Integer REQUEST_CODE = 1337;
     private String REDIRECT_URI = "https://myguide.com";
+    SnackBarUtil snackBarUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class GeneralSignupActivity extends AppCompatActivity {
         setContentView(view);
 
         isTutor =  getIntent().getExtras().getBoolean("isTutor");
+        snackBarUtil = new SnackBarUtil(this, generalSignupBinding.GeneralSignupActivity);
 
         generalSignupBinding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +67,9 @@ public class GeneralSignupActivity extends AppCompatActivity {
         generalSignupBinding.btnLinkedinSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                generalSignupBinding.btnLinkedinSignup.setBackgroundColor(Color.DKGRAY);
+                generalSignupBinding.btnLinkedinSignup.setClickable(false);
+
 
                 LinkedInBuilder.getInstance(GeneralSignupActivity.this)
                         .setClientID(getString(R.string.linkedin_client_id))
@@ -96,6 +103,15 @@ public class GeneralSignupActivity extends AppCompatActivity {
 
     }
 
+    void checkIfLinkedinSignupSuccess(boolean wasSuccessful) {
+        if (!wasSuccessful) {
+            snackBarUtil.setSnackBar("Account already exists!");
+        }
+        generalSignupBinding.btnLinkedinSignup.setBackgroundColor(getResources().getColor(R.color.blue));
+        generalSignupBinding.btnLinkedinSignup.setClickable(true);
+
+    }
+
     private void signUpWithLinkedin(String tokenString, String user ) {
         Map<String, String> authData = new HashMap<String, String>();
         authData.put("access_token", tokenString);
@@ -104,24 +120,40 @@ public class GeneralSignupActivity extends AppCompatActivity {
         loggedinUser.continueWith(new Continuation<ParseUser, Void>() {
             public Void then(Task task) throws Exception {
                 if (task.isCancelled()) {
+                    checkIfLinkedinSignupSuccess(false);
                 } else if (task.isFaulted()) {
+                    checkIfLinkedinSignupSuccess(false);
                 } else {
                     ParseUser user = (ParseUser) task.getResult();
                     User loggedUser = (User) user;
 
                     if (isTutor) {
-                        Intent i = new Intent(GeneralSignupActivity.this, TutorSetupActivity.class);
-                        startActivity(i);
-                        loggedUser.setKeyIstutor(true);
-                        loggedUser.setKeyLoggedastutor(true);
-                        loggedUser.saveInBackground();
+                        if (loggedUser.isNew()) {
+                            Intent i = new Intent(GeneralSignupActivity.this, TutorSetupActivity.class);
+                            startActivity(i);
+                            loggedUser.setKeyIstutor(true);
+                            loggedUser.setKeyLoggedastutor(true);
+                            loggedUser.saveInBackground();
+
+                        } else {
+                            checkIfLinkedinSignupSuccess(false);
+
+                        }
+
                     } else {
-                        Intent i = new Intent(GeneralSignupActivity.this, StudentSetupActivity.class);
-                        startActivity(i);
-                        loggedUser.setKeyIsstudent(true);
-                        loggedUser.setKeyLoggedastutor(false);
-                        loggedUser.saveInBackground();
+                        if (loggedUser.isNew()) {
+                            Intent i = new Intent(GeneralSignupActivity.this, StudentSetupActivity.class);
+                            startActivity(i);
+                            loggedUser.setKeyIsstudent(true);
+                            loggedUser.setKeyLoggedastutor(false);
+                            loggedUser.saveInBackground();
+                        } else {
+                            checkIfLinkedinSignupSuccess(false);
+                        }
+
                     }
+
+
 
 
 
@@ -132,6 +164,9 @@ public class GeneralSignupActivity extends AppCompatActivity {
     }
 
     private void SignUp(String username, String pwd, String email, String name ) {
+
+        generalSignupBinding.btnSignUp.setBackgroundColor(Color.DKGRAY);
+        generalSignupBinding.btnSignUp.setClickable(false);
 
         User user = new User();
         user.setUsername(username);
@@ -157,7 +192,10 @@ public class GeneralSignupActivity extends AppCompatActivity {
                         finishAffinity();
                     }
                 } else {
-                    generalSignupBinding.tvErrorSignUp.setVisibility(View.VISIBLE);
+                    snackBarUtil.setSnackBar("Error signing up!");
+                    //generalSignupBinding.tvErrorSignUp.setVisibility(View.VISIBLE);
+                    generalSignupBinding.btnSignUp.setBackgroundColor(getResources().getColor(R.color.Mint_green));
+                    generalSignupBinding.btnSignUp.setClickable(true);
                 }
             }
         });

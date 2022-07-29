@@ -65,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = loginBinding.username.getText().toString();
                 String password = loginBinding.pwd.getText().toString();
-                if (password == null || username == null || password == "" || username == "") {
-                    loginBinding.tvError.setVisibility(View.VISIBLE);
+                if (password == null || username == null || password.equals("") || username.equals("")) {
+                    snackBarUtil.setSnackBar("Please fill all the fields!");
                     return;
                 }
 
@@ -87,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding.ibLinkedinSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loginBinding.progressBar2.setVisibility(View.VISIBLE);
+                loginBinding.ibLinkedinSignin.setClickable(false);
                 LinkedInBuilder.getInstance(LoginActivity.this)
                         .setClientID(getString(R.string.linkedin_client_id))
                         .setClientSecret(getString(R.string.linkedin_client_secret))
@@ -105,7 +107,14 @@ public class LoginActivity extends AppCompatActivity {
         loggedinUser.continueWith(new Continuation<ParseUser, Void>() {
             public Void then(Task task) throws Exception {
                 if (task.isCancelled()) {
+                    snackBarUtil.setSnackBar("Error logging in!");
+                    loginBinding.ibLinkedinSignin.setClickable(true);
+                    loginBinding.progressBar2.setVisibility(View.GONE);
                 } else if (task.isFaulted()) {
+                    snackBarUtil.setSnackBar("Error logging in!");
+                    loginBinding.ibLinkedinSignin.setClickable(true);
+                    loginBinding.progressBar2.setVisibility(View.GONE);
+
                 } else {
                     ParseUser user = (ParseUser) task.getResult();
                     User loggedUser = (User) user;
@@ -116,7 +125,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if ((loggedUser.isTutor() != true && isTutor == true) || (loggedUser.isStudent() != true && isTutor != true ) ) {
-                        loginBinding.tvError.setTextColor(Color.RED);
+                        snackBarUtil.setSnackBar("Error logging in!");
+                        loginBinding.ibLinkedinSignin.setClickable(true);
+                        loginBinding.progressBar2.setVisibility(View.GONE);
                         return null;
                     } else {
                         if (loggedUser.isNew()) {
@@ -133,20 +144,28 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void LoginUser(String username, String password) {
+        loginBinding.btnLogIn.setBackgroundColor(Color.DKGRAY);
+        loginBinding.btnLogIn.setClickable(false);
 
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e!= null) {
-                    loginBinding.tvError.setVisibility(View.VISIBLE);
+                    //loginBinding.tvError.setVisibility(View.VISIBLE);
+                    snackBarUtil.setSnackBar("Error logging in");
+                    loginBinding.btnLogIn.setBackgroundColor(getResources().getColor(R.color.Mint_green));
+                    loginBinding.btnLogIn.setClickable(true);
                     return;
                 }
 
                 User loggedUser = (User) user;
 
                 if ((loggedUser.isTutor() == false && isTutor) || (loggedUser.isStudent() == false && !isTutor)) {
-                    snackBarUtil.setSnackBar("Please signin with different role.");
-                    loginBinding.tvError.setVisibility(View.VISIBLE);
+                    snackBarUtil.setSnackBar("Error logging in");
+                    loginBinding.btnLogIn.setBackgroundColor(getResources().getColor(R.color.Mint_green));
+                    loginBinding.btnLogIn.setClickable(true);
+                    ParseUser.logOut();
+                    //loginBinding.tvError.setVisibility(View.VISIBLE);
                     return;
                 }
                 changeLogInStatus(loggedUser);
@@ -173,7 +192,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_USER_DENIED) {
                 } else if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_FAILED) {
                 }
+                snackBarUtil.setSnackBar("Error logging in!");
+                loginBinding.ibLinkedinSignin.setClickable(true);
+                loginBinding.progressBar2.setVisibility(View.GONE);
             }
+        } else {
+            snackBarUtil.setSnackBar("Error logging in!");
+            loginBinding.ibLinkedinSignin.setClickable(true);
+            loginBinding.progressBar2.setVisibility(View.GONE);
         }
 
     }
