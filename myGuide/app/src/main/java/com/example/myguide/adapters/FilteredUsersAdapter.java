@@ -69,11 +69,14 @@ public class FilteredUsersAdapter extends RecyclerView.Adapter<FilteredUsersAdap
             itemTutorBinding.tvFoundTutorAbout.setText(user.getAbout());
             itemTutorBinding.tvFoundTutorDistance.setText(String.valueOf(user.getDistanceFromCurrentUser()) + " miles");
             itemTutorBinding.tvFoundtutorPricePerHour.setText(String.valueOf(user.getPrice()) + "/hr");
-            itemTutorBinding.tvFoundTutorname.setText(user.getName());
+            if (user.getName() != null) {
+                itemTutorBinding.tvFoundTutorname.setText(user.getName());
+            }
+
             if (user.getImage() != null) {
                 Glide.with(context).load(user.getImage().getUrl()).circleCrop().into(itemTutorBinding.ivFoundTutorProfile);
             } else {
-                itemTutorBinding.ivFoundTutorProfile.setImageDrawable(context.getDrawable(R.drawable.profile_icon));
+                itemTutorBinding.ivFoundTutorProfile.setImageDrawable(context.getDrawable(R.drawable.registration_user));
             }
         }
     }

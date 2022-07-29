@@ -43,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
     SubscriptionHandling<ParseObject> subscriptionHandling;
     ParseLiveQueryClient parseLiveQueryClient = null;
     ParseQuery<ParseObject> parseQuery;
+    List<Message> unReadMessages;
 
 
     @Override
@@ -60,11 +61,21 @@ public class ChatActivity extends AppCompatActivity {
         if (otherUser.getName() != null) {
             binding.tvOtherUserName.setText(otherUser.getName());
         }
+        unReadMessages = new ArrayList<>();
 
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (unReadMessages.size() > 0) {
+                    ParseObject.saveAllInBackground(unReadMessages, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+
+                        }
+                    });
+                }
                 finish();
+
             }
         });
 
@@ -101,6 +112,8 @@ public class ChatActivity extends AppCompatActivity {
                 if ((messageSender.getObjectId().equals(otherUser.getObjectId()) && messageReceiver.getObjectId().equals(currentUser.getObjectId()))) {
 
                     mMessages.add(0, output);
+                    output.setIsRead(true);
+                    unReadMessages.add(output);
 
                     // RecyclerView updates need to be run on the UI thread
                     runOnUiThread(new Runnable() {
@@ -207,17 +220,14 @@ public class ChatActivity extends AppCompatActivity {
                 List<Message> allMessages = new ArrayList<>();
                 for (Message m: output)
                 {
-                    m.setIsRead(true);
+                    if (!m.isRead()) {
+                        m.setIsRead(true);
+                        unReadMessages.add(m);
+                    }
+
                     allMessages.add(m);
                 }
-                if (allMessages.size() > 0) {
-                    ParseObject.saveAllInBackground(allMessages, new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
 
-                        }
-                    });
-                }
 
             }
 

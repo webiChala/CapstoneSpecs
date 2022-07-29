@@ -93,6 +93,13 @@ public class TutorDetailActivity extends AppCompatActivity {
             Glide.with(this).load(user.getImage().getUrl()).circleCrop().into(binding.ivDetailTutorProfile);
         }
 
+        binding.goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         getUserTutorConnection(user);
         getUserEducation(user);
         getUserCourses(user);

@@ -103,10 +103,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
             messageIncomingBinding.tvBody.setText(message.getMessage());
             try{
                 User messageSender = (User) message.getSender().fetchIfNeeded();
-                messageIncomingBinding.tvName.setText(messageSender.getName());
-                if (messageSender.getImage() != null) {
-                    Glide.with(mContext).load(messageSender.getImage().getUrl()).circleCrop().into(messageIncomingBinding.ivProfileOther);
-                }
+                //messageIncomingBinding.tvName.setText(messageSender.getName());
+//                if (messageSender.getImage() != null) {
+//                    Glide.with(mContext).load(messageSender.getImage().getUrl()).circleCrop().into(messageIncomingBinding.ivProfileOther);
+//                }
 
             } catch (ParseException e) {
             }
@@ -125,9 +125,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
         public void bindMessage(Message message) {
             messageOutgoingBinding.tvBody.setText(message.getMessage());
             User currentUser = (User) ParseUser.getCurrentUser();
-            if(currentUser.getImage() != null) {
-                Glide.with(mContext).load(currentUser.getImage().getUrl()).circleCrop().into(messageOutgoingBinding.ivProfileMe);
-            }
+//            if(currentUser.getImage() != null) {
+//                Glide.with(mContext).load(currentUser.getImage().getUrl()).circleCrop().into(messageOutgoingBinding.ivProfileMe);
+//            }
         }
     }
 

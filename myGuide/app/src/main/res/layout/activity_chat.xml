@@ -46,18 +46,17 @@
         android:id="@+id/rvChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/etMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivOtherUserProfileImage" />
+        app:layout_constraintTop_toBottomOf="@+id/getAllConnectedAppBarLayout" />
 
     <TextView
         android:id="@+id/empty_view_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:minHeight="200dp"
         android:paddingTop="20dp"
         android:text="Start sending message"
@@ -65,49 +64,75 @@
         app:layout_constraintBottom_toTopOf="@+id/etMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="@+id/rvChat" />
+
     <ProgressBar
         android:id="@+id/progressbar_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:paddingTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/etMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:minHeight="100dp"
-        android:paddingTop="20dp"/>
+        app:layout_constraintTop_toTopOf="@+id/rvChat" />
 
-    <ImageButton
-        android:id="@+id/ivBack"
-        android:layout_width="40dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@color/smsp_transparent_color"
+        android:id="@+id/getAllConnectedAppBarLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/left_icon" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageView
-        android:id="@+id/ivOtherUserProfileImage"
-        android:layout_width="43dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/ivBack"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/registration_user" />
+        <androidx.appcompat.widget.Toolbar
 
-    <TextView
-        android:id="@+id/tvOtherUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:text="No name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ivOtherUserProfileImage"
-        app:layout_constraintTop_toTopOf="@+id/ivOtherUserProfileImage" />
+            android:id="@+id/home_toolbar_tutor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@android:color/black">
+
+            <ImageButton
+                android:id="@+id/ivBack"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/smsp_transparent_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/left_icon" />
+
+            <ImageView
+                android:id="@+id/ivOtherUserProfileImage"
+                android:layout_width="43dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/ivBack"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/registration_user" />
+
+            <TextView
+                android:id="@+id/tvOtherUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="No name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivOtherUserProfileImage"
+                app:layout_constraintTop_toTopOf="@+id/ivOtherUserProfileImage" />
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

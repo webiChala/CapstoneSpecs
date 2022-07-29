@@ -54,7 +54,7 @@
     </style>
 
     <style name="MySnackBarStyle" parent="Widget.MaterialComponents.Snackbar">
-        <item name="android:background">@color/blue</item>
+        <item name="android:background">@color/Mint_green</item>
     </style>
 
 

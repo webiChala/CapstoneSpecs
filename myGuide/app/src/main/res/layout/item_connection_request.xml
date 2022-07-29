@@ -6,12 +6,14 @@
     android:layout_height="wrap_content"
     android:paddingBottom="10dp"
     android:fitsSystemWindows="true"
-    android:id="@+id/ItemConnectionRequest">
+    android:id="@+id/ItemConnectionRequest"
+
+    >
 
     <ImageView
         android:id="@+id/ivStudentProfileImage"
-        android:layout_width="72dp"
-        android:layout_height="74dp"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +25,11 @@
         android:layout_width="67dp"
         android:layout_height="22dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="No name"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivStudentProfileImage"
         app:layout_constraintTop_toTopOf="@+id/ivStudentProfileImage" />
 
@@ -35,7 +38,7 @@
         android:layout_width="86dp"
         android:layout_height="22dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="No message"
@@ -55,6 +58,7 @@
         android:paddingTop="5dp"
         android:text="Decline"
         android:textColor="@color/red"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAcceptRequest" />
 
@@ -67,9 +71,23 @@
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:text="Accept"
-        android:textColor="@color/blue"
+        android:textColor="@color/Mint_green"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvRequestorName" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvRequestorMessage"
+        app:layout_constraintTop_toBottomOf="@+id/btnDeclineRequest"
+        app:layout_constraintVertical_bias="1.0"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

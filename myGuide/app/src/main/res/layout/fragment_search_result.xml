@@ -8,37 +8,27 @@
     android:fitsSystemWindows="true"
     android:id="@+id/FragmentSearchResult">
 
-    <TextView
+    <ImageView
         android:id="@+id/ibGoBackSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="42dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
         android:background="@color/white"
         android:text="Back"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvBackImage"
-        app:layout_constraintStart_toEndOf="@id/tvBackImage"
-        app:layout_constraintTop_toTopOf="@+id/tvBackImage" />
-
-    <TextView
-        android:id="@+id/tvBackImage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/GoBackButtonText"
-        android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/homeAsUpIndicator" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchResults"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +38,6 @@
         android:id="@+id/btnLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="70dp"
         android:backgroundTint="@color/white"
         android:text="local"
@@ -56,21 +45,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#2196F3"
-        app:strokeWidth="2dp" />
+        app:strokeColor="@color/Mint_green"
+        app:strokeWidth="1dp" />
 
     <Button
         android:id="@+id/btnOnline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/Mint_green"
         android:text="Online"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnLocal"
-        app:strokeColor="#2196F3"
+        app:strokeColor="@color/Mint_green"
         app:strokeWidth="2dp" />
 
 

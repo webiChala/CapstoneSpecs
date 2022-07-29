@@ -111,7 +111,7 @@ public class SearchResultFragment extends Fragment {
         binding.btnLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.btnOnline.setBackgroundColor(getActivity().getColor(R.color.blue));
+                binding.btnOnline.setBackgroundColor(getActivity().getColor(R.color.Mint_green));
                 binding.btnLocal.setBackgroundColor(Color.WHITE);
                 allFilteredUsers.clear();
                 allFilteredUsers.addAll(localUsers);
@@ -128,7 +128,7 @@ public class SearchResultFragment extends Fragment {
         binding.btnOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.btnLocal.setBackgroundColor(getActivity().getColor(R.color.blue));
+                binding.btnLocal.setBackgroundColor(getActivity().getColor(R.color.Mint_green));
                 binding.btnOnline.setBackgroundColor(Color.WHITE);
                 allFilteredUsers.clear();
                 allFilteredUsers.addAll(onlineUsers);

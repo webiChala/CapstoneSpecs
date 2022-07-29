@@ -13,22 +13,13 @@
         android:id="@+id/tvBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@+id/ivProfileMe"
         android:background="@drawable/message_outgoing"
         android:elevation="2dp"
         android:padding="8dp"
         android:text="Your outgoing message here"
         android:textColor="@android:color/white"
         android:textSize="18dp" />
-
-    <ImageView
-        android:id="@+id/ivProfileMe"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/profile_me"
-        android:src="@mipmap/ic_launcher"
-        app:srcCompat="@drawable/registration_user" />
 
 </RelativeLayout>

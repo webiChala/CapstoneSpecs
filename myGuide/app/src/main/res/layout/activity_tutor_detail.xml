@@ -16,6 +16,21 @@
         tools:context=".ui.TutorDetailActivity">
 
         <ImageView
+            android:id="@+id/goBack"
+            android:layout_width="42dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:text="Back"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/homeAsUpIndicator" />
+
+        <ImageView
             android:id="@+id/ivDetailTutorProfile"
             android:layout_width="80dp"
             android:layout_height="100dp"
@@ -159,7 +174,7 @@
             android:layout_height="45dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="@color/Mint_green"
             android:text="Connect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvHourlyRateDetailed" />

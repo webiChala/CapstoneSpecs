@@ -143,7 +143,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        binding.btnSaveEvent.setBackgroundColor(Color.BLUE);
+        binding.btnSaveEvent.setBackgroundColor(getResources().getColor(R.color.Mint_green));
 
         binding.repetitionDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

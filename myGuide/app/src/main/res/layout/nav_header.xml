@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_marginBottom="20dp"
-    android:background="@color/half_hour_divider"
+    android:background="#D8EDED"
     android:gravity="bottom"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="-2dp"
-            android:text="Webi Chala"
-            android:textColor="#C6B2B2" />
+            android:text="tutor"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 

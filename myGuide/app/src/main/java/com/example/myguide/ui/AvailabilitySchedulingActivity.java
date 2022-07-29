@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -71,6 +72,8 @@ public class AvailabilitySchedulingActivity extends AppCompatActivity {
     private Button btnNext;
     private Button btnPrevious;
 
+    private ImageView goBackBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +108,7 @@ public class AvailabilitySchedulingActivity extends AppCompatActivity {
         dayView = findViewById(R.id.sample_day);
         btnNext = findViewById(R.id.btnNext);
         btnPrevious = findViewById(R.id.btnPrevious);
+        goBackBtn = findViewById(R.id.gobackAvailability);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +122,15 @@ public class AvailabilitySchedulingActivity extends AppCompatActivity {
                 onPreviousClick();
             }
         });
+
+        goBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
 
         // Inflate a label view for each hour the day view will display
         Calendar hour = (Calendar) day.clone();

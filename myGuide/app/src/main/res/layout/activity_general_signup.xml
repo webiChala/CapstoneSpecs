@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:background="@drawable/login_edit_text_border"
+            android:background="@drawable/dropdown_background"
             android:hint="Email"
             android:minWidth="200sp" />
 
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:background="@drawable/login_edit_text_border"
+            android:background="@drawable/dropdown_background"
             android:hint="Name"
             android:minWidth="200sp" />
 
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:background="@drawable/login_edit_text_border"
+            android:background="@drawable/dropdown_background"
             android:hint="Username"
             android:minWidth="200sp" />
 
@@ -104,7 +104,7 @@
             android:id="@+id/pwdSignUp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/login_edit_text_border"
+            android:background="@drawable/dropdown_background"
             android:hint="Password"
             android:inputType="textPassword"
             android:minWidth="200sp" />
@@ -113,9 +113,10 @@
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="298dp"
+        android:layout_height="57dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/Mint_green"
         android:text="Sign up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,9 +126,10 @@
         android:id="@+id/signUpLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="MyGuide"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/Mint_green"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,9 +161,10 @@
 
     <Button
         android:id="@+id/btnLinkedinSignup"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="303dp"
+        android:layout_height="53dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/blue"
         android:text="Connect with linkedin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

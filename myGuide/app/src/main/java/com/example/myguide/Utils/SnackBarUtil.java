@@ -23,7 +23,7 @@ public class SnackBarUtil {
         viewSnack = snack.getView();
         FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)viewSnack.getLayoutParams();
         params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-        params.setMargins(0, 40, 0, 0);
+        params.setMargins(0, 100, 0, 0);
         viewSnack.setLayoutParams(params);
     }
 
